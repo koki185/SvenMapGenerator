@@ -97,6 +97,7 @@ def main():
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--floors", type=int, default=1)
     parser.add_argument("--no-vertical", action="store_true")
+    parser.add_argument("--no-secrets", action="store_true")
     parser.add_argument("--with-objective", action="store_true",
                         help="добавить механики (пока не согласованы с новой геометрией)")
     parser.add_argument("--build", action="store_true")
@@ -105,7 +106,8 @@ def main():
 
     _common, compilers_dir, game_dir = detect_roots()
     blueprint = generate_blueprint(
-        BlueprintConfig(seed=args.seed, floors=args.floors)
+        BlueprintConfig(seed=args.seed, floors=args.floors,
+                        secret_count=0 if args.no_secrets else 2)
     )
     spec = blueprint_to_aligned_spec(blueprint)
     wad_list = wads(game_dir)

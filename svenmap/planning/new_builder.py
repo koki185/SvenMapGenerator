@@ -77,9 +77,16 @@ def _add_region(m: MapFile, cells: Set[Cell], grid: int, floor: int,
         profile_ref,
     )
 
-    for cx, cy in cells:
+    # Стены по периметру bounding box: вырезы L/T/U forms становятся
+    # закрытыми карманами, а не дырами в оболочке.
+    solid = {
+        (x, y)
+        for x in range(min_x, max_x)
+        for y in range(min_y, max_y)
+    }
+    for cx, cy in solid:
         for dx, dy in DIRECTIONS:
-            if (cx + dx, cy + dy) in cells:
+            if (cx + dx, cy + dy) in solid:
                 continue
             if external and (cx + dx, cy + dy) in external:
                 continue
