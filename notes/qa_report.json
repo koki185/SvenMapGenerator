@@ -1,0 +1,258 @@
+[
+  {
+    "seed": 1,
+    "map": "sc_gen_1",
+    "passed": true,
+    "checks": {
+      "plan": true,
+      "all_rooms_reachable": true,
+      "spawn_clear": true,
+      "path": true,
+      "button_gen_button_1": true,
+      "button_gen_button_2": true,
+      "goal_after_door_opens": true,
+      "goal_gated_by_door": true,
+      "objective": true,
+      "script_files": true,
+      "compile_CSG": true,
+      "compile_BSP": true,
+      "compile_VIS": true,
+      "compile_RAD": true,
+      "no_leak": true,
+      "map_load": true,
+      "script_compile": true
+    },
+    "details": {
+      "brush": 116,
+      "decor_variant": 0,
+      "path_steps": 95,
+      "missing_textures": [],
+      "bsp_bytes": 131828
+    },
+    "errors": []
+  },
+  {
+    "seed": 2,
+    "map": "sc_gen_2",
+    "passed": true,
+    "checks": {
+      "plan": true,
+      "all_rooms_reachable": true,
+      "spawn_clear": true,
+      "path": true,
+      "button_gen_button_1": true,
+      "button_gen_button_2": true,
+      "goal_after_door_opens": true,
+      "goal_gated_by_door": true,
+      "objective": true,
+      "script_files": true,
+      "compile_CSG": true,
+      "compile_BSP": true,
+      "compile_VIS": true,
+      "compile_RAD": true,
+      "no_leak": true,
+      "map_load": true,
+      "script_compile": true
+    },
+    "details": {
+      "brush": 101,
+      "decor_variant": 0,
+      "path_steps": 97,
+      "missing_textures": [],
+      "bsp_bytes": 110916
+    },
+    "errors": []
+  },
+  {
+    "seed": 3,
+    "map": "sc_gen_3",
+    "passed": true,
+    "checks": {
+      "plan": true,
+      "all_rooms_reachable": true,
+      "spawn_clear": true,
+      "path": true,
+      "button_gen_button_1": true,
+      "button_gen_button_2": true,
+      "goal_after_door_opens": true,
+      "goal_gated_by_door": true,
+      "objective": true,
+      "script_files": true,
+      "compile_CSG": true,
+      "compile_BSP": true,
+      "compile_VIS": true,
+      "compile_RAD": true,
+      "no_leak": true,
+      "map_load": true,
+      "script_compile": true
+    },
+    "details": {
+      "brush": 123,
+      "decor_variant": 0,
+      "path_steps": 142,
+      "missing_textures": [],
+      "bsp_bytes": 141084
+    },
+    "errors": []
+  },
+  {
+    "seed": 4,
+    "map": "sc_gen_4",
+    "passed": true,
+    "checks": {
+      "plan": true,
+      "all_rooms_reachable": true,
+      "spawn_clear": true,
+      "path": true,
+      "button_gen_button_1": true,
+      "button_gen_button_2": true,
+      "goal_after_door_opens": true,
+      "goal_gated_by_door": true,
+      "objective": true,
+      "script_files": true,
+      "compile_CSG": true,
+      "compile_BSP": true,
+      "compile_VIS": true,
+      "compile_RAD": true,
+      "no_leak": true,
+      "map_load": true,
+      "script_compile": true
+    },
+    "details": {
+      "brush": 108,
+      "decor_variant": 0,
+      "path_steps": 111,
+      "missing_textures": [],
+      "bsp_bytes": 126156
+    },
+    "errors": []
+  },
+  {
+    "seed": 5,
+    "map": "sc_gen_5",
+    "passed": true,
+    "checks": {
+      "plan": true,
+      "all_rooms_reachable": true,
+      "spawn_clear": true,
+      "path": true,
+      "button_gen_button_1": true,
+      "button_gen_button_2": true,
+      "goal_after_door_opens": true,
+      "goal_gated_by_door": true,
+      "objective": true,
+      "script_files": true,
+      "compile_CSG": true,
+      "compile_BSP": true,
+      "compile_VIS": true,
+      "compile_RAD": true,
+      "no_leak": true,
+      "map_load": true,
+      "script_compile": true
+    },
+    "details": {
+      "brush": 102,
+      "decor_variant": 0,
+      "path_steps": 91,
+      "missing_textures": [],
+      "bsp_bytes": 114112
+    },
+    "errors": []
+  },
+  {
+    "seed": 6,
+    "map": "sc_gen_6",
+    "passed": true,
+    "checks": {
+      "plan": true,
+      "all_rooms_reachable": true,
+      "spawn_clear": true,
+      "path": true,
+      "button_gen_button_1": true,
+      "button_gen_button_2": true,
+      "goal_after_door_opens": true,
+      "goal_gated_by_door": true,
+      "objective": true,
+      "script_files": true,
+      "compile_CSG": true,
+      "compile_BSP": true,
+      "compile_VIS": true,
+      "compile_RAD": true,
+      "no_leak": true,
+      "map_load": true,
+      "script_compile": true
+    },
+    "details": {
+      "brush": 100,
+      "decor_variant": 0,
+      "path_steps": 108,
+      "missing_textures": [],
+      "bsp_bytes": 118456
+    },
+    "errors": []
+  },
+  {
+    "seed": 7,
+    "map": "sc_gen_7",
+    "passed": true,
+    "checks": {
+      "plan": true,
+      "all_rooms_reachable": true,
+      "spawn_clear": true,
+      "path": true,
+      "button_gen_button_1": true,
+      "button_gen_button_2": true,
+      "goal_after_door_opens": true,
+      "goal_gated_by_door": true,
+      "objective": true,
+      "script_files": true,
+      "compile_CSG": true,
+      "compile_BSP": true,
+      "compile_VIS": true,
+      "compile_RAD": true,
+      "no_leak": true,
+      "map_load": true,
+      "script_compile": true
+    },
+    "details": {
+      "brush": 106,
+      "decor_variant": 0,
+      "path_steps": 88,
+      "missing_textures": [],
+      "bsp_bytes": 114112
+    },
+    "errors": []
+  },
+  {
+    "seed": 8,
+    "map": "sc_gen_8",
+    "passed": true,
+    "checks": {
+      "plan": true,
+      "all_rooms_reachable": true,
+      "spawn_clear": true,
+      "path": true,
+      "button_gen_button_1": true,
+      "button_gen_button_2": true,
+      "goal_after_door_opens": true,
+      "goal_gated_by_door": true,
+      "objective": true,
+      "script_files": true,
+      "compile_CSG": true,
+      "compile_BSP": true,
+      "compile_VIS": true,
+      "compile_RAD": true,
+      "no_leak": true,
+      "map_load": true,
+      "script_compile": true
+    },
+    "details": {
+      "brush": 101,
+      "decor_variant": 0,
+      "path_steps": 114,
+      "missing_textures": [],
+      "bsp_bytes": 113072
+    },
+    "errors": []
+  }
+]

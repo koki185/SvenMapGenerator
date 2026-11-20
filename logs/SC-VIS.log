@@ -1,0 +1,27 @@
+hlvis v4.3-VLV34-SC5.26 64-bit (Mar 31 2024)
+Zoner's Half-Life Compilation Tools -- Custom build for Sven Co-op 5.26
+Based on code modifications by Vluzacn (VLV34)
+Based on code modifications by Sean "Zoner" Cavanaugh (4.3)
+Based on Valve's version, modified with permission.
+
+A full list of contributors can be found at http://zhlt.info/credits.html
+
+For help and support please use the official discord channel: https://discord.gg/yZxs6nJs3n
+-----  BEGIN  hlvis -----
+Command line: "K:\SteamLibrary\steamapps\common\Sven Co-op SDK\mapping\compilers\SC-VIS_x64.exe" "K:\SteamLibrary\steamapps\common\Sven Co-op\svencoop_addon\maps\sc_exp_3.map" -console 0 -noinfo 
+Arguments: "K:\SteamLibrary\steamapps\common\Sven Co-op\svencoop_addon\maps\sc_exp_3.map" -console 0 -noinfo 
+ 192 portalleafs
+ 506 numportals
+BasePortalVis:
+10%...20%...30%...40%...50%...60%...70%...80%...90%... (0.00 seconds)
+LeafThread:
+10%...20%...30%...40%...50%...60%...70%...80%...90%... (0.01 seconds)
+average leafs visible: 47
+g_visdatasize:3308  compressed from 4608
+0.02 seconds elapsed
+
+-----   END   hlvis -----
+
+
+
+

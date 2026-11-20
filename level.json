@@ -1,0 +1,23 @@
+{
+  "_comment": "Клетки сетки 128 юнитов. Прямоугольник задаётся [x0, y0, x1, y1], где x1 и y1 НЕ входят. Связь задаёт клетку площади A, на рёбре которой будет дверь.",
+  "name": "sc_lab_block",
+  "theme": "industrial",
+  "grid": 128,
+  "wall_thickness": 16,
+  "floor_thickness": 16,
+  "height": 256,
+  "door_height": 128,
+  "start": "spawn",
+  "goal": "storage",
+  "areas": [
+    {"id": "spawn",    "type": "spawn",    "cells": [0, 0, 4, 4]},
+    {"id": "corridor", "type": "corridor", "cells": [4, 1, 6, 3]},
+    {"id": "lab",      "type": "lab",      "cells": [6, 0, 10, 4]},
+    {"id": "storage",  "type": "storage",  "cells": [6, 4, 10, 6]}
+  ],
+  "connections": [
+    {"a": "spawn",    "b": "corridor", "cell": [3, 2]},
+    {"a": "corridor", "b": "lab",      "cell": [5, 2]},
+    {"a": "lab",      "b": "storage",  "cell": [8, 3]}
+  ]
+}

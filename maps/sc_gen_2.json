@@ -1,0 +1,133 @@
+{
+  "name": "sc_gen_2",
+  "theme": "industrial",
+  "grid": 128,
+  "wall_thickness": 16,
+  "floor_thickness": 16,
+  "height": 256,
+  "door_height": 128,
+  "start": "n0",
+  "goal": "n5",
+  "areas": [
+    {
+      "id": "n0",
+      "type": "spawn",
+      "cells": [
+        0,
+        0,
+        3,
+        4
+      ]
+    },
+    {
+      "id": "n1",
+      "type": "corridor",
+      "cells": [
+        -2,
+        -1,
+        0,
+        2
+      ]
+    },
+    {
+      "id": "b0",
+      "type": "lab",
+      "cells": [
+        -2,
+        -6,
+        3,
+        -1
+      ]
+    },
+    {
+      "id": "n2",
+      "type": "lab",
+      "cells": [
+        -7,
+        -2,
+        -2,
+        2
+      ]
+    },
+    {
+      "id": "n3",
+      "type": "storage",
+      "cells": [
+        -5,
+        2,
+        0,
+        5
+      ]
+    },
+    {
+      "id": "n4",
+      "type": "corridor",
+      "cells": [
+        0,
+        4,
+        2,
+        6
+      ]
+    },
+    {
+      "id": "n5",
+      "type": "arena",
+      "cells": [
+        2,
+        4,
+        6,
+        10
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "a": "n0",
+      "b": "n1",
+      "cell": [
+        0,
+        1
+      ]
+    },
+    {
+      "a": "n1",
+      "b": "b0",
+      "cell": [
+        -1,
+        -1
+      ]
+    },
+    {
+      "a": "n1",
+      "b": "n2",
+      "cell": [
+        -2,
+        0
+      ]
+    },
+    {
+      "a": "n2",
+      "b": "n3",
+      "cell": [
+        -4,
+        1
+      ]
+    },
+    {
+      "a": "n3",
+      "b": "n4",
+      "cell": [
+        -1,
+        4
+      ]
+    },
+    {
+      "a": "n4",
+      "b": "n5",
+      "cell": [
+        1,
+        4
+      ]
+    }
+  ]
+}

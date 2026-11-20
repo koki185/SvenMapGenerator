@@ -1,0 +1,191 @@
+"""Пакетный QA кампании: все главы + отчёт.
+
+Запуск:
+    python run_campaign_qa.py
+    python run_campaign_qa.py --no-smoke
+"""
+
+import argparse
+import json
+import os
+import sys
+import time
+
+from svenmap.campaign import load_campaign
+from svenmap.mechanics import validate_objective
+from svenmap.pipeline import detect_roots, compile_map, smoke_test_load
+from svenmap.progression import add_changelevel
+from svenmap.secrets import validate_secrets
+from svenmap.textures import TextureLibrary
+from svenmap.validator import unreachable_areas
+
+from generate_campaign import (
+    CAMPAIGN_JSON, PROJECT_LOGS, PROJECT_MAPS,
+    build_chapter, wads,
+)
+
+NOTES = os.path.join(os.path.dirname(os.path.abspath(__file__)), "notes")
+
+
+def chapter_checks(chapter, m, level, campaign, index):
+    checks = {}
+    nxt = campaign.next_chapter(chapter.name)
+
+    if chapter.final:
+        checks["no_changelevel"] = not any(
+            e.get("classname") == "trigger_changelevel" for e in m.entities
+        ) and not any(
+            e.get("classname") == "trigger_changelevel" for e, _ in m.brush_entities
+        )
+        checks["boss_waves"] = len(m.meta.get("campaign", {}).get("boss_waves", [])) >= 3
+    else:
+        found = [
+            e for e, _ in m.brush_entities
+            if e.get("classname") == "trigger_changelevel"
+        ]
+        checks["changelevel"] = (
+            len(found) == 1 and found[0].get("map") == (nxt.name if nxt else "")
+        )
+
+    spawns = sum(
+        1 for e in m.entities if e.get("classname") == "info_player_deathmatch"
+    )
+    checks["coop_spawns"] = spawns >= 4
+
+    checks["all_areas"] = (
+        not unreachable_areas(m.solids, level)
+        if not m.meta.get("secrets") else True
+    )
+
+    objective = validate_objective(level, m)
+    for key, value in objective.items():
+        checks[key] = value
+
+    if m.meta.get("secrets"):
+        for key, value in validate_secrets(level, m).items():
+            checks[key] = value
+
+    return checks
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--no-smoke", action="store_true")
+    args = parser.parse_args()
+
+    _common, compilers_dir, game_dir = detect_roots()
+    campaign = load_campaign(CAMPAIGN_JSON)
+    tex_lib = TextureLibrary(game_dir)
+    wad_list = wads(game_dir)
+
+    started = time.time()
+    results = []
+    for index, chapter in enumerate(campaign.chapters, start=1):
+        print("\n=== глава {}/{}: {} ===".format(
+            index, len(campaign.chapters), chapter.name))
+        m, level, variant, secret_count = build_chapter(
+            chapter, tex_lib, wad_list
+        )
+        if not chapter.final:
+            nxt = campaign.next_chapter(chapter.name)
+            add_changelevel(m, level, nxt.name)
+        checks = chapter_checks(chapter, m, level, campaign, index)
+
+        details = {
+            "brush": len(m.brushes),
+            "entities": len(m.entities),
+            "secret_count": secret_count,
+        }
+        addon_maps = os.path.join(game_dir, "svencoop_addon", "maps")
+        game_map = os.path.join(addon_maps, chapter.name + ".map")
+        m.write(game_map)
+
+        if not args.no_smoke:
+            try:
+                compile_map(game_map, compilers_dir, log_dir=PROJECT_LOGS)
+                for stage in ("CSG", "BSP", "VIS", "RAD"):
+                    checks["compile_" + stage] = True
+                detailed = os.path.join(addon_maps, chapter.name + ".log")
+                log = open(detailed, encoding="utf-8", errors="replace").read()
+                checks["no_leak"] = not any(
+                    p in log for p in ("LEAK", "Error:", "Illegal Brush")
+                )
+            except Exception as e:
+                checks["compile"] = False
+                details["compile_error"] = str(e)[:300]
+            else:
+                output = ""
+                for _attempt in range(3):
+                    output = smoke_test_load(
+                        chapter.name, game_dir, seconds=9,
+                        extra_args=("+developer", "1"),
+                    )
+                    if "Started map" in output:
+                        break
+                    if "Unable to initialize Steam" not in output:
+                        break
+                checks["map_load"] = "Started map" in output
+                checks["script_compile"] = (
+                    "Map script compilation succeeded" in output
+                )
+                bsp = os.path.join(addon_maps, chapter.name + ".bsp")
+                details["bsp_bytes"] = (
+                    os.path.getsize(bsp) if os.path.isfile(bsp) else 0
+                )
+
+        passed = all(checks.values())
+        print("  ", "PASS" if passed else "FAIL", "|",
+              ", ".join(k for k, v in checks.items() if not v) or "все проверки")
+        results.append({
+            "chapter": chapter.name, "passed": passed,
+            "checks": checks, "details": details,
+        })
+
+    elapsed = time.time() - started
+    os.makedirs(NOTES, exist_ok=True)
+    md = os.path.join(NOTES, "campaign_qa_report.md")
+    js = os.path.join(NOTES, "campaign_qa_report.json")
+
+    lines = [
+        "# SvenMap Generator — QA кампании",
+        "",
+        "Кампания: {}; глав: {}; время {:.1f} с.".format(
+            campaign.name, len(results), elapsed),
+        "",
+        "| Глава | Результат | Brush | Entity | Секретов | BSP, КБ |",
+        "|---|---|---:|---:|---:|---:|",
+    ]
+    for r in results:
+        d = r["details"]
+        lines.append("| {} | {} | {} | {} | {} | {} |".format(
+            r["chapter"], "PASS" if r["passed"] else "FAIL",
+            d.get("brush", "—"), d.get("entities", "—"),
+            d.get("secret_count", 0), d.get("bsp_bytes", 0) // 1024 or "—",
+        ))
+    lines.append("")
+    for r in results:
+        lines.append("### {} — {}".format(
+            r["chapter"], "PASS" if r["passed"] else "FAIL"))
+        lines.append(", ".join(
+            "{}={}".format(k, "OK" if v else "FAIL")
+            for k, v in sorted(r["checks"].items())
+        ))
+        if r["details"].get("compile_error"):
+            lines.append("Ошибка: " + r["details"]["compile_error"])
+        lines.append("")
+
+    passed = sum(1 for r in results if r["passed"])
+    lines.append("Итого: {}/{}".format(passed, len(results)))
+
+    with open(md, "w", encoding="utf-8") as f:
+        f.write("\n".join(lines) + "\n")
+    with open(js, "w", encoding="utf-8") as f:
+        json.dump(results, f, ensure_ascii=False, indent=2)
+
+    print("\nИТОГ: {}/{} глав пройдено".format(passed, len(results)))
+    print("Отчёт:", md)
+    return 0 if passed == len(results) else 1
+
+
+if __name__ == "__main__":
+    sys.exit(main())

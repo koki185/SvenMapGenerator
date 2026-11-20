@@ -1,0 +1,30 @@
+hlbsp v4.3-VLV34-SC5.26 64-bit (Mar 31 2024)
+Zoner's Half-Life Compilation Tools -- Custom build for Sven Co-op 5.26
+Based on code modifications by Vluzacn (VLV34)
+Based on code modifications by Sean "Zoner" Cavanaugh (4.3)
+Based on Valve's version, modified with permission.
+
+A full list of contributors can be found at http://zhlt.info/credits.html
+
+For help and support please use the official discord channel: https://discord.gg/yZxs6nJs3n
+-----  BEGIN  hlbsp -----
+Command line: "K:\SteamLibrary\steamapps\common\Sven Co-op SDK\mapping\compilers\SC-BSP_x64.exe" "K:\SteamLibrary\steamapps\common\Sven Co-op\svencoop_addon\maps\sc_exp_3.map" -console 0 -noinfo 
+Arguments: "K:\SteamLibrary\steamapps\common\Sven Co-op\svencoop_addon\maps\sc_exp_3.map" -console 0 -noinfo 
+SolidBSP [hull 0] 406 (0.01 seconds)
+BSP generation successful, writing portal file 'K:\SteamLibrary\steamapps\common\Sven Co-op\svencoop_addon\maps\sc_exp_3.prt'
+SolidBSP [hull 1] 301 (0.01 seconds)
+SolidBSP [hull 2] 295 (0.01 seconds)
+SolidBSP [hull 3] 307 (0.01 seconds)
+Reduced 777 clipnodes to 750
+Reduced 42 texinfos to 33
+Reduced 15 texdatas to 15 (664 bytes to 664)
+Reduced 1274 planes to 453
+FixBrinks:
+Increased 750 clipnodes to 750.
+0.12 seconds elapsed
+
+-----   END   hlbsp -----
+
+
+
+

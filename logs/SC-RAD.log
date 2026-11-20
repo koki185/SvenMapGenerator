@@ -1,0 +1,65 @@
+hlrad v4.3-VLV34-SC5.26 64-bit (Mar 31 2024)
+Zoner's Half-Life Compilation Tools -- Custom build for Sven Co-op 5.26
+Based on code modifications by Vluzacn (VLV34)
+Based on code modifications by Sean "Zoner" Cavanaugh (4.3)
+Based on Valve's version, modified with permission.
+
+A full list of contributors can be found at http://zhlt.info/credits.html
+
+For help and support please use the official discord channel: https://discord.gg/yZxs6nJs3n
+-----  BEGIN  hlrad -----
+Command line: "K:\SteamLibrary\steamapps\common\Sven Co-op SDK\mapping\compilers\SC-RAD_x64.exe" "K:\SteamLibrary\steamapps\common\Sven Co-op\svencoop_addon\maps\sc_exp_3.map" -console 0 -noinfo 
+Arguments: "K:\SteamLibrary\steamapps\common\Sven Co-op\svencoop_addon\maps\sc_exp_3.map" -console 0 -noinfo 
+Load Textures:
+Using Wadfile: K:\SteamLibrary\steamapps\common\Sven Co-op\svencoop_addon\maps\sc_exp_3.wa_
+15 textures referenced
+Reading texlights from 'K:\SteamLibrary\steamapps\common\Sven Co-op SDK\mapping\compilers\lights.rad'
+0 opaque models
+0 opaque faces
+748 faces
+Create Patches : 8418 base patches
+187985 square feet [27069920.00 square inches]
+83 direct lights and 0 fast direct lights
+1 light styles
+
+FindFacePositions:
+10%...20%...30%...40%...50%...60%...70%...80%...90%... (0.14 seconds)
+BuildFacelights:
+10%...20%...30%...40%...50%...60%...70%...80%...90%... (0.49 seconds)
+BuildVisLeafs:
+10%...20%...30%...40%...50%...60%...70%...80%...90%... (0.60 seconds)
+visibility matrix   :  10.4 megs
+MakeScales:
+10%...20%...30%...40%...50%...60%...70%...80%...90%... (0.26 seconds)
+Transfer Lists :     6524735 :     6.52M transfers
+       Indices :     3226792 :     3.08M bytes
+          Data :    13074694 :    12.47M bytes
+Bounce 1 GatherLight:
+10%...20%...30%...40%...50%...60%...70%...80%...90%... (0.02 seconds)
+Bounce 2 GatherLight:
+10%...20%...30%...40%...50%...60%...70%...80%...90%... (0.02 seconds)
+Bounce 3 GatherLight:
+10%...20%...30%...40%...50%...60%...70%...80%...90%... (0.02 seconds)
+Bounce 4 GatherLight:
+10%...20%...30%...40%...50%...60%...70%...80%...90%... (0.02 seconds)
+Bounce 5 GatherLight:
+10%...20%...30%...40%...50%...60%...70%...80%...90%... (0.02 seconds)
+Bounce 6 GatherLight:
+10%...20%...30%...40%...50%...60%...70%...80%...90%... (0.02 seconds)
+Bounce 7 GatherLight:
+10%...20%...30%...40%...50%...60%...70%...80%...90%... (0.02 seconds)
+Bounce 8 GatherLight:
+10%...20%...30%...40%...50%...60%...70%...80%...90%... (0.02 seconds)
+CreateTriangulations:
+10%...20%...30%...40%...50%...60%...70%...80%...90%... (0.02 seconds)
+AddPatchLights:
+10%...20%...30%...40%...50%...60%...70%...80%...90%... (0.86 seconds)
+FinalLightFace:
+10%...20%...30%...40%...50%...60%...70%...80%...90%... (0.00 seconds)
+2.58 seconds elapsed
+
+-----   END   hlrad -----
+
+
+
+

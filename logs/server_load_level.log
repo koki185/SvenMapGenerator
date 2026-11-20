@@ -1,0 +1,25 @@
+
+Console initialized.
+Threaded networking started successfully.
+Protocol version 48
+Engine version 5.0.1.8 (svencoop)
+Engine build: 10:08:09 Nov 23 2024 (10257)
+STEAM Auth Server
+Initializing IP networking.
+Local IP address: 0.0.0.0, SV port: 27015, CL port: -1
+Steam P2P networking disabled.
+Server logging data to file logs\2026-11-20.log
+L 20/11/2026 - 04:07:59: Log file started (file "logs\2026-11-20.log") (game "svencoop") (version "48/5.0.1.8/10257")
+L 20/11/2026 - 04:07:59: Server cvar "sv_aim" = "0"
+couldn't exec banned.cfg
+couldn't exec listip.cfg
+L 20/11/2026 - 04:07:59: Server cvar "mp_banana" = "1"
+L 20/11/2026 - 04:07:59: Server cvar "sv_maxspeed" = "270"
+L 20/11/2026 - 04:07:59: Server is empty, map will end in 10.00 minute(s) if nobody connects.
+L 20/11/2026 - 04:07:59: Started map "sc_lab_block" (CRC "1876304924")
+L 20/11/2026 - 04:07:59: Log file closed
+Server logging data to file logs\2026-11-20.log
+L 20/11/2026 - 04:07:59: Log file started (file "logs\2026-11-20.log") (game "svencoop") (version "48/5.0.1.8/10257")
+couldn't exec banned.cfg
+couldn't exec listip.cfg
+   VAC secure mode disabled.

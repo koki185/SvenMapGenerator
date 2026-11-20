@@ -1,0 +1,81 @@
+
+Console initialized.
+Threaded networking started successfully.
+Protocol version 48
+Engine version 5.0.1.8 (svencoop)
+Engine build: 10:08:09 Nov 23 2024 (10257)
+STEAM Auth Server
+Initializing IP networking.
+Local IP address: 0.0.0.0, SV port: 27015, CL port: -1
+Steam P2P networking disabled.
+Angelscript: Registering Sven Co-op Angelscript API
+Angelscript version: 2.36.1
+Sven Co-op API version: 1.26
+Angelscript: Finished registering Sven Co-op Angelscript API
+Angelscript: Clearing temporary directory './scripts/plugins/temp'
+Angelscript: Clearing temporary directory './scripts/maps/temp'
+Executing dedicated server config file 'server.cfg'.
+Server logging data to file logs\2026-11-20.log
+L 20/11/2026 - 04:53:44: Log file started (file "logs\2026-11-20.log") (game "svencoop") (version "48/5.0.1.8/10257")
+L 20/11/2026 - 04:53:44: Server cvar "sv_aim" = "0"
+couldn't exec banned.cfg
+couldn't exec listip.cfg
+WARNING:  Administrative contact is not set for this server. Please insert contact details (such as an email address, URL, or Discord) in the "sv_contact" CVAR for your server.
+Executing map vote config file 'mapvote.cfg'.
+40 map(s) loaded into the vote list.
+Angelscript: Loading plugin lists
+Angelscript: Loading plugin list 'default_plugins.txt'
+Angelscript: Loading plugins from file 'default_plugins.txt'
+Angelscript: Plugin list 'default_plugins.txt' - 2 plugin(s) listed
+Angelscript: Included script 'StringUtils'
+Angelscript: Included script '../../Cfg'
+Angelscript: Beginning plugin "PlayerManagement" compilation
+Angelscript: Starting compilation: 3 scripts
+Angelscript: Plugin script compilation succeeded
+Angelscript: Registering hook: module 'PlayerManagement', hook 'ClientSay', function 'PlayerManagement::ClientSay'
+PlayerManagement: config file scripts/plugins/admin/Config/PlayerManagement.cfg loaded
+Angelscript: Adding console command 'plrmgr.admin_slap'
+Angelscript: Adding console command 'plrmgr.admin_slay'
+Angelscript: Adding console command 'plrmgr.admin_kick'
+Angelscript: Adding console command 'plrmgr.admin_ban'
+Angelscript: Adding console command 'plrmgr.admin_teleport'
+Angelscript: Adding console command 'plrmgr.admin_teleportto'
+Angelscript: Adding console command 'plrmgr.admin_sethealth'
+Angelscript: Adding console command 'plrmgr.admin_setarmor'
+Angelscript: Plugin "PlayerManagement" has no map include/exclude lists defined: Allowed on "sc_gen_7".
+Angelscript: Beginning plugin "doom_maps" compilation
+Angelscript: Starting compilation: 1 scripts
+Angelscript: Plugin script compilation succeeded
+Angelscript: Registering hook: module 'doom_maps', hook 'ClientPutInServer', function '::ClientJoin'
+Angelscript: Angelscript log opened
+Angelscript: Server started logging Angelscript on map 'sc_gen_7' at: 2026-11-20 04:53:44
+ERROR: Angelscript: CModuleHookManager::RegisterHook: Function '::MapChange' is incompatible with hook 'MapChangeHook'!
+Angelscript: Plugin "doom_maps" has no map include/exclude lists defined: Allowed on "sc_gen_7".
+Angelscript: 2 plugin(s) total
+Angelscript: 2 plugin(s) successfully compiled
+Parsing default_map_settings.cfg
+L 20/11/2026 - 04:53:44: Server cvar "mp_banana" = "1"
+L 20/11/2026 - 04:53:44: Server cvar "sv_maxspeed" = "270"
+Parsing maps/sc_gen_7.cfg
+Angelscript: Map script 'sc_gen_7' loaded
+Parsing skill.cfg
+Couldn't open maps/sc_gen_7_skl.cfg, no config file parsed
+Map cycle file "mapcycle.txt" will be re-loaded due to file pointer modification.
+Map cycle file "mapcycle.txt" loaded successfully with 38 map(s).
+Map cycle: Unexpectedly running map "sc_gen_7" instead of "-sp_campaign_portal", holding cycle position.
+Next map in cycle is: -sp_campaign_portal [1/38]
+0 server administrator(s) and 0 owner(s) read.
+L 20/11/2026 - 04:53:44: Server is empty, map will end in 10.00 minute(s) if nobody connects.
+Angelscript: Beginning scan for m_iszScriptFile keyvalues
+Angelscript: Finished scanning for m_iszScriptFile keyvalues
+Angelscript: Starting compilation: 1 scripts
+Angelscript: Map script compilation succeeded
+Loading sentence list "sound/default_sentences.txt"...
+Loading materials list "sound/materials.txt"...
+L 20/11/2026 - 04:53:44: Started map "sc_gen_7" (CRC "87560404")
+L 20/11/2026 - 04:53:44: Log file closed
+Server logging data to file logs\2026-11-20.log
+L 20/11/2026 - 04:53:44: Log file started (file "logs\2026-11-20.log") (game "svencoop") (version "48/5.0.1.8/10257")
+couldn't exec banned.cfg
+couldn't exec listip.cfg
+   VAC secure mode disabled.

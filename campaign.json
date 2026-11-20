@@ -1,0 +1,31 @@
+{
+  "_comment": "Кампания из карт, которые продолжают друг друга. final=true только у последней карты — она получает арену босса вместо changelevel.",
+  "name": "sc_expedition",
+  "chapters": [
+    {
+      "name": "sc_exp_1",
+      "seed": 101,
+      "rooms": 10,
+      "branches": 2,
+      "theme": "industrial",
+      "puzzles": ["collect", "enemies"]
+    },
+    {
+      "name": "sc_exp_2",
+      "seed": 202,
+      "rooms": 12,
+      "branches": 3,
+      "theme": "industrial",
+      "puzzles": ["collect", "secret", "super_secret", "enemies"]
+    },
+    {
+      "name": "sc_exp_3",
+      "seed": 303,
+      "rooms": 8,
+      "branches": 0,
+      "theme": "industrial",
+      "final": true,
+      "puzzles": ["boss"]
+    }
+  ]
+}
