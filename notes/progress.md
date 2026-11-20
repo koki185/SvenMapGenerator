@@ -664,6 +664,19 @@ BSP честно сообщал LEAK. Вторая причина — `info_tele
 --build --smoke`: механика OK, portal binding OK, CSG/BSP/VIS/RAD = 0,
 загрузка OK. 26/26 тестов OK.
 
+## Секреты на порталах (21.11.2026, 01:25)
+- `add_secrets(..., button_points=..., portal_ids=..., door_bounds=...)`:
+  скрытые кнопки ставятся по `interaction_point` порталов, дверь секрета —
+  по `ResolvedPortal`, а не по legacy bounds.
+- `generate_v3.py --with-secrets`: выбор двух порталов, не занятых целью;
+  `secret_total=2` передаётся в AngelScript.
+- `validator_portals.py` проверяет и `secret_portals` тоже.
+- `tests/test_portal_objective_binding.py`: тест secret-связывания.
+
+Проверка: `generate_v3.py --seed 42 --with-objective --with-secrets
+--build --smoke`: механика OK, portal binding OK, секреты OK,
+CSG/BSP/VIS/RAD = 0, загрузка OK. 27/27 тестов OK.
+
 ### Что осталось за рамками
 - Реальные игровые тесты (нажатие кнопок, бой, прохождение игроком).
 - Волны врагов, боссы, секреты, вертикальные переходы, лифты.

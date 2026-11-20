@@ -14,7 +14,8 @@ from .mechanics import (
 SECRET_DOOR_TEXTURE = "LAB1_DOOR1"
 
 
-def add_secrets(m, spec, script_name=None, per_tier=2, tiers=1):
+def add_secrets(m, spec, script_name=None, per_tier=2, tiers=1,
+                button_points=None, portal_ids=None, door_bounds=None):
     """Добавить tiers уровней секретов. Возвращает метаданные или None."""
     branch_conns = [
         c for c in spec.connections
@@ -56,7 +57,8 @@ def add_secrets(m, spec, script_name=None, per_tier=2, tiers=1):
 
         counter_name = "secret_counter_{}".format(tier)
         door_name = "secret_door_{}".format(tier)
-        door_bounds = _door_bounds(spec, conn)
+        if door_bounds is None:
+            door_bounds = _door_bounds(spec, conn)
 
         m.add_brush_entity(
             "func_door", door_bounds, SECRET_DOOR_TEXTURE,
@@ -98,7 +100,13 @@ def add_secrets(m, spec, script_name=None, per_tier=2, tiers=1):
 
         tier_buttons = []
         for index, area in enumerate(candidates[:per_tier], start=1):
-            bounds = _button_bounds(spec, area, doors, panels)
+            if button_points:
+                flat_index = (tier - 1) * per_tier + index - 1
+                px, py, pz, _point_area = button_points[flat_index]
+                bounds = Bounds(px - 16, py - 8, pz - 8,
+                                px + 16, py + 8, pz + 8)
+            else:
+                bounds = _button_bounds(spec, area, doors, panels)
             name = "secret_{}_{}".format(tier, index)
             hidden_texture = get_profile(spec.theme, area.type).wall
             m.add_brush_entity(
@@ -108,11 +116,15 @@ def add_secrets(m, spec, script_name=None, per_tier=2, tiers=1):
                 else counter_name,
                 spawnflags="1", wait="-1", sounds="3", angles="0 0 0",
             )
+            flat_index = (tier - 1) * per_tier + index - 1
             info = {
                 "name": name,
                 "area": area.id,
                 "center": ((bounds.x0 + bounds.x1) / 2,
                            (bounds.y0 + bounds.y1) / 2),
+                "portal_id": (
+                    portal_ids[flat_index] if portal_ids else None
+                ),
             }
             tier_buttons.append(info)
             all_buttons.append(info)

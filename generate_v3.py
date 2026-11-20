@@ -9,6 +9,7 @@ from svenmap.geometry import Bounds
 from svenmap.mapfile import num
 from svenmap.textures import TextureRef
 from svenmap.mechanics import add_objective, validate_objective
+from svenmap.secrets import add_secrets, validate_secrets
 from svenmap.pipeline import detect_roots, compile_map, smoke_test_load
 from svenmap.planning import (
     BlueprintConfig, blueprint_to_aligned_spec, build_blueprint_map,
@@ -109,6 +110,7 @@ def main():
     parser.add_argument("--no-secrets", action="store_true")
     parser.add_argument("--mode", choices=("collect", "buttons"),
                         default="collect")
+    parser.add_argument("--with-secrets", action="store_true")
     parser.add_argument("--with-objective", action="store_true",
                         help="добавить механики (пока не согласованы с новой геометрией)")
     parser.add_argument("--build", action="store_true")
@@ -166,9 +168,28 @@ def main():
         print("portal binding:", "OK" if binding["passed"] else "FAIL",
               "| objective portal:", portal_id)
 
+        if args.with_secrets:
+            secret_keys = [k for k in keys if k != portal_id][:2]
+            secret_points = []
+            for portal_key in secret_keys:
+                source = portals[portal_key]
+                x, y, z = get_interaction_point(source, side="a")
+                secret_points.append((x, y, z, source.area_a))
+            secret_door = portal_to_legacy_door(portals[secret_keys[0]])
+            add_secrets(
+                m, spec, script_name=spec.name, per_tier=2, tiers=1,
+                button_points=secret_points, portal_ids=secret_keys,
+                door_bounds=secret_door,
+            )
+            secret_checks = validate_secrets(spec, m)
+            print("секреты:", "OK" if all(secret_checks.values()) else "FAIL",
+                  "| порталов:", len(secret_keys))
+
     script_count = 5 if args.mode == "collect" else 2
     script_label = "Samples" if args.mode == "collect" else "Generators"
-    write_map_script(game_dir, spec.name, script_count, label=script_label)
+    secret_total = 2 if args.with_secrets else 0
+    write_map_script(game_dir, spec.name, script_count, label=script_label,
+                     secret_total=secret_total)
     os.makedirs(PROJECT_MAPS, exist_ok=True)
     project_map = os.path.join(PROJECT_MAPS, spec.name + ".map")
     m.write(project_map)

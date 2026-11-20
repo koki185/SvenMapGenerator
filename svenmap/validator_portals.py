@@ -10,6 +10,11 @@ def validate_portal_binding(blueprint: dict, portals: Dict, m) -> dict:
     built = m.meta.get("built_doors", {})
     mech = m.meta.get("mechanics", {})
     objective_portal = mech.get("portal_id")
+    secret_portals = [
+        b.get("portal_id")
+        for b in m.meta.get("secrets", {}).get("secrets", [])
+        if b.get("portal_id")
+    ]
 
     errors = []
     if ids != registry_ids:
@@ -24,12 +29,16 @@ def validate_portal_binding(blueprint: dict, portals: Dict, m) -> dict:
         errors.append("objective.portal_id не найден среди built_doors")
     if objective_portal and objective_portal not in registry_ids:
         errors.append("objective.portal_id нет в registry")
+    for portal_id in secret_portals:
+        if portal_id not in registry_ids:
+            errors.append("secret portal_id нет в registry: " + str(portal_id))
 
     return {
         "blueprint_portals": len(ids),
         "resolved": len(registry_ids),
         "built_doors": len(built),
         "objective_portal": objective_portal,
+        "secret_portals": secret_portals,
         "errors": errors,
         "passed": not errors,
     }

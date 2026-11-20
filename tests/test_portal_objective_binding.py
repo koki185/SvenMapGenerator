@@ -94,6 +94,31 @@ class TestPortalBinding(unittest.TestCase):
         expected = {(x, y) for x, y, _z, _a in points}
         self.assertEqual(len(centers & expected), 2)
 
+    def test_secret_buttons_use_portals(self):
+        from svenmap.secrets import add_secrets
+        blueprint = generate_blueprint(BlueprintConfig(seed=7, floors=1))
+        spec = blueprint_to_aligned_spec(blueprint)
+        m = build_blueprint_map(blueprint, [], None)
+        portals = resolve_all_portals(blueprint)
+        keys = sorted(portals)
+        points = []
+        for key in keys[:2]:
+            x, y, z = portals[key].interaction_point
+            points.append((x, y, z, portals[key].area_a))
+        add_objective(
+            m, spec, None, script_name=spec.name, mode="collect",
+            item_count=5, door_bounds=portal_to_legacy_door(portals[keys[0]]),
+            portal_id=keys[0],
+        )
+        add_secrets(
+            m, spec, script_name=spec.name, per_tier=2, tiers=1,
+            button_points=points, portal_ids=keys[:2],
+            door_bounds=portal_to_legacy_door(portals[keys[1]]),
+        )
+        binding = validate_portal_binding(blueprint, portals, m)
+        self.assertEqual(binding["secret_portals"], keys[:2])
+        self.assertTrue(binding["passed"], binding["errors"])
+
     def test_determinism(self):
         blueprint = generate_blueprint(BlueprintConfig(seed=1, floors=1))
         a = resolve_all_portals(blueprint)
