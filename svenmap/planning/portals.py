@@ -73,15 +73,18 @@ def resolve_portal(blueprint: dict, portal_id: str) -> ResolvedPortal:
         else "N" if dir_a == (0, 1) else "S"
 
     floor = a.get("floor", 0)
-    # Дверь должна перекрыть весь проход между комнатами, а не только
-    # одну стену: otherwise обход по коридору остаётся открытым.
-    margin = 2
-    x0 = (min(pa[0], pb[0]) - margin) * GRID
-    x1 = (max(pa[0], pb[0]) + margin + 1) * GRID
-    y0 = (min(pa[1], pb[1]) - margin) * GRID
-    y1 = (max(pa[1], pb[1]) + margin + 1) * GRID
+    # Дверь = одна клетка коридора у входа в комнату. Широкая плита
+    # (старый вариант с margin=2) в игре застревает в стенах
+    # и не открывается, хотя в QA блокирует путь.
+    # Дверь покрывает портал и по одной клетке с каждой стороны:
+    # узкая дверь оставляла обход по краю коридора.
     base = floor * (HEIGHT + FLOOR_T)
-    bounds = Bounds(x0, y0, base + FLOOR_T, x1, y1, base + HEIGHT)
+    bounds = Bounds(
+        (pa[0] - 1) * GRID, (pa[1] - 1) * GRID,
+        base + FLOOR_T,
+        (pa[0] + 2) * GRID, (pa[1] + 2) * GRID,
+        base + HEIGHT,
+    )
     cx = int((bounds.x0 + bounds.x1) / 2)
     cy = int((bounds.y0 + bounds.y1) / 2)
     base = floor * (HEIGHT + FLOOR_T)
