@@ -46,6 +46,30 @@ class TestPortalBinding(unittest.TestCase):
         self.assertTrue(binding["passed"], binding["errors"])
         self.assertEqual(binding["objective_portal"], portal.id)
 
+    def test_items_use_portal_points(self):
+        blueprint = generate_blueprint(BlueprintConfig(seed=42, floors=1))
+        spec = blueprint_to_aligned_spec(blueprint)
+        m = build_blueprint_map(blueprint, [], None)
+        portals = resolve_all_portals(blueprint)
+        goal_conn = next(
+            c for c in blueprint["spatial"]["connections"]
+            if c["b"] == spec.goal
+        )
+        portal = portals[goal_conn["id"]]
+        points = []
+        for key in sorted(portals)[:5]:
+            x, y, z = portals[key].item_point
+            points.append((x, y, z, portals[key].area_a))
+        add_objective(
+            m, spec, None, script_name=spec.name,
+            mode="collect", item_count=5,
+            door_bounds=portal_to_legacy_door(portal),
+            portal_id=portal.id, item_points=points,
+        )
+        item_centers = {i["center"] for i in m.meta["mechanics"]["items"]}
+        expected = {(x, y) for x, y, _z, _a in points}
+        self.assertEqual(len(item_centers & expected), 5)
+
     def test_determinism(self):
         blueprint = generate_blueprint(BlueprintConfig(seed=1, floors=1))
         a = resolve_all_portals(blueprint)

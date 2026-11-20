@@ -2903,7 +2903,7 @@
 "classname" "item_security"
 "targetname" "sample_1"
 "target" "collect_manager"
-"origin" "480 384 24"
+"origin" "672 -1040 24"
 "angles" "0 0 0"
 "model" "models/w_security.mdl"
 }
@@ -2911,7 +2911,7 @@
 "classname" "item_security"
 "targetname" "sample_2"
 "target" "collect_manager"
-"origin" "-576 672 24"
+"origin" "-480 304 24"
 "angles" "0 0 0"
 "model" "models/w_security.mdl"
 }
@@ -2919,7 +2919,7 @@
 "classname" "item_security"
 "targetname" "sample_3"
 "target" "collect_manager"
-"origin" "-480 -96 24"
+"origin" "-864 304 24"
 "angles" "0 0 0"
 "model" "models/w_security.mdl"
 }
@@ -2927,7 +2927,7 @@
 "classname" "item_security"
 "targetname" "sample_4"
 "target" "collect_manager"
-"origin" "-1248 -192 24"
+"origin" "-480 -464 24"
 "angles" "0 0 0"
 "model" "models/w_security.mdl"
 }
@@ -2935,7 +2935,7 @@
 "classname" "item_security"
 "targetname" "sample_5"
 "target" "collect_manager"
-"origin" "-288 -960 24"
+"origin" "-848 -96 24"
 "angles" "0 0 0"
 "model" "models/w_security.mdl"
 }

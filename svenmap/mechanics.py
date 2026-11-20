@@ -126,7 +126,8 @@ def _item_positions(m, spec, count, doors, panels):
 
 
 def add_objective(m, spec, texture_lib=None, script_name=None,
-                  mode="buttons", item_count=5):
+                  mode="buttons", item_count=5, door_bounds=None,
+                  portal_id=None, item_points=None):
     """Добавить дверь и задачу: кнопки или сбор предметов.
 
     mode="buttons" — две func_button -> trigger_counter (этап 6).
@@ -137,7 +138,8 @@ def add_objective(m, spec, texture_lib=None, script_name=None,
     скрипт только печатает сообщения, дверь открывается сущностями.
     """
     goal_conn = next(c for c in spec.connections if c.b == spec.goal)
-    door_bounds = _door_bounds(spec, goal_conn)
+    if door_bounds is None:
+        door_bounds = _door_bounds(spec, goal_conn)
     doors = m.meta.get("doors", [])
     panels = m.meta.get("panels", [])
 
@@ -151,6 +153,7 @@ def add_objective(m, spec, texture_lib=None, script_name=None,
     button_areas = list(dict.fromkeys(button_areas))[:2]
 
     # Дверь: уезжает вверх, остаётся открытой (wait = -1).
+    m.meta.setdefault("built_doors", {})[portal_id or DOOR_TARGETNAME] = door_bounds
     m.add_brush_entity(
         "func_door", door_bounds, DOOR_TEXTURE,
         targetname=DOOR_TARGETNAME,
@@ -181,7 +184,9 @@ def add_objective(m, spec, texture_lib=None, script_name=None,
     items = []
 
     if mode == "collect":
-        positions = _item_positions(m, spec, item_count, doors, panels)
+        positions = list(item_points) if item_points else _item_positions(
+            m, spec, item_count, doors, panels
+        )
         if len(positions) < item_count:
             raise RuntimeError(
                 "не хватает свободных мест для {} предметов".format(item_count)
@@ -277,6 +282,7 @@ def add_objective(m, spec, texture_lib=None, script_name=None,
         "items": items,
         "counter": COUNTER_TARGETNAME,
         "script": script_name,
+        "portal_id": portal_id,
     }
     m.meta["mechanics"] = meta
     return meta

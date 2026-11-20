@@ -159,6 +159,13 @@ def build_blueprint_map(blueprint: dict, wads, game_dir, seed: int = 0) -> MapFi
         a, b = areas.get(conn["a"]), areas.get(conn["b"])
         if not a or not b:
             continue
+        # Верхний этаж пока не имеет коридоров — не режем стены наружу.
+        if a.get("floor", 0) != 0 or b.get("floor", 0) != 0:
+            opening_records.append((
+                index, (0, 0), "E", a.get("floor", 0),
+                (0, 0), "E", b.get("floor", 0),
+            ))
+            continue
         pa, pb = tuple(conn["portal_a"]), tuple(conn["portal_b"])
         cells_a, cells_b = _world_cells(a), _world_cells(b)
 
@@ -193,6 +200,10 @@ def build_blueprint_map(blueprint: dict, wads, game_dir, seed: int = 0) -> MapFi
     for conn in spatial["connections"]:
         a, b = areas.get(conn["a"]), areas.get(conn["b"])
         if not a or not b:
+            continue
+        # Пока коридоры строим только на нулевом этаже: на верхнем они
+        # создавали бы несовместимую с area оболочку и LEAK.
+        if a.get("floor", 0) != 0 or b.get("floor", 0) != 0:
             continue
         pa, pb = tuple(conn["portal_a"]), tuple(conn["portal_b"])
         corridor = _corridor_cells(pa, pb)
