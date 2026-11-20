@@ -260,8 +260,9 @@ Blueprint (топология + размещение):
     python generate_blueprint.py --seed 42
     python generate_blueprint.py --seed 1 --count 5
 
-Результат в blueprints/*.json и *_spatial.svg. Тесты:
-    python -m unittest tests.test_topology_v2 tests.test_spatial_v2
+Результат в blueprints/*.json и *_spatial.svg. Blueprint включает
+формы комнат (rect/L/T/U) и маски клеток. Тесты:
+    python -m unittest tests.test_topology_v2 tests.test_spatial_v2 tests.test_shapes_v2
 
 Старый планировщик svenmap/planner.py работает как раньше.
 

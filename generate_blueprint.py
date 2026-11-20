@@ -45,15 +45,26 @@ def write_spatial_svg(blueprint, path):
     for area in areas:
         x = 50 + (area["x"] - min_x) * scale
         y = 50 + (area["y"] - min_y) * scale
-        lines.append(
-            '<rect x="{:.1f}" y="{:.1f}" width="{:.1f}" height="{:.1f}" '
-            'fill="#5aa9ff" fill-opacity="0.18" stroke="#5aa9ff"/>'
-            .format(x, y, area["w"] * scale, area["h"] * scale)
-        )
+        cells = area.get("cells")
+        if cells:
+            for cx, cy in cells:
+                lines.append(
+                    '<rect x="{:.1f}" y="{:.1f}" width="{:.1f}" height="{:.1f}" '
+                    'fill="#5aa9ff" fill-opacity="0.20" stroke="#5aa9ff" '
+                    'stroke-width="0.5"/>'.format(
+                        x + cx * scale, y + cy * scale,
+                        max(1.0, scale - 0.5), max(1.0, scale - 0.5))
+                )
+        else:
+            lines.append(
+                '<rect x="{:.1f}" y="{:.1f}" width="{:.1f}" height="{:.1f}" '
+                'fill="#5aa9ff" fill-opacity="0.18" stroke="#5aa9ff"/>'
+                .format(x, y, area["w"] * scale, area["h"] * scale)
+            )
         lines.append(
             '<text x="{:.1f}" y="{:.1f}" fill="#fff" font-family="sans-serif" '
-            'font-size="10">{}</text>'.format(
-                x + 2, y + 12, area["node_id"])
+            'font-size="10">{} [{}]</text>'.format(
+                x + 2, y + 12, area["node_id"], area.get("shape", "rect"))
         )
     lines.append("</svg>")
     with open(path, "w", encoding="utf-8") as f:

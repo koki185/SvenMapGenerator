@@ -4,6 +4,10 @@ PR-1: генерация топологии — граф, зоны, метрик
 Legacy-планировщик в svenmap/planner.py остаётся рабочим.
 """
 
+from .architecture import (
+    apply_shapes, candidates_for, is_connected, make_l, make_rect,
+    make_t, make_u, rotate_shape,
+)
 from .models import (
     AreaType, EdgeType, Footprint, SpatialArea, SpatialConnection,
     SpatialLayout, TopologyEdge, TopologyGraph, TopologyNode,
@@ -20,4 +24,6 @@ __all__ = [
     "TopologyConfig", "generate_topology",
     "SpatialConfig", "place_spatial",
     "BlueprintConfig", "generate_blueprint",
+    "make_rect", "make_l", "make_t", "make_u", "rotate_shape",
+    "is_connected", "candidates_for", "apply_shapes",
 ]

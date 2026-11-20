@@ -36,6 +36,9 @@ class SpatialArea:
     w: int
     h: int
     floor: int = 0
+    # PR-3: форма комнаты. Для rect cells == None (используем x/y/w/h).
+    shape: str = "rect"
+    cells: Optional[Set[Tuple[int, int]]] = None
 
 
 @dataclass
@@ -61,6 +64,11 @@ class SpatialLayout:
                 {
                     "node_id": a.node_id, "x": a.x, "y": a.y,
                     "w": a.w, "h": a.h, "floor": a.floor,
+                    "shape": a.shape,
+                    "cells": (
+                        [list(c) for c in sorted(a.cells)]
+                        if a.cells else None
+                    ),
                 }
                 for a in self.areas.values()
             ],

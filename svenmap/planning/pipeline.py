@@ -3,6 +3,7 @@
 from dataclasses import dataclass, field
 from typing import Dict
 
+from .architecture import apply_shapes
 from .models import TopologyGraph
 from .spatial import SpatialConfig, place_spatial
 from .topology import TopologyConfig, generate_topology
@@ -30,6 +31,7 @@ def generate_blueprint(config: BlueprintConfig) -> Dict:
         name=config.name,
     ))
     layout = place_spatial(graph, config.spatial, seed=graph.seed)
+    shapes = apply_shapes(graph, layout, seed=graph.seed)
     realized = {(c.a, c.b) for c in layout.connections}
     realized |= {(b, a) for a, b in realized}
     missing = [
@@ -43,6 +45,7 @@ def generate_blueprint(config: BlueprintConfig) -> Dict:
     return {
         "graph": graph.to_dict(),
         "spatial": layout.to_dict(),
+        "shapes": shapes,
         "topology_metrics": evaluate_topology(graph),
         "unrealized_edges": missing,
         "indirect_edges": indirect,
