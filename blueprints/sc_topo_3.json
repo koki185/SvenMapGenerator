@@ -1000,7 +1000,7 @@
         "y": -5,
         "w": 3,
         "h": 4,
-        "floor": 0,
+        "floor": 1,
         "shape": "u",
         "cells": [
           [
@@ -1512,6 +1512,26 @@
           6
         ],
         "direct": true
+      }
+    ],
+    "vertical_connectors": [
+      {
+        "id": "stairs_b1_0",
+        "type": "stairs",
+        "area_a": "n5",
+        "area_b": "b1_0",
+        "floor_a": 0,
+        "floor_b": 1,
+        "height_delta": 128,
+        "landing_a": [
+          7,
+          -10
+        ],
+        "landing_b": [
+          10,
+          -5
+        ],
+        "bidirectional": true
       }
     ],
     "score": 0.8164
@@ -2330,6 +2350,12 @@
     "branch_depth": 2.0,
     "route_choice": 1.0,
     "score": 0.7
+  },
+  "vertical_qa": {
+    "connector_errors": [],
+    "path_found": true,
+    "path_length": 33,
+    "passed": true
   },
   "unrealized_edges": [],
   "indirect_edges": [

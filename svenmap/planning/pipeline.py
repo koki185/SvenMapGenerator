@@ -4,10 +4,11 @@ from dataclasses import dataclass, field
 from typing import Dict
 
 from .architecture import apply_shapes
-from .models import TopologyGraph
+from .models import TopologyGraph, VerticalConnector
 from .spatial import SpatialConfig, place_spatial
 from .topology import TopologyConfig, generate_topology
 from .topology_metrics import evaluate as evaluate_topology
+from ..validator3d import validate_vertical_reachability
 
 
 @dataclass
@@ -18,7 +19,44 @@ class BlueprintConfig:
     loop_count: int = 2
     secret_count: int = 2
     name: str = ""
+    floors: int = 1
     spatial: SpatialConfig = field(default_factory=SpatialConfig)
+
+
+def _landing(area):
+    if area.cells:
+        cx, cy = min(area.cells)
+        return (area.x + cx, area.y + cy)
+    return (area.x + area.w // 2, area.y + area.h // 2)
+
+
+def add_vertical_layer(graph, layout, floors: int) -> None:
+    """Поднять одну ветку на второй этаж и соединить лестницей."""
+    if floors < 2:
+        return
+    upper = next((n for n in graph.nodes.values()
+                  if n.id.startswith("b")), None)
+    if upper is None or upper.id not in layout.areas:
+        return
+    parent_edge = next((e for e in graph.edges if e.b == upper.id), None)
+    if parent_edge is None:
+        return
+    area = layout.areas[upper.id]
+    area.floor = 1
+    parent = layout.areas.get(parent_edge.a)
+    if parent is None:
+        return
+    layout.vertical_connectors.append(VerticalConnector(
+        id="stairs_" + upper.id,
+        type="stairs",
+        area_a=parent_edge.a,
+        area_b=upper.id,
+        floor_a=0,
+        floor_b=1,
+        height_delta=128,
+        landing_a=_landing(parent),
+        landing_b=_landing(area),
+    ))
 
 
 def generate_blueprint(config: BlueprintConfig) -> Dict:
@@ -32,6 +70,7 @@ def generate_blueprint(config: BlueprintConfig) -> Dict:
     ))
     layout = place_spatial(graph, config.spatial, seed=graph.seed)
     shapes = apply_shapes(graph, layout, seed=graph.seed)
+    add_vertical_layer(graph, layout, config.floors)
     realized = {(c.a, c.b) for c in layout.connections}
     realized |= {(b, a) for a, b in realized}
     missing = [
@@ -47,6 +86,7 @@ def generate_blueprint(config: BlueprintConfig) -> Dict:
         "spatial": layout.to_dict(),
         "shapes": shapes,
         "topology_metrics": evaluate_topology(graph),
+        "vertical_qa": validate_vertical_reachability(graph, layout),
         "unrealized_edges": missing,
         "indirect_edges": indirect,
     }

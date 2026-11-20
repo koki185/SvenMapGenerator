@@ -53,9 +53,35 @@ class SpatialConnection:
 
 
 @dataclass
+class VerticalConnector:
+    id: str
+    type: str  # stairs / ladder / elevator / ramp
+    area_a: str
+    area_b: str
+    floor_a: int
+    floor_b: int
+    height_delta: int
+    landing_a: Tuple[int, int]
+    landing_b: Tuple[int, int]
+    bidirectional: bool = True
+
+    def to_dict(self) -> dict:
+        return {
+            "id": self.id, "type": self.type,
+            "area_a": self.area_a, "area_b": self.area_b,
+            "floor_a": self.floor_a, "floor_b": self.floor_b,
+            "height_delta": self.height_delta,
+            "landing_a": list(self.landing_a),
+            "landing_b": list(self.landing_b),
+            "bidirectional": self.bidirectional,
+        }
+
+
+@dataclass
 class SpatialLayout:
     areas: Dict[str, SpatialArea] = field(default_factory=dict)
     connections: List[SpatialConnection] = field(default_factory=list)
+    vertical_connectors: List[VerticalConnector] = field(default_factory=list)
     score: float = 0.0
 
     def to_dict(self) -> dict:
@@ -81,6 +107,7 @@ class SpatialLayout:
                 }
                 for c in self.connections
             ],
+            "vertical_connectors": [c.to_dict() for c in self.vertical_connectors],
             "score": round(self.score, 4),
         }
 

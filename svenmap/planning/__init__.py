@@ -10,7 +10,7 @@ from .architecture import (
 )
 from .models import (
     AreaType, EdgeType, Footprint, SpatialArea, SpatialConnection,
-    SpatialLayout, TopologyEdge, TopologyGraph, TopologyNode,
+    SpatialLayout, TopologyEdge, TopologyGraph, TopologyNode, VerticalConnector,
     Zone, validate_topology,
 )
 from .pipeline import BlueprintConfig, generate_blueprint
@@ -26,4 +26,5 @@ __all__ = [
     "BlueprintConfig", "generate_blueprint",
     "make_rect", "make_l", "make_t", "make_u", "rotate_shape",
     "is_connected", "candidates_for", "apply_shapes",
+    "VerticalConnector",
 ]

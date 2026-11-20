@@ -75,12 +75,13 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--count", type=int, default=1)
+    parser.add_argument("--floors", type=int, default=1)
     parser.add_argument("--no-preview", action="store_true")
     args = parser.parse_args()
 
     os.makedirs(OUT, exist_ok=True)
     for seed in range(args.seed, args.seed + args.count):
-        config = BlueprintConfig(seed=seed)
+        config = BlueprintConfig(seed=seed, floors=args.floors)
         blueprint = generate_blueprint(config)
         name = blueprint["graph"]["name"]
         json_path = os.path.join(OUT, name + ".json")
@@ -89,11 +90,13 @@ def main():
         if not args.no_preview:
             svg_path = os.path.join(OUT, name + "_spatial.svg")
             write_spatial_svg(blueprint, svg_path)
-        print("{}: areas={} links={} indirect={} spatial_score={}".format(
+        print("{}: areas={} links={} indirect={} floors={} vertical={} score={}".format(
             name,
             len(blueprint["spatial"]["areas"]),
             len(blueprint["spatial"]["connections"]),
             len(blueprint["indirect_edges"]),
+            args.floors,
+            "OK" if blueprint["vertical_qa"]["passed"] else "FAIL",
             blueprint["spatial"]["score"],
         ))
 
