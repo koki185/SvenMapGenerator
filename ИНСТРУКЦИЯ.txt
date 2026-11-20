@@ -269,6 +269,10 @@ Blueprint (топология + размещение):
 
     python generate_v2.py --seed 42 --build --smoke --next sc_exp_2
 
+Геометрия по L/T/U-маскам (PR-6):
+
+    python generate_v3.py --seed 42 --build --smoke
+
 Старый планировщик svenmap/planner.py работает как раньше.
 
 -------------------------------------------------------------------------------

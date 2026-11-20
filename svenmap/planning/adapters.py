@@ -77,6 +77,47 @@ def _snap(a: Rect, b: Rect, placed: Dict[str, Rect]) -> Rect:
     )
 
 
+def blueprint_to_aligned_spec(blueprint: dict) -> LevelSpec:
+    """LevelSpec с координатами Blueprint — для механик нового builder."""
+    graph = blueprint["graph"]
+    spatial = blueprint["spatial"]
+    types = {n["id"]: n.get("type", "corridor") for n in graph["nodes"]}
+    areas = []
+    for a in spatial["areas"]:
+        x, y = a["x"], a["y"]
+        areas.append(Area(a["node_id"], types.get(a["node_id"], "corridor"),
+                          (x, y, x + a["w"], y + a["h"])))
+
+    connections = []
+    for c in spatial["connections"]:
+        a = next((x for x in areas if x.id == c["a"]), None)
+        b = next((x for x in areas if x.id == c["b"]), None)
+        if not a or not b:
+            continue
+        # Портал уже рассчитан новым pipeline; валидацию adjacency не делаем:
+        # геометрию строит new_builder, а не legacy.
+        cell = tuple(c.get("portal_a", [a.cells[0], a.cells[1]]))
+        connection = Connection(a=a.id, b=b.id, cell=cell)
+        bx = (b.cells[0] + b.cells[2]) / 2.0
+        by = (b.cells[1] + b.cells[3]) / 2.0
+        dx, dy = bx - cell[0], by - cell[1]
+        connection.direction = (
+            (1, 0) if abs(dx) >= abs(dy) and dx >= 0 else
+            (-1, 0) if abs(dx) >= abs(dy) else
+            (0, 1) if dy >= 0 else (0, -1)
+        )
+        connections.append(connection)
+
+    spec = LevelSpec(
+        name=graph["name"], theme="industrial", grid=192,
+        wall_thickness=16, floor_thickness=16,
+        height=256, door_height=128,
+        areas=areas, connections=connections,
+        start=graph["start"], goal=graph["goal"],
+    )
+    return spec
+
+
 def blueprint_to_level_spec(blueprint: dict) -> LevelSpec:
     graph = blueprint["graph"]
     spatial = blueprint["spatial"]
