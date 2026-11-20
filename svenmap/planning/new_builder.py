@@ -161,6 +161,7 @@ def build_blueprint_map(blueprint: dict, wads, game_dir, seed: int = 0) -> MapFi
         node_id: set() for node_id in areas
     }
     opening_records = []
+    anchors = {}
 
     for index, conn in enumerate(spatial["connections"]):
         a, b = areas.get(conn["a"]), areas.get(conn["b"])
@@ -188,9 +189,23 @@ def build_blueprint_map(blueprint: dict, wads, game_dir, seed: int = 0) -> MapFi
         local_b = (near_b[0] - b["x"], near_b[1] - b["y"])
         dir_a = _direction_towards(near_a, pa)
         dir_b = _direction_towards(near_b, pb)
-        # Стены проверяются в мировых координатах клеток.
-        openings[conn["a"]].add((near_a, dir_a))
-        openings[conn["b"]].add((near_b, dir_b))
+        # Стены проверяются в мировых координатах клеток. Для вырезов
+        # L/T/U открываем ВСЕ ребра bounding box рядом с порталом, иначе
+        # стена выреза перекрывает коридор.
+        for area_id, portal, rect in (
+            (conn["a"], pa, (a["x"], a["y"], a["x"] + a["w"],
+                             a["y"] + a["h"])),
+            (conn["b"], pb, (b["x"], b["y"], b["x"] + b["w"],
+                             b["y"] + b["h"])),
+        ):
+            for x in range(rect[0], rect[2]):
+                for y in range(rect[1], rect[3]):
+                    cell = (x, y)
+                    if abs(x - portal[0]) + abs(y - portal[1]) <= 2:
+                        openings[area_id].add(
+                            (cell, _direction_towards(cell, portal))
+                        )
+        anchors[index] = (near_a, near_b)
         opening_records.append((index, local_a, dir_a, a.get("floor", 0),
                                 local_b, dir_b, b.get("floor", 0)))
 
@@ -204,7 +219,7 @@ def build_blueprint_map(blueprint: dict, wads, game_dir, seed: int = 0) -> MapFi
                     texture, openings[node_id], door_h)
 
     # Коридоры: даже «прямые» связи имеют зазор в одну клетку.
-    for conn in spatial["connections"]:
+    for index, conn in enumerate(spatial["connections"]):
         a, b = areas.get(conn["a"]), areas.get(conn["b"])
         if not a or not b:
             continue
@@ -212,8 +227,10 @@ def build_blueprint_map(blueprint: dict, wads, game_dir, seed: int = 0) -> MapFi
         # создавали бы несовместимую с area оболочку и LEAK.
         if a.get("floor", 0) != 0 or b.get("floor", 0) != 0:
             continue
-        pa, pb = tuple(conn["portal_a"]), tuple(conn["portal_b"])
-        corridor = _corridor_cells(pa, pb)
+        anchor_a, anchor_b = anchors.get(
+            index, (tuple(conn["portal_a"]), tuple(conn["portal_b"]))
+        )
+        corridor = _corridor_cells(anchor_a, anchor_b)
         floor = a.get("floor", 0)
         free = corridor - occupied.get(floor, set())
         if not free:

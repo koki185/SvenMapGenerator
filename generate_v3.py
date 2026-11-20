@@ -5,9 +5,7 @@ import os
 import shutil
 import sys
 
-from svenmap.geometry import Bounds
-from svenmap.mapfile import num
-from svenmap.textures import TextureRef
+from svenmap.v2_entities import add_basic_entities, add_vertical_transition
 from svenmap.mechanics import add_objective, validate_objective
 from svenmap.secrets import add_secrets, validate_secrets
 from svenmap.pipeline import detect_roots, compile_map, smoke_test_load
@@ -22,84 +20,6 @@ from svenmap.scripts import write_map_script
 from svenmap.textures import TextureLibrary
 
 from generate_campaign import PROJECT_LOGS, PROJECT_MAPS, wads
-
-
-def add_basic_entities(m, blueprint):
-    graph = blueprint["graph"]
-    spatial = blueprint["spatial"]
-    areas = {a["node_id"]: a for a in spatial["areas"]}
-    grid = 192
-
-    spawn = areas.get(graph["start"])
-    if spawn:
-        cx = (spawn["x"] + spawn["w"] / 2) * grid
-        cy = (spawn["y"] + spawn["h"] / 2) * grid
-        m.add_point_entity(
-            "info_player_start",
-            origin="{} {} {}".format(num(cx), num(cy), 64),
-            angles="0 0 0",
-        )
-        for dx, dy in ((-64, -64), (64, -64), (-64, 64), (64, 64)):
-            m.add_point_entity(
-                "info_player_deathmatch",
-                origin="{} {} {}".format(num(cx + dx), num(cy + dy), 64),
-                angles="0 0 0",
-            )
-
-    for node_id, area in areas.items():
-        cx = (area["x"] + area["w"] / 2) * grid
-        cy = (area["y"] + area["h"] / 2) * grid
-        floor_base = area.get("floor", 0) * (256 + 16)
-        m.add_point_entity(
-            "light",
-            origin="{} {} {}".format(num(cx), num(cy), floor_base + 240),
-            angles="0 0 0",
-            _light="255 255 255 200",
-            _falloff="0",
-            _fade="1.0",
-            style="0",
-            spawnflags="0",
-        )
-
-
-def add_vertical_transition(m, blueprint):
-    """Лестница + телепорт на верхний этаж (пока без полноценного шахта)."""
-    grid = 192
-    made = []
-    for connector in blueprint["spatial"].get("vertical_connectors", []):
-        la, lb = connector["landing_a"], connector["landing_b"]
-        wx, wy = la[0] * grid, la[1] * grid
-        steps = 8
-        for i in range(steps):
-            m.add_box(
-                Bounds(wx - 48, wy - 48, 16 + i * 32,
-                       wx + 48, wy + 48, 16 + (i + 1) * 32),
-                TextureRef("BASEWALL01A", 1.0, 1.0),
-            )
-        top_z = 16 + steps * 32 + 24
-        dest_name = "upper_dest_" + connector["id"]
-        upper_area = next(
-            a for a in blueprint["spatial"]["areas"]
-            if a["node_id"] == connector["area_b"]
-        )
-        dx = int((upper_area["x"] + upper_area["w"] / 2) * grid)
-        dy = int((upper_area["y"] + upper_area["h"] / 2) * grid)
-        upper_z = upper_area.get("floor", 0) * (256 + 16) + 16 + 24
-        m.add_point_entity(
-            "info_teleport_destination",
-            targetname=dest_name,
-            origin="{} {} {}".format(dx, dy, upper_z),
-            angles="0 0 0",
-        )
-        m.add_brush_entity(
-            "trigger_teleport",
-            Bounds(wx - 48, wy - 48, 16 + steps * 32,
-                   wx + 48, wy + 48, top_z + 56),
-            TextureRef("AAATRIGGER", 1.0, 1.0),
-            target=dest_name,
-        )
-        made.append(connector["id"])
-    return made
 
 
 def main():
@@ -169,7 +89,13 @@ def main():
               "| objective portal:", portal_id)
 
         if args.with_secrets:
-            secret_keys = [k for k in keys if k != portal_id][:2]
+            # Секретная дверь не должна запирать главный путь к цели.
+            candidates = [
+                c["id"] for c in blueprint["spatial"]["connections"]
+                if c.get("type") in ("secret", "branch")
+                and c["id"] != portal_id and c["id"] in portals
+            ]
+            secret_keys = (candidates or [k for k in keys if k != portal_id])[:2]
             secret_points = []
             for portal_key in secret_keys:
                 source = portals[portal_key]

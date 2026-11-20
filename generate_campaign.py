@@ -16,6 +16,13 @@ from svenmap.encounters import add_encounters
 from svenmap.mechanics import add_objective, validate_objective
 from svenmap.pipeline import detect_roots, compile_map, smoke_test_load
 from svenmap.planner import PlannerConfig, plan
+from svenmap.planning import (
+    BlueprintConfig, blueprint_to_aligned_spec, build_blueprint_map,
+    generate_blueprint, get_interaction_point, get_item_point,
+    portal_to_legacy_door, resolve_all_portals,
+)
+from svenmap.validator_portals import validate_portal_binding
+from svenmap.v2_entities import add_basic_entities, add_vertical_transition
 from svenmap.progression import (
     add_boss_arena, add_changelevel, add_multi_spawn,
 )
@@ -92,10 +99,82 @@ def build_chapter(chapter, tex_lib, wad_list):
     return m, level, variant, secret_count
 
 
+def build_chapter_v2(chapter, tex_lib, wad_list, game_dir):
+    """Кампания через новый Blueprint pipeline."""
+    floors = 2 if "multi_floor" in chapter.puzzles else 1
+    blueprint = generate_blueprint(BlueprintConfig(
+        seed=chapter.seed,
+        node_count=chapter.rooms,
+        branch_count=chapter.branches,
+        secret_count=2 if "secret" in chapter.puzzles else 0,
+        floors=floors,
+    ))
+    spec = blueprint_to_aligned_spec(blueprint)
+    m = build_blueprint_map(blueprint, wad_list, game_dir, seed=chapter.seed)
+    add_basic_entities(m, blueprint)
+    add_vertical_transition(m, blueprint)
+
+    portals = resolve_all_portals(blueprint)
+    keys = sorted(portals)
+    goal_conn = next(
+        c for c in blueprint["spatial"]["connections"]
+        if c["b"] == spec.goal or c["a"] == spec.goal
+    )
+    portal_id = goal_conn["id"]
+    mode = "collect" if "collect" in chapter.puzzles else "buttons"
+    item_points, button_points = [], []
+    for key in keys[:5]:
+        x, y, z = get_item_point(portals[key], side="a")
+        item_points.append((x, y, z, portals[key].area_a))
+    for key in keys[:2]:
+        x, y, z = get_interaction_point(portals[key], side="a")
+        button_points.append((x, y, z, portals[key].area_a))
+
+    add_objective(
+        m, spec, tex_lib, script_name=chapter.name,
+        mode=mode, item_count=5 if mode == "collect" else 2,
+        door_bounds=portal_to_legacy_door(portals[portal_id]),
+        portal_id=portal_id,
+        item_points=item_points if mode == "collect" else None,
+        button_points=button_points if mode == "buttons" else None,
+    )
+
+    secret_count = 0
+    if not chapter.final and "secret" in chapter.puzzles:
+        candidates = [
+            c["id"] for c in blueprint["spatial"]["connections"]
+            if c.get("type") in ("secret", "branch")
+            and c["id"] != portal_id and c["id"] in portals
+        ]
+        secret_keys = (candidates or [k for k in keys if k != portal_id])[:2]
+        secret_points = []
+        for key in secret_keys:
+            x, y, z = get_interaction_point(portals[key], side="a")
+            secret_points.append((x, y, z, portals[key].area_a))
+        add_secrets(
+            m, spec, script_name=chapter.name, per_tier=2, tiers=1,
+            button_points=secret_points, portal_ids=secret_keys,
+            door_bounds=portal_to_legacy_door(portals[secret_keys[0]]),
+        )
+        secret_count = 2
+
+    if chapter.final:
+        add_boss_arena(m, spec, waves=5)
+
+    binding = validate_portal_binding(blueprint, portals, m)
+    if not binding["passed"]:
+        raise RuntimeError(
+            "portal binding FAIL в {}: {}".format(chapter.name, binding["errors"])
+        )
+    return m, spec, 0, secret_count, blueprint
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--build", action="store_true")
     parser.add_argument("--smoke", action="store_true")
+    parser.add_argument("--planner", choices=("legacy", "graph_v2"),
+                        default="legacy")
     args = parser.parse_args()
 
     _common, compilers_dir, game_dir = detect_roots()
@@ -114,9 +193,15 @@ def main():
     for index, chapter in enumerate(campaign.chapters, start=1):
         print("\n=== глава {}/{}: {} ===".format(
             index, len(campaign.chapters), chapter.name))
-        m, level, variant, secret_count = build_chapter(
-            chapter, tex_lib, wad_list
-        )
+        if args.planner == "graph_v2":
+            m, level, variant, secret_count, blueprint = build_chapter_v2(
+                chapter, tex_lib, wad_list, game_dir
+            )
+        else:
+            m, level, variant, secret_count = build_chapter(
+                chapter, tex_lib, wad_list
+            )
+            blueprint = None
 
         # Выход в следующую карту — только у нефинальных глав.
         if not chapter.final:
