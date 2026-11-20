@@ -1,0 +1,716 @@
+{
+  "graph": {
+    "version": 2,
+    "name": "sc_topo_2",
+    "seed": 2,
+    "zones": [
+      {
+        "id": "z_entry",
+        "purpose": "entry_security",
+        "area_ids": [
+          "spawn",
+          "n1",
+          "n2",
+          "n7",
+          "n8",
+          "b2_1"
+        ],
+        "theme": null,
+        "floor": 0
+      },
+      {
+        "id": "z_research",
+        "purpose": "research",
+        "area_ids": [
+          "n3",
+          "n6",
+          "b2_0",
+          "secret_1",
+          "secret_2"
+        ],
+        "theme": null,
+        "floor": 0
+      },
+      {
+        "id": "z_combat",
+        "purpose": "combat_arena",
+        "area_ids": [
+          "n5",
+          "goal"
+        ],
+        "theme": null,
+        "floor": 0
+      },
+      {
+        "id": "z_logistics",
+        "purpose": "logistics",
+        "area_ids": [
+          "n4",
+          "b1_0"
+        ],
+        "theme": null,
+        "floor": 0
+      }
+    ],
+    "nodes": [
+      {
+        "id": "spawn",
+        "type": "spawn",
+        "zone_id": "z_entry",
+        "role": "start",
+        "optional": false,
+        "min_size": [
+          3,
+          3
+        ],
+        "floor": 0
+      },
+      {
+        "id": "n1",
+        "type": "hub",
+        "zone_id": "z_entry",
+        "role": "hub",
+        "optional": false,
+        "min_size": [
+          3,
+          3
+        ],
+        "floor": 0
+      },
+      {
+        "id": "n2",
+        "type": "corridor",
+        "zone_id": "z_entry",
+        "role": "normal",
+        "optional": false,
+        "min_size": [
+          3,
+          3
+        ],
+        "floor": 0
+      },
+      {
+        "id": "n3",
+        "type": "lab",
+        "zone_id": "z_research",
+        "role": "normal",
+        "optional": false,
+        "min_size": [
+          3,
+          3
+        ],
+        "floor": 0
+      },
+      {
+        "id": "n4",
+        "type": "storage",
+        "zone_id": "z_logistics",
+        "role": "normal",
+        "optional": false,
+        "min_size": [
+          3,
+          3
+        ],
+        "floor": 0
+      },
+      {
+        "id": "n5",
+        "type": "combat",
+        "zone_id": "z_combat",
+        "role": "normal",
+        "optional": false,
+        "min_size": [
+          3,
+          3
+        ],
+        "floor": 0
+      },
+      {
+        "id": "n6",
+        "type": "lab",
+        "zone_id": "z_research",
+        "role": "normal",
+        "optional": false,
+        "min_size": [
+          3,
+          3
+        ],
+        "floor": 0
+      },
+      {
+        "id": "n7",
+        "type": "corridor",
+        "zone_id": "z_entry",
+        "role": "normal",
+        "optional": false,
+        "min_size": [
+          3,
+          3
+        ],
+        "floor": 0
+      },
+      {
+        "id": "n8",
+        "type": "corridor",
+        "zone_id": "z_entry",
+        "role": "normal",
+        "optional": false,
+        "min_size": [
+          3,
+          3
+        ],
+        "floor": 0
+      },
+      {
+        "id": "goal",
+        "type": "arena",
+        "zone_id": "z_combat",
+        "role": "final",
+        "optional": false,
+        "min_size": [
+          3,
+          3
+        ],
+        "floor": 0
+      },
+      {
+        "id": "b1_0",
+        "type": "storage",
+        "zone_id": "z_logistics",
+        "role": "optional_area",
+        "optional": true,
+        "min_size": [
+          3,
+          3
+        ],
+        "floor": 0
+      },
+      {
+        "id": "b2_0",
+        "type": "lab",
+        "zone_id": "z_research",
+        "role": "optional_area",
+        "optional": true,
+        "min_size": [
+          3,
+          3
+        ],
+        "floor": 0
+      },
+      {
+        "id": "b2_1",
+        "type": "corridor",
+        "zone_id": "z_entry",
+        "role": "optional_area",
+        "optional": true,
+        "min_size": [
+          3,
+          3
+        ],
+        "floor": 0
+      },
+      {
+        "id": "secret_1",
+        "type": "secret",
+        "zone_id": "z_research",
+        "role": "hidden",
+        "optional": true,
+        "min_size": [
+          3,
+          3
+        ],
+        "floor": 0
+      },
+      {
+        "id": "secret_2",
+        "type": "secret",
+        "zone_id": "z_research",
+        "role": "hidden",
+        "optional": true,
+        "min_size": [
+          3,
+          3
+        ],
+        "floor": 0
+      }
+    ],
+    "edges": [
+      {
+        "a": "spawn",
+        "b": "n1",
+        "type": "main",
+        "mandatory": true,
+        "connector_id": null
+      },
+      {
+        "a": "n1",
+        "b": "n2",
+        "type": "main",
+        "mandatory": true,
+        "connector_id": null
+      },
+      {
+        "a": "n2",
+        "b": "n3",
+        "type": "main",
+        "mandatory": true,
+        "connector_id": null
+      },
+      {
+        "a": "n3",
+        "b": "n4",
+        "type": "main",
+        "mandatory": true,
+        "connector_id": null
+      },
+      {
+        "a": "n4",
+        "b": "n5",
+        "type": "main",
+        "mandatory": true,
+        "connector_id": null
+      },
+      {
+        "a": "n5",
+        "b": "n6",
+        "type": "main",
+        "mandatory": true,
+        "connector_id": null
+      },
+      {
+        "a": "n6",
+        "b": "n7",
+        "type": "main",
+        "mandatory": true,
+        "connector_id": null
+      },
+      {
+        "a": "n7",
+        "b": "n8",
+        "type": "main",
+        "mandatory": true,
+        "connector_id": null
+      },
+      {
+        "a": "n8",
+        "b": "goal",
+        "type": "main",
+        "mandatory": true,
+        "connector_id": null
+      },
+      {
+        "a": "n3",
+        "b": "b1_0",
+        "type": "branch",
+        "mandatory": false,
+        "connector_id": null
+      },
+      {
+        "a": "n5",
+        "b": "b2_0",
+        "type": "branch",
+        "mandatory": false,
+        "connector_id": null
+      },
+      {
+        "a": "b2_0",
+        "b": "b2_1",
+        "type": "branch",
+        "mandatory": false,
+        "connector_id": null
+      },
+      {
+        "a": "n7",
+        "b": "goal",
+        "type": "loop",
+        "mandatory": false,
+        "connector_id": null
+      },
+      {
+        "a": "n2",
+        "b": "n4",
+        "type": "loop",
+        "mandatory": false,
+        "connector_id": null
+      },
+      {
+        "a": "n4",
+        "b": "secret_1",
+        "type": "secret",
+        "mandatory": false,
+        "connector_id": null
+      },
+      {
+        "a": "n2",
+        "b": "secret_2",
+        "type": "secret",
+        "mandatory": false,
+        "connector_id": null
+      }
+    ],
+    "start": "spawn",
+    "goal": "goal"
+  },
+  "spatial": {
+    "areas": [
+      {
+        "node_id": "spawn",
+        "x": 0,
+        "y": 0,
+        "w": 3,
+        "h": 5,
+        "floor": 0
+      },
+      {
+        "node_id": "n1",
+        "x": 4,
+        "y": -1,
+        "w": 3,
+        "h": 4,
+        "floor": 0
+      },
+      {
+        "node_id": "n2",
+        "x": 4,
+        "y": 4,
+        "w": 3,
+        "h": 3,
+        "floor": 0
+      },
+      {
+        "node_id": "n3",
+        "x": -1,
+        "y": 6,
+        "w": 4,
+        "h": 4,
+        "floor": 0
+      },
+      {
+        "node_id": "n4",
+        "x": 4,
+        "y": 8,
+        "w": 4,
+        "h": 4,
+        "floor": 0
+      },
+      {
+        "node_id": "secret_2",
+        "x": 8,
+        "y": 2,
+        "w": 3,
+        "h": 3,
+        "floor": 0
+      },
+      {
+        "node_id": "b1_0",
+        "x": 0,
+        "y": 11,
+        "w": 3,
+        "h": 4,
+        "floor": 0
+      },
+      {
+        "node_id": "n5",
+        "x": 4,
+        "y": 13,
+        "w": 4,
+        "h": 3,
+        "floor": 0
+      },
+      {
+        "node_id": "secret_1",
+        "x": 9,
+        "y": 6,
+        "w": 3,
+        "h": 3,
+        "floor": 0
+      },
+      {
+        "node_id": "n6",
+        "x": 9,
+        "y": 11,
+        "w": 4,
+        "h": 4,
+        "floor": 0
+      },
+      {
+        "node_id": "b2_0",
+        "x": 3,
+        "y": 17,
+        "w": 3,
+        "h": 5,
+        "floor": 0
+      },
+      {
+        "node_id": "n7",
+        "x": 9,
+        "y": 16,
+        "w": 3,
+        "h": 3,
+        "floor": 0
+      },
+      {
+        "node_id": "b2_1",
+        "x": -1,
+        "y": 16,
+        "w": 3,
+        "h": 3,
+        "floor": 0
+      },
+      {
+        "node_id": "n8",
+        "x": 7,
+        "y": 20,
+        "w": 3,
+        "h": 3,
+        "floor": 0
+      },
+      {
+        "node_id": "goal",
+        "x": 11,
+        "y": 20,
+        "w": 4,
+        "h": 3,
+        "floor": 0
+      }
+    ],
+    "connections": [
+      {
+        "a": "spawn",
+        "b": "n1",
+        "type": "main",
+        "portal_a": [
+          3,
+          1
+        ],
+        "portal_b": [
+          3,
+          1
+        ],
+        "direct": true
+      },
+      {
+        "a": "n1",
+        "b": "n2",
+        "type": "main",
+        "portal_a": [
+          5,
+          3
+        ],
+        "portal_b": [
+          5,
+          3
+        ],
+        "direct": true
+      },
+      {
+        "a": "n2",
+        "b": "n3",
+        "type": "main",
+        "portal_a": [
+          3,
+          6
+        ],
+        "portal_b": [
+          3,
+          6
+        ],
+        "direct": true
+      },
+      {
+        "a": "n3",
+        "b": "n4",
+        "type": "main",
+        "portal_a": [
+          3,
+          9
+        ],
+        "portal_b": [
+          3,
+          9
+        ],
+        "direct": true
+      },
+      {
+        "a": "n4",
+        "b": "n5",
+        "type": "main",
+        "portal_a": [
+          6,
+          12
+        ],
+        "portal_b": [
+          6,
+          12
+        ],
+        "direct": true
+      },
+      {
+        "a": "n5",
+        "b": "n6",
+        "type": "main",
+        "portal_a": [
+          8,
+          14
+        ],
+        "portal_b": [
+          8,
+          14
+        ],
+        "direct": true
+      },
+      {
+        "a": "n6",
+        "b": "n7",
+        "type": "main",
+        "portal_a": [
+          10,
+          15
+        ],
+        "portal_b": [
+          10,
+          15
+        ],
+        "direct": true
+      },
+      {
+        "a": "n7",
+        "b": "n8",
+        "type": "main",
+        "portal_a": [
+          9,
+          19
+        ],
+        "portal_b": [
+          9,
+          19
+        ],
+        "direct": true
+      },
+      {
+        "a": "n8",
+        "b": "goal",
+        "type": "main",
+        "portal_a": [
+          10,
+          21
+        ],
+        "portal_b": [
+          10,
+          21
+        ],
+        "direct": true
+      },
+      {
+        "a": "n3",
+        "b": "b1_0",
+        "type": "branch",
+        "portal_a": [
+          1,
+          10
+        ],
+        "portal_b": [
+          1,
+          10
+        ],
+        "direct": true
+      },
+      {
+        "a": "n5",
+        "b": "b2_0",
+        "type": "branch",
+        "portal_a": [
+          5,
+          16
+        ],
+        "portal_b": [
+          5,
+          16
+        ],
+        "direct": true
+      },
+      {
+        "a": "b2_0",
+        "b": "b2_1",
+        "type": "branch",
+        "portal_a": [
+          2,
+          18
+        ],
+        "portal_b": [
+          2,
+          18
+        ],
+        "direct": true
+      },
+      {
+        "a": "n7",
+        "b": "goal",
+        "type": "loop",
+        "portal_a": [
+          11,
+          19
+        ],
+        "portal_b": [
+          11,
+          19
+        ],
+        "direct": true
+      },
+      {
+        "a": "n2",
+        "b": "n4",
+        "type": "loop",
+        "portal_a": [
+          5,
+          7
+        ],
+        "portal_b": [
+          5,
+          7
+        ],
+        "direct": true
+      },
+      {
+        "a": "n4",
+        "b": "secret_1",
+        "type": "secret",
+        "portal_a": [
+          8,
+          8
+        ],
+        "portal_b": [
+          8,
+          8
+        ],
+        "direct": true
+      },
+      {
+        "a": "n2",
+        "b": "secret_2",
+        "type": "secret",
+        "portal_a": [
+          7,
+          4
+        ],
+        "portal_b": [
+          7,
+          4
+        ],
+        "direct": true
+      }
+    ],
+    "score": 0.8384
+  },
+  "topology_metrics": {
+    "cycle_count": 2.0,
+    "loop_density": 0.5333,
+    "branch_ratio": 0.3333,
+    "route_stretch": 1.0,
+    "branch_depth": 2.0,
+    "route_choice": 1.0,
+    "score": 0.7
+  },
+  "unrealized_edges": [],
+  "indirect_edges": []
+}

@@ -255,6 +255,14 @@ seed, число комнат, число веток и признак final. П
 Создаёт topology/sc_topo_N.json (граф, зоны, метрики) и SVG-схему
 графа. Тесты: python -m unittest tests.test_topology_v2
 
+Blueprint (топология + размещение):
+
+    python generate_blueprint.py --seed 42
+    python generate_blueprint.py --seed 1 --count 5
+
+Результат в blueprints/*.json и *_spatial.svg. Тесты:
+    python -m unittest tests.test_topology_v2 tests.test_spatial_v2
+
 Старый планировщик svenmap/planner.py работает как раньше.
 
 -------------------------------------------------------------------------------

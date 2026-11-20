@@ -498,6 +498,31 @@ Score у всех seed пока 0.7 — метрики грубые (V/E/optiona
 конфигом). Это ожидаемо для первого этапа; GPT попросил уточнить, нужно
 ли делать метрики чувствительнее перед PR-2. Ответ сохраним отдельно.
 
+## PR-2 — Spatial Placement v2 (20.11.2026, 22:45)
+- `svenmap/planning/models.py`: Footprint, SpatialArea, SpatialConnection,
+  SpatialLayout (Connections имеют флаг `direct`: false = нужен коридор).
+- `svenmap/planning/spatial.py`: Beam Search размещения всего графа,
+  бонус за обязательные связи, fallback-позиции, локальная починка
+  `_repair_mandatory()`.
+- `svenmap/planning/spatial_metrics.py`: adjacency, compactness,
+  zone clustering, spatial variety, score.
+- `svenmap/planning/pipeline.py`: `generate_blueprint()` = topology + spatial.
+- `generate_blueprint.py`: экспорт blueprint в JSON + SVG-схему.
+- `tests/test_spatial_v2.py`: детерминизм, 30 seed, отсутствие пересечений,
+  наличие всех обязательных связей.
+
+Результат: **7/7 тестов OK**. Примеры: spatial score 0.77–0.84 у разных seed
+(в отличие от topology score 0.7), indirect-связи 0–2 на карту.
+
+Две ошибки исправлены по ходу:
+1. Часть mandatory-рёбер не была смежной — добавлен локальный repair и
+   явные `SpatialConnection` с флагом `direct` (коридор построит PR-3).
+2. Некоторые узлы не размещались вообще — добавлен fallback-поиск
+   свободной позиции.
+
+GPT пока не ответил на вопрос про чувствительность topology-метрик
+(в чате всё ещё «Размышление»). Spatial-метрики уже различают seed.
+
 ### Что осталось за рамками
 - Реальные игровые тесты (нажатие кнопок, бой, прохождение игроком).
 - Волны врагов, боссы, секреты, вертикальные переходы, лифты.

@@ -21,6 +21,63 @@ EdgeType = Literal[
 
 
 @dataclass
+class Footprint:
+    w: int
+    h: int
+    floor: int = 0
+    shape: str = "rect"
+
+
+@dataclass
+class SpatialArea:
+    node_id: str
+    x: int
+    y: int
+    w: int
+    h: int
+    floor: int = 0
+
+
+@dataclass
+class SpatialConnection:
+    a: str
+    b: str
+    type: EdgeType
+    portal_a: Tuple[int, int]
+    portal_b: Tuple[int, int]
+    # False = комнаты не касаются, для связи нужен коридор (PR-3).
+    direct: bool = True
+
+
+@dataclass
+class SpatialLayout:
+    areas: Dict[str, SpatialArea] = field(default_factory=dict)
+    connections: List[SpatialConnection] = field(default_factory=list)
+    score: float = 0.0
+
+    def to_dict(self) -> dict:
+        return {
+            "areas": [
+                {
+                    "node_id": a.node_id, "x": a.x, "y": a.y,
+                    "w": a.w, "h": a.h, "floor": a.floor,
+                }
+                for a in self.areas.values()
+            ],
+            "connections": [
+                {
+                    "a": c.a, "b": c.b, "type": c.type,
+                    "portal_a": list(c.portal_a),
+                    "portal_b": list(c.portal_b),
+                    "direct": c.direct,
+                }
+                for c in self.connections
+            ],
+            "score": round(self.score, 4),
+        }
+
+
+@dataclass
 class Zone:
     id: str
     purpose: str
