@@ -198,14 +198,36 @@ def _repair_mandatory(graph: TopologyGraph, areas: Dict[str, SpatialArea],
     return current
 
 
+def _mandatory_adjacency_ok(graph: TopologyGraph,
+                            areas: Dict[str, SpatialArea]) -> bool:
+    """Все обязательные рёбра должны быть физически смежны."""
+    for edge in graph.edges:
+        if not edge.mandatory:
+            continue
+        a, b = areas.get(edge.a), areas.get(edge.b)
+        if not a or not b:
+            continue
+        if not rect_touch(a, b):
+            return False
+    return True
+
+
 def place_spatial(graph: TopologyGraph, config: SpatialConfig = None,
                   seed: int = None) -> SpatialLayout:
     config = config or SpatialConfig()
     seed = graph.seed if seed is None else seed
     order = _order_nodes(graph)
     best = None
+    stats = {
+        "attempts": 0,
+        "rejected_adjacency": 0,
+        "no_free_cell": 0,
+        "beam_exhausted": 0,
+        "indirect_mandatory": 0,
+    }
 
     for attempt in range(config.attempts):
+        stats["attempts"] += 1
         rng = make_rng(seed, "spatial:{}".format(attempt))
         sizes = {}
         for node_id in order:
@@ -231,6 +253,7 @@ def place_spatial(graph: TopologyGraph, config: SpatialConfig = None,
                     if _free(x, y, w, h, areas, config.spacing)
                 ]
                 if not valid:
+                    stats["no_free_cell"] += 1
                     valid = _fallback_candidates(
                         w, h, areas, config.spacing,
                         config.candidates_per_node, rng,
@@ -240,29 +263,46 @@ def place_spatial(graph: TopologyGraph, config: SpatialConfig = None,
                     trial[node_id] = SpatialArea(
                         node_id=node_id, x=x, y=y, w=w, h=h
                     )
+                    # P0: обязательные связи должны быть смежными уже сейчас.
+                    if not _mandatory_adjacency_ok(graph, trial):
+                        stats["rejected_adjacency"] += 1
+                        continue
                     score = _quality(graph, trial)
                     next_states.append((trial, score))
             if not next_states:
+                stats["beam_exhausted"] += 1
                 break
             next_states.sort(key=lambda item: item[1], reverse=True)
             states = next_states[:config.beam_width]
 
         for areas, _score in states:
+            if not _mandatory_adjacency_ok(graph, areas):
+                stats["indirect_mandatory"] += 1
+                continue
             layout = _realize(graph, areas)
             quality = _quality(graph, areas)
-            if best is None or quality > _quality(graph, best.areas):
+            if best is None or quality > best.score:
                 best = layout
             if _mandatory_realized(graph, layout):
+                layout.diagnostics = dict(stats)
                 return layout
 
-    if best is None:
-        raise RuntimeError("не удалось разместить граф")
+    if best is not None:
+        best.diagnostics = dict(stats)
+        return best
 
-    repaired = _repair_mandatory(
-        graph, best.areas, config.spacing,
-        make_rng(seed, "spatial:repair"),
+    # P1/P2: пробуем локально починить перед отказом.
+    if states:
+        repaired = _repair_mandatory(
+            graph, states[0][0], config.spacing,
+            make_rng(seed, "spatial:repair"),
+        )
+        if _mandatory_adjacency_ok(graph, repaired):
+            layout = _realize(graph, repaired)
+            layout.diagnostics = dict(stats)
+            return layout
+
+    raise RuntimeError(
+        "не удалось разместить граф с обязательной смежностью: "
+        + str(stats)
     )
-    candidate = _realize(graph, repaired)
-    if _mandatory_realized(graph, candidate):
-        return candidate
-    return best

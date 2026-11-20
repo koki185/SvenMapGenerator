@@ -211,7 +211,8 @@ seed, число комнат, число веток и признак final. П
 финальная арена, остальные получают переход в следующую карту.
 
     python generate_campaign.py
-    python generate_campaign.py --build --smoke
+    python generate_campaign.py --build --smoke   # graph_v2 по умолчанию
+    python generate_campaign.py --planner legacy --build --smoke  # regression
 
 Результат в maps\sc_exp_1.map ... и в svencoop_addon\maps\sc_exp_N.bsp.
 Каждая карта получает:

@@ -116,24 +116,36 @@ def build_chapter_v2(chapter, tex_lib, wad_list, game_dir):
 
     portals = resolve_all_portals(blueprint)
     keys = sorted(portals)
-    goal_conn = next(
+    goal_conns = [
         c for c in blueprint["spatial"]["connections"]
         if c["b"] == spec.goal or c["a"] == spec.goal
-    )
-    portal_id = goal_conn["id"]
+    ]
+    goal_ids = [c["id"] for c in goal_conns if c["id"] in portals]
+    portal_id = goal_ids[0]
+    door_list = [portal_to_legacy_door(portals[key]) for key in goal_ids]
     mode = "collect" if "collect" in chapter.puzzles else "buttons"
+    secret_keys = []
+    if not chapter.final and "secret" in chapter.puzzles:
+        secret_candidates = [
+            c["id"] for c in blueprint["spatial"]["connections"]
+            if c.get("type") in ("secret", "branch")
+            and c["id"] not in goal_ids and c["id"] in portals
+        ]
+        secret_keys = (secret_candidates or [
+            k for k in keys if k not in goal_ids        ])[:2]
+    available = [k for k in keys if k not in goal_ids and k not in secret_keys]
     item_points, button_points = [], []
-    for key in keys[:5]:
+    for key in available[:5]:
         x, y, z = get_item_point(portals[key], side="a")
         item_points.append((x, y, z, portals[key].area_a))
-    for key in keys[:2]:
+    for key in available[:2]:
         x, y, z = get_interaction_point(portals[key], side="a")
         button_points.append((x, y, z, portals[key].area_a))
 
     add_objective(
         m, spec, tex_lib, script_name=chapter.name,
         mode=mode, item_count=5 if mode == "collect" else 2,
-        door_bounds=portal_to_legacy_door(portals[portal_id]),
+        door_bounds=door_list,
         portal_id=portal_id,
         item_points=item_points if mode == "collect" else None,
         button_points=button_points if mode == "buttons" else None,
@@ -141,22 +153,33 @@ def build_chapter_v2(chapter, tex_lib, wad_list, game_dir):
 
     secret_count = 0
     if not chapter.final and "secret" in chapter.puzzles:
-        candidates = [
-            c["id"] for c in blueprint["spatial"]["connections"]
-            if c.get("type") in ("secret", "branch")
-            and c["id"] != portal_id and c["id"] in portals
-        ]
-        secret_keys = (candidates or [k for k in keys if k != portal_id])[:2]
-        secret_points = []
+        # Дверь секрета не должна отрезать цель: выбираем portfolio,
+        # при закрытии которого goal остаётся доступным.
+        secret_door_bounds = None
         for key in secret_keys:
-            x, y, z = get_interaction_point(portals[key], side="a")
-            secret_points.append((x, y, z, portals[key].area_a))
-        add_secrets(
-            m, spec, script_name=chapter.name, per_tier=2, tiers=1,
-            button_points=secret_points, portal_ids=secret_keys,
-            door_bounds=portal_to_legacy_door(portals[secret_keys[0]]),
-        )
-        secret_count = 2
+            trial_bounds = portal_to_legacy_door(portals[key])
+            closed = build_grid(
+                m.solids + door_list + [trial_bounds], z=24
+            )
+            if find_path(
+                closed, spec.area_center(spec.start),
+                spec.area_center(spec.goal)
+            )[0]:
+                secret_door_bounds = trial_bounds
+                break
+        if secret_door_bounds is None:
+            secret_keys = []
+        else:
+            secret_points = []
+            for key in secret_keys:
+                x, y, z = get_interaction_point(portals[key], side="a")
+                secret_points.append((x, y, z, portals[key].area_a))
+            add_secrets(
+                m, spec, script_name=chapter.name, per_tier=2, tiers=1,
+                button_points=secret_points, portal_ids=secret_keys,
+                door_bounds=secret_door_bounds,
+            )
+            secret_count = 2
 
     if chapter.final:
         add_boss_arena(m, spec, waves=5)
@@ -174,7 +197,7 @@ def main():
     parser.add_argument("--build", action="store_true")
     parser.add_argument("--smoke", action="store_true")
     parser.add_argument("--planner", choices=("legacy", "graph_v2"),
-                        default="legacy")
+                        default="graph_v2")
     args = parser.parse_args()
 
     _common, compilers_dir, game_dir = detect_roots()

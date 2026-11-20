@@ -83,6 +83,7 @@ class SpatialLayout:
     areas: Dict[str, SpatialArea] = field(default_factory=dict)
     connections: List[SpatialConnection] = field(default_factory=list)
     vertical_connectors: List[VerticalConnector] = field(default_factory=list)
+    diagnostics: dict = field(default_factory=dict)
     score: float = 0.0
 
     def to_dict(self) -> dict:
@@ -110,6 +111,7 @@ class SpatialLayout:
                 for c in self.connections
             ],
             "vertical_connectors": [c.to_dict() for c in self.vertical_connectors],
+            "diagnostics": dict(self.diagnostics),
             "score": round(self.score, 4),
         }
 

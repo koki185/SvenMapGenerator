@@ -157,80 +157,73 @@ def build_blueprint_map(blueprint: dict, wads, game_dir, seed: int = 0) -> MapFi
     height, floor_t, wall_t, door_h = 256, 16, 16, 128
 
     m = MapFile(wads=wads, skyname="DESERT")
+    connections = spatial["connections"]
+
+    def rect_cells(area):
+        return {
+            (x, y)
+            for x in range(area["x"], area["x"] + area["w"])
+            for y in range(area["y"], area["y"] + area["h"])
+        }
+
+    def nearest(cells, target):
+        return min(
+            cells,
+            key=lambda c: abs(c[0] - target[0]) + abs(c[1] - target[1]),
+        )
+
+    occupied: Dict[int, Set[Cell]] = {}
+    for area in areas.values():
+        floor = area.get("floor", 0)
+        occupied.setdefault(floor, set()).update(rect_cells(area))
+
+    # 1. Якоря connections и коридоры считаем ДО стен.
+    anchors = {}
+    corridors = {}
+    for index, conn in enumerate(connections):
+        a, b = areas.get(conn["a"]), areas.get(conn["b"])
+        if not a or not b:
+            continue
+        if a.get("floor", 0) != 0 or b.get("floor", 0) != 0:
+            continue
+        pa, pb = tuple(conn["portal_a"]), tuple(conn["portal_b"])
+        near_a = nearest(rect_cells(a), pa)
+        near_b = nearest(rect_cells(b), pb)
+        anchors[index] = (near_a, near_b)
+        corridors[index] = _corridor_cells(near_a, near_b)
+
+    # 2. Проёмы — только те рёбра bounding box, которые реально
+    #    примыкают к клетке коридора. Это не режет лишние стены.
     openings: Dict[str, Set[Tuple[Cell, str]]] = {
         node_id: set() for node_id in areas
     }
-    opening_records = []
-    anchors = {}
-
-    for index, conn in enumerate(spatial["connections"]):
-        a, b = areas.get(conn["a"]), areas.get(conn["b"])
-        if not a or not b:
+    for index, conn in enumerate(connections):
+        corridor = corridors.get(index)
+        if not corridor:
             continue
-        # Верхний этаж пока не имеет коридоров — не режем стены наружу.
-        if a.get("floor", 0) != 0 or b.get("floor", 0) != 0:
-            opening_records.append((
-                index, (0, 0), "E", a.get("floor", 0),
-                (0, 0), "E", b.get("floor", 0),
-            ))
-            continue
-        pa, pb = tuple(conn["portal_a"]), tuple(conn["portal_b"])
-        cells_a, cells_b = _world_cells(a), _world_cells(b)
+        for side in ("a", "b"):
+            node_id = conn[side]
+            for cell in rect_cells(areas[node_id]):
+                for dx, dy in DIRECTIONS:
+                    neighbour = (cell[0] + dx, cell[1] + dy)
+                    if neighbour in corridor:
+                        direction = "E" if dx == 1 else "W" if dx == -1 \
+                            else "N" if dy == 1 else "S"
+                        openings[node_id].add((cell, direction))
 
-        def nearest(cells, target):
-            return min(
-                cells,
-                key=lambda c: abs(c[0] - target[0]) + abs(c[1] - target[1]),
-            )
-
-        near_a = nearest(cells_a, pa)
-        near_b = nearest(cells_b, pb)
-        local_a = (near_a[0] - a["x"], near_a[1] - a["y"])
-        local_b = (near_b[0] - b["x"], near_b[1] - b["y"])
-        dir_a = _direction_towards(near_a, pa)
-        dir_b = _direction_towards(near_b, pb)
-        # Стены проверяются в мировых координатах клеток. Для вырезов
-        # L/T/U открываем ВСЕ ребра bounding box рядом с порталом, иначе
-        # стена выреза перекрывает коридор.
-        for area_id, portal, rect in (
-            (conn["a"], pa, (a["x"], a["y"], a["x"] + a["w"],
-                             a["y"] + a["h"])),
-            (conn["b"], pb, (b["x"], b["y"], b["x"] + b["w"],
-                             b["y"] + b["h"])),
-        ):
-            for x in range(rect[0], rect[2]):
-                for y in range(rect[1], rect[3]):
-                    cell = (x, y)
-                    if abs(x - portal[0]) + abs(y - portal[1]) <= 2:
-                        openings[area_id].add(
-                            (cell, _direction_towards(cell, portal))
-                        )
-        anchors[index] = (near_a, near_b)
-        opening_records.append((index, local_a, dir_a, a.get("floor", 0),
-                                local_b, dir_b, b.get("floor", 0)))
-
-    occupied: Dict[int, Set[Cell]] = {}
+    # 3. Комнаты.
     for node_id, area in areas.items():
         floor = area.get("floor", 0)
-        cells = _world_cells(area)
-        occupied.setdefault(floor, set()).update(cells)
         texture = get_profile("industrial", graph_node_type(graph, node_id)).wall
-        _add_region(m, cells, grid, floor, height, floor_t, wall_t,
-                    texture, openings[node_id], door_h)
+        _add_region(m, _world_cells(area), grid, floor, height, floor_t,
+                    wall_t, texture, openings[node_id], door_h)
 
-    # Коридоры: даже «прямые» связи имеют зазор в одну клетку.
-    for index, conn in enumerate(spatial["connections"]):
-        a, b = areas.get(conn["a"]), areas.get(conn["b"])
-        if not a or not b:
+    # 4. Коридоры.
+    for index, conn in enumerate(connections):
+        corridor = corridors.get(index)
+        if not corridor:
             continue
-        # Пока коридоры строим только на нулевом этаже: на верхнем они
-        # создавали бы несовместимую с area оболочку и LEAK.
-        if a.get("floor", 0) != 0 or b.get("floor", 0) != 0:
-            continue
-        anchor_a, anchor_b = anchors.get(
-            index, (tuple(conn["portal_a"]), tuple(conn["portal_b"]))
-        )
-        corridor = _corridor_cells(anchor_a, anchor_b)
+        a = areas[conn["a"]]
         floor = a.get("floor", 0)
         free = corridor - occupied.get(floor, set())
         if not free:
@@ -240,16 +233,23 @@ def build_blueprint_map(blueprint: dict, wads, game_dir, seed: int = 0) -> MapFi
                     external=occupied.get(floor, set()))
         occupied.setdefault(floor, set()).update(free)
 
-    # Точные координаты проёмов — mechanics ставит дверь сюда, а не по legacy.
+    # Точные координаты проёмов для Portal Registry.
     m.meta["openings"] = {}
-    for index, la, da, fa, lb, db, fb in opening_records:
+    for index, (near_a, near_b) in anchors.items():
+        conn = connections[index]
+        a, b = areas[conn["a"]], areas[conn["b"]]
         m.meta["openings"][index] = {
-            "a": _edge_box(la, da, grid, fa, height, floor_t, wall_t),
-            "b": _edge_box(lb, db, grid, fb, height, floor_t, wall_t),
+            "a": _edge_box(near_a, _direction_towards(
+                near_a, tuple(conn["portal_a"])), grid,
+                a.get("floor", 0), height, floor_t, wall_t),
+            "b": _edge_box(near_b, _direction_towards(
+                near_b, tuple(conn["portal_b"])), grid,
+                b.get("floor", 0), height, floor_t, wall_t),
         }
 
-    m.meta["blueprint"] = blueprint["graph"]["name"]
+    m.meta["blueprint"] = graph["name"]
     return m
+
 
 
 def graph_node_type(graph: dict, node_id: str) -> str:

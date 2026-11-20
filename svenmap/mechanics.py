@@ -152,25 +152,36 @@ def add_objective(m, spec, texture_lib=None, script_name=None,
             button_areas[1] = others[0]
     button_areas = list(dict.fromkeys(button_areas))[:2]
 
-    # Дверь: уезжает вверх, остаётся открытой (wait = -1).
-    m.meta.setdefault("built_doors", {})[portal_id or DOOR_TARGETNAME] = door_bounds
-    m.add_brush_entity(
-        "func_door", door_bounds, DOOR_TEXTURE,
-        targetname=DOOR_TARGETNAME,
-        angles="-90 0 0",
-        speed="80",
-        lip="0",
-        wait="-1",
-        movesnd="1",
-        stopsnd="1",
-    )
+    # Двери: уезжают вверх, остаются открытыми (wait = -1).
+    door_list = door_bounds if isinstance(door_bounds, list) else [door_bounds]
+    door_names = []
+    for index, bounds in enumerate(door_list):
+        name = DOOR_TARGETNAME if index == 0 else "{}_{}".format(
+            DOOR_TARGETNAME, index + 1
+        )
+        door_names.append(name)
+        door_key = (portal_id or DOOR_TARGETNAME) if index == 0 else (
+            "{}_{}".format(portal_id or DOOR_TARGETNAME, index + 1)
+        )
+        m.meta.setdefault("built_doors", {})[door_key] = bounds
+        m.add_brush_entity(
+            "func_door", bounds, DOOR_TEXTURE,
+            targetname=name,
+            angles="-90 0 0",
+            speed="80",
+            lip="0",
+            wait="-1",
+            movesnd="1",
+            stopsnd="1",
+        )
 
     counter_target = DOOR_TARGETNAME
     if script_name:
-        # Любая задача -> multi_manager -> дверь + скриптовое сообщение.
+        # Любая задача -> multi_manager -> все двери + скриптовое сообщение.
+        manager_keys = {name: "0" for name in door_names}
+        manager_keys["door_script"] = "0"
         m.add_point_entity(
-            "multi_manager", targetname="door_manager",
-            **{DOOR_TARGETNAME: "0", "door_script": "0"}
+            "multi_manager", targetname="door_manager", **manager_keys
         )
         m.add_point_entity(
             "trigger_script", targetname="door_script",
@@ -279,9 +290,10 @@ def add_objective(m, spec, texture_lib=None, script_name=None,
             })
 
     meta = {
-        "door_bounds": door_bounds,
-        "door_center": ((door_bounds.x0 + door_bounds.x1) / 2,
-                        (door_bounds.y0 + door_bounds.y1) / 2),
+        "door_bounds": door_list[0],
+        "door_bounds_list": door_list,
+        "door_center": ((door_list[0].x0 + door_list[0].x1) / 2,
+                        (door_list[0].y0 + door_list[0].y1) / 2),
         "kind": mode,
         "buttons": buttons,
         "items": items,
@@ -301,7 +313,7 @@ def validate_objective(spec, m):
     start = spec.area_center(spec.start)
     goal = spec.area_center(spec.goal)
 
-    closed = build_grid(m.solids + [mech["door_bounds"]], z=24)
+    closed = build_grid(m.solids + mech.get("door_bounds_list", [mech["door_bounds"]]), z=24)
     opened = build_grid(m.solids, z=24)
 
     checks = {}
