@@ -590,6 +590,32 @@ CSG/BSP/VIS/RAD = 0, загрузка OK, скрипт скомпилирова�
 реальной лестницы в .map нет. Механики (дверь/предметы) требуют
 отдельного согласования с новой геометрией.
 
+## Patch 1 GPT — Portal Binding Fix (20.11.2026, 00:45)
+GPT ответил на вопрос о согласовании механик с новой геометрией. Его выбор:
+Resolver -> Adapter -> Builder registry -> минимальный патч add_objective -> QA.
+Реализовано:
+
+- `svenmap/planning/portals.py`: `ResolvedPortal`, `resolve_portal()`,
+  `resolve_all_portals()`, геттеры точек, `validate_portal_geometry()`.
+  Portal ID стабилен: `portal_<a>_<b>`.
+- `SpatialConnection.id` добавлен в модель и Blueprint.
+- `portal_to_legacy_door()` в adapters — только преобразование, без поиска.
+- `add_objective(..., portal_id=...)` регистрирует `built_doors`.
+- `svenmap/validator_portals.py`: `validate_portal_binding()`.
+- `tests/test_portal_objective_binding.py`: 4 теста.
+
+Исправления по ходу:
+1. Проёмы запоминались в локальных координатах клетки, а стены
+   проверяются в мировых — исправлено.
+2. Resolver считал `_edge_box` по локальной клетке — исправлено.
+3. Пол/потолок L/T/Ubuilder строились только по маске — вырезы давали
+   LEAK; теперь сплошь по bounding box.
+4. Коридор не покрывал диагональные порталы у вырезов — добавлены
+   соседние клетки вокруг порталов.
+
+Результат: seed 42 с `--with-objective`: механика OK, portal binding OK,
+CSG/BSP/VIS/RAD = 0, загрузка OK, скрипт OK. 23/23 тестов OK.
+
 ### Что осталось за рамками
 - Реальные игровые тесты (нажатие кнопок, бой, прохождение игроком).
 - Волны врагов, боссы, секреты, вертикальные переходы, лифты.

@@ -134,6 +134,7 @@ def _realize(graph: TopologyGraph, areas: Dict[str, SpatialArea]) -> SpatialLayo
             pa = (a.x + a.w // 2, a.y + a.h // 2)
             pb = (b.x + b.w // 2, b.y + b.h // 2)
         layout.connections.append(SpatialConnection(
+            id="portal_{}_{}".format(edge.a, edge.b),
             a=edge.a, b=edge.b, type=edge.type,
             portal_a=pa, portal_b=pb, direct=direct,
         ))

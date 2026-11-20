@@ -77,6 +77,15 @@ def _snap(a: Rect, b: Rect, placed: Dict[str, Rect]) -> Rect:
     )
 
 
+def portal_to_legacy_door(portal):
+    """Преобразовать ResolvedPortal в legacy Bounds — без пересчёта.
+
+    Adapter не ищет дверь и не меняет координаты: он только возвращает
+    уже разрешённый resolver-ом проём в формате, понятном mechanics.
+    """
+    return portal.door_bounds
+
+
 def blueprint_to_aligned_spec(blueprint: dict) -> LevelSpec:
     """LevelSpec с координатами Blueprint — для механик нового builder."""
     graph = blueprint["graph"]

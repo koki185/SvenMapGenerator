@@ -43,6 +43,7 @@ class SpatialArea:
 
 @dataclass
 class SpatialConnection:
+    id: str
     a: str
     b: str
     type: EdgeType
@@ -100,6 +101,7 @@ class SpatialLayout:
             ],
             "connections": [
                 {
+                    "id": c.id,
                     "a": c.a, "b": c.b, "type": c.type,
                     "portal_a": list(c.portal_a),
                     "portal_b": list(c.portal_b),
