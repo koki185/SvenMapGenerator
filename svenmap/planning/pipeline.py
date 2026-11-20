@@ -43,9 +43,19 @@ def add_vertical_layer(graph, layout, floors: int) -> None:
         return
     area = layout.areas[upper.id]
     area.floor = 1
+    # GoldSrc CSG даёт LEAK, если пол второго этажа лежит точно поверх
+    # потолка первого. Разводим крылья по XY; связь — через коннектор.
+    area.x = 100
     parent = layout.areas.get(parent_edge.a)
     if parent is None:
         return
+    # Обычные порталы в новом крыле не нужны: переход идёт через
+    # VerticalConnector/телепорт. Иначе в Blueprint остаются порталы
+    # со старыми координатами.
+    layout.connections = [
+        c for c in layout.connections
+        if c.a != upper.id and c.b != upper.id
+    ]
     layout.vertical_connectors.append(VerticalConnector(
         id="stairs_" + upper.id,
         type="stairs",

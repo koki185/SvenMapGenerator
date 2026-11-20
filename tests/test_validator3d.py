@@ -33,6 +33,21 @@ class TestValidator3D(unittest.TestCase):
                             "seed {}: {}".format(seed, data["vertical_qa"]))
             self.assertTrue(data["vertical_qa"]["path_found"])
 
+    def test_two_floor_entities_use_floor_base(self):
+        from generate_v3 import add_basic_entities
+        from svenmap.planning import build_blueprint_map
+
+        blueprint = generate_blueprint(BlueprintConfig(seed=42, floors=2))
+        m = build_blueprint_map(blueprint, [], None)
+        add_basic_entities(m, blueprint)
+        lights = [
+            e for e in m.entities if e.get("classname") == "light"
+        ]
+        self.assertTrue(
+            any(int(e["origin"].split()[2]) >= 512 for e in lights),
+            "нет светильника с z >= 512 на верхнем этаже",
+        )
+
     def test_determinism(self):
         a = generate_blueprint(BlueprintConfig(seed=42, floors=2))
         b = generate_blueprint(BlueprintConfig(seed=42, floors=2))

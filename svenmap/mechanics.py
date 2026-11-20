@@ -127,7 +127,7 @@ def _item_positions(m, spec, count, doors, panels):
 
 def add_objective(m, spec, texture_lib=None, script_name=None,
                   mode="buttons", item_count=5, door_bounds=None,
-                  portal_id=None, item_points=None):
+                  portal_id=None, item_points=None, button_points=None):
     """Добавить дверь и задачу: кнопки или сбор предметов.
 
     mode="buttons" — две func_button -> trigger_counter (этап 6).
@@ -258,7 +258,12 @@ def add_objective(m, spec, texture_lib=None, script_name=None,
         button_target = "gen_manager" if script_name else COUNTER_TARGETNAME
 
         for i, area_id in enumerate(button_areas, start=1):
-            bounds = _button_bounds(spec, spec.area(area_id), doors, panels)
+            if button_points:
+                px, py, pz, _area = button_points[i - 1]
+                bounds = Bounds(px - 16, py - 8, pz - 8,
+                                px + 16, py + 8, pz + 8)
+            else:
+                bounds = _button_bounds(spec, spec.area(area_id), doors, panels)
             name = "gen_button_{}".format(i)
 
             m.add_brush_entity(
