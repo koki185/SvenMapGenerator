@@ -265,6 +265,10 @@ Blueprint (топология + размещение):
 формы комнат (rect/L/T/U) и маски клеток. Тесты:
     python -m unittest discover -s tests -v
 
+Полная сборка через новый pipeline (PR-5):
+
+    python generate_v2.py --seed 42 --build --smoke --next sc_exp_2
+
 Старый планировщик svenmap/planner.py работает как раньше.
 
 -------------------------------------------------------------------------------
