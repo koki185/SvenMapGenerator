@@ -470,6 +470,34 @@ ASCII: "Samples: 2/5", "Generators: 1/2", "Objective complete! Door opened.",
   всех комнат, предметы/кнопки, секреты, LEAK, compile, загрузка, скрипт.
 - Результат: **3/3 PASS**, 85 с. sc_exp_2: 4 секрета, 938 КБ.
 
+## PR-1 — Topology Graph v2 (20.11.2026, 22:20)
+Реализован первый шаг плана SvenMapGenerator 2.0. Legacy-планировщик
+`svenmap/planner.py` не тронут, новый код живёт в `svenmap/planning/`.
+
+### Файлы
+- `svenmap/planning/models.py` — Zone, TopologyNode, TopologyEdge,
+  TopologyGraph, валидация, BFS, shortest_path_length.
+- `svenmap/planning/topology.py` — TopologyConfig, backbone, ветки,
+  циклы (с проверкой «не портит ли цикл маршрут»), секреты, зоны.
+- `svenmap/planning/topology_metrics.py` — циклы, branch ratio,
+  route stretch, branch depth, route choice, итоговый score.
+- `svenmap/planning/rng.py` — независимые RNG-потоки по subsystem.
+- `generate_topology.py` — экспорт графа в JSON + SVG-превью.
+- `tests/test_topology_v2.py` — 4 теста, включая 100 seed.
+
+### Результат
+- `python -m unittest tests.test_topology_v2`: **4/4 OK**.
+- 100 seed: все проходят жёсткие ограничения, графы детерминированы,
+  есть mandatory-путь, ветки, 2 цикла, секреты, нет дублей/петель.
+- Примеры: seed 1 → V=16 E=17 cycles=2; seed 2 → V=15 E=16.
+- Найдена и исправлена ошибка: start/goal присваивались после add_loops,
+  из-за чего все циклы отвергались как «плохие сокращения».
+
+### Ограничение PR-1
+Score у всех seed пока 0.7 — метрики грубые (V/E/optional фиксированы
+конфигом). Это ожидаемо для первого этапа; GPT попросил уточнить, нужно
+ли делать метрики чувствительнее перед PR-2. Ответ сохраним отдельно.
+
 ### Что осталось за рамками
 - Реальные игровые тесты (нажатие кнопок, бой, прохождение игроком).
 - Волны врагов, боссы, секреты, вертикальные переходы, лифты.

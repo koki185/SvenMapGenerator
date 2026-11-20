@@ -1,0 +1,383 @@
+{
+  "graph": {
+    "version": 2,
+    "name": "sc_topo_1",
+    "seed": 1,
+    "zones": [
+      {
+        "id": "z_entry",
+        "purpose": "entry_security",
+        "area_ids": [
+          "spawn",
+          "n1",
+          "n2",
+          "n7",
+          "n8",
+          "b2_1"
+        ],
+        "theme": null,
+        "floor": 0
+      },
+      {
+        "id": "z_research",
+        "purpose": "research",
+        "area_ids": [
+          "n3",
+          "n6",
+          "b1_1",
+          "b2_0",
+          "secret_1",
+          "secret_2"
+        ],
+        "theme": null,
+        "floor": 0
+      },
+      {
+        "id": "z_combat",
+        "purpose": "combat_arena",
+        "area_ids": [
+          "n5",
+          "goal"
+        ],
+        "theme": null,
+        "floor": 0
+      },
+      {
+        "id": "z_logistics",
+        "purpose": "logistics",
+        "area_ids": [
+          "n4",
+          "b1_0"
+        ],
+        "theme": null,
+        "floor": 0
+      }
+    ],
+    "nodes": [
+      {
+        "id": "spawn",
+        "type": "spawn",
+        "zone_id": "z_entry",
+        "role": "start",
+        "optional": false,
+        "min_size": [
+          3,
+          3
+        ],
+        "floor": 0
+      },
+      {
+        "id": "n1",
+        "type": "hub",
+        "zone_id": "z_entry",
+        "role": "hub",
+        "optional": false,
+        "min_size": [
+          3,
+          3
+        ],
+        "floor": 0
+      },
+      {
+        "id": "n2",
+        "type": "corridor",
+        "zone_id": "z_entry",
+        "role": "normal",
+        "optional": false,
+        "min_size": [
+          3,
+          3
+        ],
+        "floor": 0
+      },
+      {
+        "id": "n3",
+        "type": "lab",
+        "zone_id": "z_research",
+        "role": "normal",
+        "optional": false,
+        "min_size": [
+          3,
+          3
+        ],
+        "floor": 0
+      },
+      {
+        "id": "n4",
+        "type": "storage",
+        "zone_id": "z_logistics",
+        "role": "normal",
+        "optional": false,
+        "min_size": [
+          3,
+          3
+        ],
+        "floor": 0
+      },
+      {
+        "id": "n5",
+        "type": "combat",
+        "zone_id": "z_combat",
+        "role": "normal",
+        "optional": false,
+        "min_size": [
+          3,
+          3
+        ],
+        "floor": 0
+      },
+      {
+        "id": "n6",
+        "type": "lab",
+        "zone_id": "z_research",
+        "role": "normal",
+        "optional": false,
+        "min_size": [
+          3,
+          3
+        ],
+        "floor": 0
+      },
+      {
+        "id": "n7",
+        "type": "corridor",
+        "zone_id": "z_entry",
+        "role": "normal",
+        "optional": false,
+        "min_size": [
+          3,
+          3
+        ],
+        "floor": 0
+      },
+      {
+        "id": "n8",
+        "type": "corridor",
+        "zone_id": "z_entry",
+        "role": "normal",
+        "optional": false,
+        "min_size": [
+          3,
+          3
+        ],
+        "floor": 0
+      },
+      {
+        "id": "goal",
+        "type": "arena",
+        "zone_id": "z_combat",
+        "role": "final",
+        "optional": false,
+        "min_size": [
+          3,
+          3
+        ],
+        "floor": 0
+      },
+      {
+        "id": "b1_0",
+        "type": "storage",
+        "zone_id": "z_logistics",
+        "role": "optional_area",
+        "optional": true,
+        "min_size": [
+          3,
+          3
+        ],
+        "floor": 0
+      },
+      {
+        "id": "b1_1",
+        "type": "lab",
+        "zone_id": "z_research",
+        "role": "optional_area",
+        "optional": true,
+        "min_size": [
+          3,
+          3
+        ],
+        "floor": 0
+      },
+      {
+        "id": "b2_0",
+        "type": "lab",
+        "zone_id": "z_research",
+        "role": "optional_area",
+        "optional": true,
+        "min_size": [
+          3,
+          3
+        ],
+        "floor": 0
+      },
+      {
+        "id": "b2_1",
+        "type": "corridor",
+        "zone_id": "z_entry",
+        "role": "optional_area",
+        "optional": true,
+        "min_size": [
+          3,
+          3
+        ],
+        "floor": 0
+      },
+      {
+        "id": "secret_1",
+        "type": "secret",
+        "zone_id": "z_research",
+        "role": "hidden",
+        "optional": true,
+        "min_size": [
+          3,
+          3
+        ],
+        "floor": 0
+      },
+      {
+        "id": "secret_2",
+        "type": "secret",
+        "zone_id": "z_research",
+        "role": "hidden",
+        "optional": true,
+        "min_size": [
+          3,
+          3
+        ],
+        "floor": 0
+      }
+    ],
+    "edges": [
+      {
+        "a": "spawn",
+        "b": "n1",
+        "type": "main",
+        "mandatory": true,
+        "connector_id": null
+      },
+      {
+        "a": "n1",
+        "b": "n2",
+        "type": "main",
+        "mandatory": true,
+        "connector_id": null
+      },
+      {
+        "a": "n2",
+        "b": "n3",
+        "type": "main",
+        "mandatory": true,
+        "connector_id": null
+      },
+      {
+        "a": "n3",
+        "b": "n4",
+        "type": "main",
+        "mandatory": true,
+        "connector_id": null
+      },
+      {
+        "a": "n4",
+        "b": "n5",
+        "type": "main",
+        "mandatory": true,
+        "connector_id": null
+      },
+      {
+        "a": "n5",
+        "b": "n6",
+        "type": "main",
+        "mandatory": true,
+        "connector_id": null
+      },
+      {
+        "a": "n6",
+        "b": "n7",
+        "type": "main",
+        "mandatory": true,
+        "connector_id": null
+      },
+      {
+        "a": "n7",
+        "b": "n8",
+        "type": "main",
+        "mandatory": true,
+        "connector_id": null
+      },
+      {
+        "a": "n8",
+        "b": "goal",
+        "type": "main",
+        "mandatory": true,
+        "connector_id": null
+      },
+      {
+        "a": "n7",
+        "b": "b1_0",
+        "type": "branch",
+        "mandatory": false,
+        "connector_id": null
+      },
+      {
+        "a": "b1_0",
+        "b": "b1_1",
+        "type": "branch",
+        "mandatory": false,
+        "connector_id": null
+      },
+      {
+        "a": "n4",
+        "b": "b2_0",
+        "type": "branch",
+        "mandatory": false,
+        "connector_id": null
+      },
+      {
+        "a": "b2_0",
+        "b": "b2_1",
+        "type": "branch",
+        "mandatory": false,
+        "connector_id": null
+      },
+      {
+        "a": "n3",
+        "b": "n5",
+        "type": "loop",
+        "mandatory": false,
+        "connector_id": null
+      },
+      {
+        "a": "n3",
+        "b": "n7",
+        "type": "loop",
+        "mandatory": false,
+        "connector_id": null
+      },
+      {
+        "a": "spawn",
+        "b": "secret_1",
+        "type": "secret",
+        "mandatory": false,
+        "connector_id": null
+      },
+      {
+        "a": "n6",
+        "b": "secret_2",
+        "type": "secret",
+        "mandatory": false,
+        "connector_id": null
+      }
+    ],
+    "start": "spawn",
+    "goal": "goal"
+  },
+  "metrics": {
+    "cycle_count": 2.0,
+    "loop_density": 0.5,
+    "branch_ratio": 0.375,
+    "route_stretch": 1.0,
+    "branch_depth": 2.0,
+    "route_choice": 1.0,
+    "score": 0.7
+  }
+}
