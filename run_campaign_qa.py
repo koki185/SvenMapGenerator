@@ -146,6 +146,7 @@ def main():
                 blueprint, chapter.pacing
             )
             details["scenes"] = m.meta.get("scenes", {})
+            details["atmosphere"] = m.meta.get("atmosphere", {})
             details["composition_validation"] = evaluate_composition(
                 blueprint, chapter.name, chapter.pacing
             )
@@ -292,6 +293,26 @@ def main():
                     r["chapter"], len(s.get("assignments", {})),
                     s.get("variety", 0.0),
                     "; ".join(s.get("warnings", [])) or "—",
+                )
+            )
+        lines.append("")
+
+    atmospheric = [r for r in results if r["details"].get("atmosphere")]
+    if atmospheric:
+        lines += [
+            "## Атмосфера и нарратив (P4)",
+            "",
+            "| Глава | пресет | звуков | музыка | ламп тревоги | триггер |",
+            "|---|---|---:|---|---:|---|",
+        ]
+        for r in atmospheric:
+            a = r["details"]["atmosphere"]
+            lines.append(
+                "| {} | {} | {} | {} | {} | {} |".format(
+                    r["chapter"], a.get("preset", "—"),
+                    a.get("ambient_sources", 0),
+                    "да" if a.get("music") else "—",
+                    a.get("alarm_lights", 0), a.get("alarm_hook", "—"),
                 )
             )
         lines.append("")

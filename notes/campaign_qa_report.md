@@ -1,17 +1,17 @@
 # SvenMap Generator — QA кампании
 
-Кампания: sc_expedition; глав: 8; время 341.3 с.
+Кампания: sc_expedition; глав: 8; время 362.2 с.
 
 | Глава | Результат | Brush | Entity | Секретов | BSP, КБ |
 |---|---|---:|---:|---:|---:|
-| sc_exp_1 | PASS | 484 | 35 | 0 | 768 |
-| sc_exp_2 | PASS | 702 | 41 | 0 | 939 |
-| sc_exp_3 | PASS | 454 | 21 | 0 | 516 |
-| sc_exp_4 | PASS | 682 | 40 | 0 | 866 |
-| sc_exp_5 | PASS | 452 | 35 | 0 | 635 |
-| sc_exp_6 | PASS | 688 | 40 | 0 | 822 |
-| sc_exp_7 | PASS | 564 | 25 | 0 | 614 |
-| sc_exp_8 | PASS | 408 | 24 | 0 | 469 |
+| sc_exp_1 | PASS | 484 | 54 | 0 | 865 |
+| sc_exp_2 | PASS | 702 | 66 | 0 | 1102 |
+| sc_exp_3 | PASS | 454 | 40 | 0 | 785 |
+| sc_exp_4 | PASS | 682 | 64 | 0 | 985 |
+| sc_exp_5 | PASS | 452 | 53 | 0 | 777 |
+| sc_exp_6 | PASS | 688 | 64 | 0 | 978 |
+| sc_exp_7 | PASS | 564 | 46 | 0 | 799 |
+| sc_exp_8 | PASS | 408 | 42 | 0 | 665 |
 
 ## Метрики композиции (P3.0)
 
@@ -53,6 +53,19 @@
 | sc_exp_6 | 15 | 0.53 | — |
 | sc_exp_7 | 12 | 0.75 | — |
 | sc_exp_8 | 8 | 0.88 | — |
+
+## Атмосфера и нарратив (P4)
+
+| Глава | пресет | звуков | музыка | ламп тревоги | триггер |
+|---|---|---:|---|---:|---|
+| sc_exp_1 | quiet_lab | 10 | — | 3 | door_manager |
+| sc_exp_2 | ventilation | 16 | — | 3 | door_manager |
+| sc_exp_3 | security | 9 | да | 3 | door_manager |
+| sc_exp_4 | ventilation | 15 | — | 3 | door_manager |
+| sc_exp_5 | quiet_lab | 9 | — | 3 | door_manager |
+| sc_exp_6 | ventilation | 15 | — | 3 | door_manager |
+| sc_exp_7 | ventilation | 12 | — | 3 | door_manager |
+| sc_exp_8 | boss | 8 | да | 3 | door_manager |
 
 ## Валидатор композиции (P3.3)
 

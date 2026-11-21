@@ -14,6 +14,7 @@
 from dataclasses import dataclass
 from typing import List
 
+from .atmosphere import preset_names as narrative_names
 from .pacing import profile_names
 from .profiles import PROFILES
 from .scenes import validate_scene_names
@@ -24,6 +25,7 @@ ALLOWED_PUZZLES = (
     "buttons", "collect", "enemies", "multi_floor", "secret", "super_secret",
 )
 ALLOWED_PACINGS = profile_names()
+ALLOWED_NARRATIVES = narrative_names()
 ROOMS_RANGE = (4, 16)
 BRANCHES_RANGE = (0, 4)
 
@@ -132,6 +134,12 @@ def validate_data(data) -> List[ValidationIssue]:
             add(path + ".pacing", 'профиль ритма {!r} не найден. Доступно: {}'
                 .format(pacing, _allowed(ALLOWED_PACINGS)))
 
+        narrative = raw.get("narrative")
+        if narrative is not None and narrative not in ALLOWED_NARRATIVES:
+            add(path + ".narrative",
+                'нарративный пресет {!r} не найден. Доступно: {}'
+                .format(narrative, _allowed(ALLOWED_NARRATIVES)))
+
         scenes = raw.get("scenes")
         if scenes is not None:
             if not isinstance(scenes, list):
@@ -191,6 +199,7 @@ def spec_to_data(spec) -> dict:
                 "final": c.final, "puzzles": list(c.puzzles),
                 "pacing": c.pacing or None,
                 "scenes": list(c.scenes),
+                "narrative": c.narrative or None,
             }
             for c in spec.chapters
         ],

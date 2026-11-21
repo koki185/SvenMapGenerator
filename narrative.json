@@ -1,0 +1,42 @@
+{
+  "quiet_lab": {
+    "description": "Тихая лаборатория: гул оборудования, спокойное вступление.",
+    "ambient": "ambience/labdrone1.wav",
+    "music": "",
+    "intro": "КАНАЛ СВЯЗИ УСТАНОВЛЕН. Соберите образцы и откройте шлюз.",
+    "alarm": "ВНИМАНИЕ: ОБНАРУЖЕНО ПРОНИКНОВЕНИЕ. ШЛЮЗ ОТКРЫТ.",
+    "alarm_sound": "vox/alarm.wav",
+    "emergency_color": "255 60 40",
+    "emergency_brightness": 220
+  },
+  "ventilation": {
+    "description": "Вентиляция и скрытые зоны: шипение воздуха, тревога.",
+    "ambient": "ambience/ventilation.wav",
+    "music": "",
+    "intro": "СИСТЕМА ВЕНТИЛЯЦИИ АКТИВНА. Проверьте скрытые отсеки.",
+    "alarm": "ТРЕВОГА: ДВЕРЬ СЕКРЕТА ОТКРЫТА.",
+    "alarm_sound": "vox/alert.wav",
+    "emergency_color": "255 90 40",
+    "emergency_brightness": 200
+  },
+  "security": {
+    "description": "Служба безопасности: электрический гул, тревожный сигнал.",
+    "ambient": "ambience/electrical_hum1.wav",
+    "music": "angel/invasion_music_ambiance_01.ogg",
+    "intro": "СЕКТОР БЕЗОПАСНОСТИ. Активируйте генераторы.",
+    "alarm": "СИГНАЛ ТРЕВОГИ: ПЕРИМЕТР НАРУШЕН.",
+    "alarm_sound": "vox/alarm.wav",
+    "emergency_color": "255 50 50",
+    "emergency_brightness": 240
+  },
+  "boss": {
+    "description": "Финальная арена: тяжёлая машина и тема сражения.",
+    "ambient": "ambience/dronemachine1.wav",
+    "music": "angel/theme_invasion.ogg",
+    "intro": "ФИНАЛЬНЫЙ СЕКТОР. Уничтожьте все волны противника.",
+    "alarm": "ВНИМАНИЕ: АКТИВИРОВАНА ФИНАЛЬНАЯ ЗАЩИТА.",
+    "alarm_sound": "vox/danger.wav",
+    "emergency_color": "255 40 30",
+    "emergency_brightness": 250
+  }
+}

@@ -28,6 +28,7 @@ from svenmap.v2_entities import (
 from svenmap.leak_repair import repair_leaks
 from svenmap.composition_metrics import summarize as summarize_composition
 from svenmap.pacing import evaluate as evaluate_pacing
+from svenmap.atmosphere import add_atmosphere, validate_assets
 from svenmap.scenes import (
     assign_scenes, add_scene_decor, scene_variety, scene_warnings,
 )
@@ -292,6 +293,13 @@ def build_chapter_v2(chapter, tex_lib, wad_list, game_dir):
     if chapter.final:
         add_boss_arena(m, spec, waves=5)
 
+    asset_issues = validate_assets(chapter.narrative, game_dir)
+    if asset_issues:
+        print("  WARN звуки нарратива:", "; ".join(asset_issues))
+    atmosphere = add_atmosphere(m, blueprint, chapter.narrative, game_dir)
+    atmosphere["asset_issues"] = asset_issues
+    m.meta["atmosphere"] = atmosphere
+
     binding = validate_portal_binding(blueprint, portals, m)
     if not binding["passed"]:
         raise RuntimeError(
@@ -412,6 +420,13 @@ def main():
                           m.meta.get("scene_decor_rooms", 0),
                           " | WARN: " + "; ".join(scene_data["warnings"])
                           if scene_data["warnings"] else ""))
+            atmos = m.meta.get("atmosphere", {})
+            print("  атмосфера: {} | звуков {}, тревожных ламп {}, "
+                  "триггер {}".format(
+                      atmos.get("preset", "—"),
+                      atmos.get("ambient_sources", 0),
+                      atmos.get("alarm_lights", 0),
+                      atmos.get("alarm_hook", "—")))
             print("  ритм: {} | боевых {:.0%}, подряд {:.0f}, "
                   "передышка {:.0f}{}".format(
                       pacing["profile"],
