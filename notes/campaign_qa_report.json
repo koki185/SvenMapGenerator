@@ -15,6 +15,8 @@
       "goal_gated_by_door": true,
       "objective": true,
       "portal_binding": true,
+      "visual_axes": true,
+      "visual_surfaces": true,
       "compile_CSG": true,
       "compile_BSP": true,
       "compile_VIS": true,
@@ -24,8 +26,8 @@
       "script_compile": true
     },
     "details": {
-      "brush": 484,
-      "entities": 35,
+      "brush": 882,
+      "entities": 64,
       "secret_count": 0,
       "composition": {
         "topology_score": 0.74,
@@ -89,6 +91,27 @@
         "variety": 0.6,
         "warnings": []
       },
+      "atmosphere": {
+        "preset": "quiet_lab",
+        "ambient_sources": 10,
+        "music": false,
+        "alarm_lights": 3,
+        "alarm_hook": "door_manager",
+        "asset_issues": []
+      },
+      "visual": {
+        "passed": true,
+        "axis_errors": [],
+        "surface_errors": [],
+        "warnings": [],
+        "metrics": {
+          "distinct_textures": 11,
+          "rooms_same_floor_ceiling": 0,
+          "visible_lamps": 10,
+          "fill_lights": 10,
+          "rooms": 10
+        }
+      },
       "composition_validation": {
         "chapter": "sc_exp_1",
         "profile": "standard_8",
@@ -128,7 +151,7 @@
           }
         }
       },
-      "bsp_bytes": 786500
+      "bsp_bytes": 1295312
     }
   },
   {
@@ -147,6 +170,8 @@
       "goal_gated_by_door": true,
       "objective": true,
       "portal_binding": true,
+      "visual_axes": true,
+      "visual_surfaces": true,
       "compile_CSG": true,
       "compile_BSP": true,
       "compile_VIS": true,
@@ -156,8 +181,8 @@
       "script_compile": true
     },
     "details": {
-      "brush": 702,
-      "entities": 41,
+      "brush": 1259,
+      "entities": 82,
       "secret_count": 0,
       "composition": {
         "topology_score": 0.7,
@@ -233,6 +258,27 @@
         "variety": 0.5,
         "warnings": []
       },
+      "atmosphere": {
+        "preset": "ventilation",
+        "ambient_sources": 16,
+        "music": false,
+        "alarm_lights": 3,
+        "alarm_hook": "door_manager",
+        "asset_issues": []
+      },
+      "visual": {
+        "passed": true,
+        "axis_errors": [],
+        "surface_errors": [],
+        "warnings": [],
+        "metrics": {
+          "distinct_textures": 11,
+          "rooms_same_floor_ceiling": 0,
+          "visible_lamps": 16,
+          "fill_lights": 16,
+          "rooms": 16
+        }
+      },
       "composition_validation": {
         "chapter": "sc_exp_2",
         "profile": "dense_10",
@@ -276,7 +322,7 @@
           }
         }
       },
-      "bsp_bytes": 961960
+      "bsp_bytes": 1829336
     }
   },
   {
@@ -292,6 +338,8 @@
       "goal_gated_by_door": true,
       "objective": true,
       "portal_binding": true,
+      "visual_axes": true,
+      "visual_surfaces": true,
       "compile_CSG": true,
       "compile_BSP": true,
       "compile_VIS": true,
@@ -301,8 +349,8 @@
       "script_compile": true
     },
     "details": {
-      "brush": 454,
-      "entities": 21,
+      "brush": 795,
+      "entities": 49,
       "secret_count": 0,
       "composition": {
         "topology_score": 0.8083,
@@ -361,6 +409,27 @@
         "variety": 0.7778,
         "warnings": []
       },
+      "atmosphere": {
+        "preset": "security",
+        "ambient_sources": 9,
+        "music": true,
+        "alarm_lights": 3,
+        "alarm_hook": "door_manager",
+        "asset_issues": []
+      },
+      "visual": {
+        "passed": true,
+        "axis_errors": [],
+        "surface_errors": [],
+        "warnings": [],
+        "metrics": {
+          "distinct_textures": 9,
+          "rooms_same_floor_ceiling": 0,
+          "visible_lamps": 9,
+          "fill_lights": 9,
+          "rooms": 9
+        }
+      },
       "composition_validation": {
         "chapter": "sc_exp_3",
         "profile": "short_6",
@@ -392,7 +461,7 @@
           }
         }
       },
-      "bsp_bytes": 529240
+      "bsp_bytes": 1220912
     }
   },
   {
@@ -411,6 +480,8 @@
       "goal_gated_by_door": true,
       "objective": true,
       "portal_binding": true,
+      "visual_axes": true,
+      "visual_surfaces": true,
       "compile_CSG": true,
       "compile_BSP": true,
       "compile_VIS": true,
@@ -420,8 +491,8 @@
       "script_compile": true
     },
     "details": {
-      "brush": 682,
-      "entities": 40,
+      "brush": 1232,
+      "entities": 79,
       "secret_count": 0,
       "composition": {
         "topology_score": 0.7133,
@@ -495,6 +566,27 @@
         "variety": 0.4667,
         "warnings": []
       },
+      "atmosphere": {
+        "preset": "ventilation",
+        "ambient_sources": 15,
+        "music": false,
+        "alarm_lights": 3,
+        "alarm_hook": "door_manager",
+        "asset_issues": []
+      },
+      "visual": {
+        "passed": true,
+        "axis_errors": [],
+        "surface_errors": [],
+        "warnings": [],
+        "metrics": {
+          "distinct_textures": 11,
+          "rooms_same_floor_ceiling": 0,
+          "visible_lamps": 15,
+          "fill_lights": 15,
+          "rooms": 15
+        }
+      },
       "composition_validation": {
         "chapter": "sc_exp_4",
         "profile": "standard_8",
@@ -538,7 +630,7 @@
           }
         }
       },
-      "bsp_bytes": 887040
+      "bsp_bytes": 1783896
     }
   },
   {
@@ -557,6 +649,8 @@
       "goal_gated_by_door": true,
       "objective": true,
       "portal_binding": true,
+      "visual_axes": true,
+      "visual_surfaces": true,
       "compile_CSG": true,
       "compile_BSP": true,
       "compile_VIS": true,
@@ -566,8 +660,8 @@
       "script_compile": true
     },
     "details": {
-      "brush": 452,
-      "entities": 35,
+      "brush": 820,
+      "entities": 62,
       "secret_count": 0,
       "composition": {
         "topology_score": 0.6944,
@@ -628,6 +722,27 @@
         "variety": 0.7778,
         "warnings": []
       },
+      "atmosphere": {
+        "preset": "quiet_lab",
+        "ambient_sources": 9,
+        "music": false,
+        "alarm_lights": 3,
+        "alarm_hook": "door_manager",
+        "asset_issues": []
+      },
+      "visual": {
+        "passed": true,
+        "axis_errors": [],
+        "surface_errors": [],
+        "warnings": [],
+        "metrics": {
+          "distinct_textures": 11,
+          "rooms_same_floor_ceiling": 0,
+          "visible_lamps": 9,
+          "fill_lights": 9,
+          "rooms": 9
+        }
+      },
       "composition_validation": {
         "chapter": "sc_exp_5",
         "profile": "standard_8",
@@ -663,7 +778,7 @@
           }
         }
       },
-      "bsp_bytes": 651132
+      "bsp_bytes": 1147388
     }
   },
   {
@@ -682,6 +797,8 @@
       "goal_gated_by_door": true,
       "objective": true,
       "portal_binding": true,
+      "visual_axes": true,
+      "visual_surfaces": true,
       "compile_CSG": true,
       "compile_BSP": true,
       "compile_VIS": true,
@@ -691,8 +808,8 @@
       "script_compile": true
     },
     "details": {
-      "brush": 688,
-      "entities": 40,
+      "brush": 1215,
+      "entities": 79,
       "secret_count": 0,
       "composition": {
         "topology_score": 0.7,
@@ -766,6 +883,27 @@
         "variety": 0.5333,
         "warnings": []
       },
+      "atmosphere": {
+        "preset": "ventilation",
+        "ambient_sources": 15,
+        "music": false,
+        "alarm_lights": 3,
+        "alarm_hook": "door_manager",
+        "asset_issues": []
+      },
+      "visual": {
+        "passed": true,
+        "axis_errors": [],
+        "surface_errors": [],
+        "warnings": [],
+        "metrics": {
+          "distinct_textures": 11,
+          "rooms_same_floor_ceiling": 0,
+          "visible_lamps": 15,
+          "fill_lights": 15,
+          "rooms": 15
+        }
+      },
       "composition_validation": {
         "chapter": "sc_exp_6",
         "profile": "dense_10",
@@ -809,7 +947,7 @@
           }
         }
       },
-      "bsp_bytes": 841900
+      "bsp_bytes": 1772660
     }
   },
   {
@@ -825,6 +963,8 @@
       "goal_gated_by_door": true,
       "objective": true,
       "portal_binding": true,
+      "visual_axes": true,
+      "visual_surfaces": true,
       "compile_CSG": true,
       "compile_BSP": true,
       "compile_VIS": true,
@@ -834,8 +974,8 @@
       "script_compile": true
     },
     "details": {
-      "brush": 564,
-      "entities": 25,
+      "brush": 1028,
+      "entities": 58,
       "secret_count": 0,
       "composition": {
         "topology_score": 0.6667,
@@ -903,6 +1043,27 @@
         "variety": 0.75,
         "warnings": []
       },
+      "atmosphere": {
+        "preset": "ventilation",
+        "ambient_sources": 12,
+        "music": false,
+        "alarm_lights": 3,
+        "alarm_hook": "door_manager",
+        "asset_issues": []
+      },
+      "visual": {
+        "passed": true,
+        "axis_errors": [],
+        "surface_errors": [],
+        "warnings": [],
+        "metrics": {
+          "distinct_textures": 11,
+          "rooms_same_floor_ceiling": 0,
+          "visible_lamps": 12,
+          "fill_lights": 12,
+          "rooms": 12
+        }
+      },
       "composition_validation": {
         "chapter": "sc_exp_7",
         "profile": "standard_8",
@@ -942,7 +1103,7 @@
           }
         }
       },
-      "bsp_bytes": 629720
+      "bsp_bytes": 1427772
     }
   },
   {
@@ -959,6 +1120,8 @@
       "goal_gated_by_door": true,
       "objective": true,
       "portal_binding": true,
+      "visual_axes": true,
+      "visual_surfaces": true,
       "compile_CSG": true,
       "compile_BSP": true,
       "compile_VIS": true,
@@ -968,8 +1131,8 @@
       "script_compile": true
     },
     "details": {
-      "brush": 408,
-      "entities": 24,
+      "brush": 717,
+      "entities": 50,
       "secret_count": 0,
       "composition": {
         "topology_score": 0.65,
@@ -1026,6 +1189,27 @@
         "variety": 0.875,
         "warnings": []
       },
+      "atmosphere": {
+        "preset": "boss",
+        "ambient_sources": 8,
+        "music": true,
+        "alarm_lights": 3,
+        "alarm_hook": "door_manager",
+        "asset_issues": []
+      },
+      "visual": {
+        "passed": true,
+        "axis_errors": [],
+        "surface_errors": [],
+        "warnings": [],
+        "metrics": {
+          "distinct_textures": 11,
+          "rooms_same_floor_ceiling": 0,
+          "visible_lamps": 8,
+          "fill_lights": 8,
+          "rooms": 8
+        }
+      },
       "composition_validation": {
         "chapter": "sc_exp_8",
         "profile": "standard_8",
@@ -1052,7 +1236,7 @@
           }
         }
       },
-      "bsp_bytes": 481220
+      "bsp_bytes": 1122328
     }
   }
 ]

@@ -73,11 +73,22 @@ def add_columns(m, rect, profile, rng, doors, spec, segments=()):
                 and _clear_path(c, segments))
     ]
     rng.shuffle(cells)
+    shaft = getattr(profile, "column", "") or profile.accent
+    cap = getattr(profile, "trim", "") or profile.accent
     for x, y in cells[:2]:
+        # База, шахта и капитель — три браша, как в настоящей архитектуре.
         m.add_box(
-            Bounds(x - size / 2, y - size / 2, z0,
-                   x + size / 2, y + size / 2, z1),
-            profile.accent,
+            Bounds(x - 20, y - 20, z0, x + 20, y + 20, z0 + 16),
+            cap,
+        )
+        m.add_box(
+            Bounds(x - size / 2, y - size / 2, z0 + 16,
+                   x + size / 2, y + size / 2, z1 - 16),
+            shaft,
+        )
+        m.add_box(
+            Bounds(x - 20, y - 20, z1 - 16, x + 20, y + 20, z1),
+            cap,
         )
 
 

@@ -67,11 +67,32 @@ def add_basic_entities(m, blueprint):
         profile = scene_profile(scene_name) if scene_name else None
         light_color = profile.light_color if profile else "255 255 255"
         brightness = profile.light_brightness if profile else 200
+
+        # Видимая лампа: светящаяся панель под потолком + источник под ней.
+        lamp_tex = profile.lamp if profile else ""
+        if lamp_tex:
+            m.add_box(
+                Bounds(cx - 32, cy - 32, floor_base + HEIGHT - 6,
+                       cx + 32, cy + 32, floor_base + HEIGHT - 2),
+                TextureRef(lamp_tex, 1.0, 1.0),
+            )
         m.add_point_entity(
-            "light",
-            origin="{} {} {}".format(num(cx), num(cy), floor_base + 240),
+            "light", targetname="room_light_" + area["node_id"],
+            origin="{} {} {}".format(num(cx), num(cy),
+                                     floor_base + HEIGHT - 8),
             angles="0 0 0",
             _light="{} {}".format(light_color, brightness),
+            _falloff="0",
+            _fade="1.0",
+            style="0",
+            spawnflags="0",
+        )
+        # Слабая заполняющая подсветка, чтобы колонны не были чёрными.
+        m.add_point_entity(
+            "light", targetname="fill_light_" + area["node_id"],
+            origin="{} {} {}".format(num(cx), num(cy), floor_base + 232),
+            angles="0 0 0",
+            _light="{} 60".format(light_color),
             _falloff="0",
             _fade="1.0",
             style="0",

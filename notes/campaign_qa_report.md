@@ -1,17 +1,17 @@
 # SvenMap Generator — QA кампании
 
-Кампания: sc_expedition; глав: 8; время 362.2 с.
+Кампания: sc_expedition; глав: 8; время 592.6 с.
 
 | Глава | Результат | Brush | Entity | Секретов | BSP, КБ |
 |---|---|---:|---:|---:|---:|
-| sc_exp_1 | PASS | 484 | 54 | 0 | 865 |
-| sc_exp_2 | PASS | 702 | 66 | 0 | 1102 |
-| sc_exp_3 | PASS | 454 | 40 | 0 | 785 |
-| sc_exp_4 | PASS | 682 | 64 | 0 | 985 |
-| sc_exp_5 | PASS | 452 | 53 | 0 | 777 |
-| sc_exp_6 | PASS | 688 | 64 | 0 | 978 |
-| sc_exp_7 | PASS | 564 | 46 | 0 | 799 |
-| sc_exp_8 | PASS | 408 | 42 | 0 | 665 |
+| sc_exp_1 | PASS | 882 | 64 | 0 | 1264 |
+| sc_exp_2 | PASS | 1259 | 82 | 0 | 1786 |
+| sc_exp_3 | PASS | 795 | 49 | 0 | 1192 |
+| sc_exp_4 | PASS | 1232 | 79 | 0 | 1742 |
+| sc_exp_5 | PASS | 820 | 62 | 0 | 1120 |
+| sc_exp_6 | PASS | 1215 | 79 | 0 | 1731 |
+| sc_exp_7 | PASS | 1028 | 58 | 0 | 1394 |
+| sc_exp_8 | PASS | 717 | 50 | 0 | 1096 |
 
 ## Метрики композиции (P3.0)
 
@@ -111,27 +111,27 @@
 
 
 ### sc_exp_1 — PASS
-all_areas=OK, changelevel=OK, compile_BSP=OK, compile_CSG=OK, compile_RAD=OK, compile_VIS=OK, coop_spawns=OK, goal_after_door_opens=OK, goal_gated_by_door=OK, item_sample_1=OK, item_sample_2=OK, item_sample_3=OK, item_sample_4=OK, item_sample_5=OK, map_load=OK, no_leak=OK, objective=OK, portal_binding=OK, script_compile=OK
+all_areas=OK, changelevel=OK, compile_BSP=OK, compile_CSG=OK, compile_RAD=OK, compile_VIS=OK, coop_spawns=OK, goal_after_door_opens=OK, goal_gated_by_door=OK, item_sample_1=OK, item_sample_2=OK, item_sample_3=OK, item_sample_4=OK, item_sample_5=OK, map_load=OK, no_leak=OK, objective=OK, portal_binding=OK, script_compile=OK, visual_axes=OK, visual_surfaces=OK
 
 ### sc_exp_2 — PASS
-all_areas=OK, changelevel=OK, compile_BSP=OK, compile_CSG=OK, compile_RAD=OK, compile_VIS=OK, coop_spawns=OK, goal_after_door_opens=OK, goal_gated_by_door=OK, item_sample_1=OK, item_sample_2=OK, item_sample_3=OK, item_sample_4=OK, item_sample_5=OK, map_load=OK, no_leak=OK, objective=OK, portal_binding=OK, script_compile=OK
+all_areas=OK, changelevel=OK, compile_BSP=OK, compile_CSG=OK, compile_RAD=OK, compile_VIS=OK, coop_spawns=OK, goal_after_door_opens=OK, goal_gated_by_door=OK, item_sample_1=OK, item_sample_2=OK, item_sample_3=OK, item_sample_4=OK, item_sample_5=OK, map_load=OK, no_leak=OK, objective=OK, portal_binding=OK, script_compile=OK, visual_axes=OK, visual_surfaces=OK
 
 ### sc_exp_3 — PASS
-all_areas=OK, button_gen_button_1=OK, button_gen_button_2=OK, changelevel=OK, compile_BSP=OK, compile_CSG=OK, compile_RAD=OK, compile_VIS=OK, coop_spawns=OK, goal_after_door_opens=OK, goal_gated_by_door=OK, map_load=OK, no_leak=OK, objective=OK, portal_binding=OK, script_compile=OK
+all_areas=OK, button_gen_button_1=OK, button_gen_button_2=OK, changelevel=OK, compile_BSP=OK, compile_CSG=OK, compile_RAD=OK, compile_VIS=OK, coop_spawns=OK, goal_after_door_opens=OK, goal_gated_by_door=OK, map_load=OK, no_leak=OK, objective=OK, portal_binding=OK, script_compile=OK, visual_axes=OK, visual_surfaces=OK
 
 ### sc_exp_4 — PASS
-all_areas=OK, changelevel=OK, compile_BSP=OK, compile_CSG=OK, compile_RAD=OK, compile_VIS=OK, coop_spawns=OK, goal_after_door_opens=OK, goal_gated_by_door=OK, item_sample_1=OK, item_sample_2=OK, item_sample_3=OK, item_sample_4=OK, item_sample_5=OK, map_load=OK, no_leak=OK, objective=OK, portal_binding=OK, script_compile=OK
+all_areas=OK, changelevel=OK, compile_BSP=OK, compile_CSG=OK, compile_RAD=OK, compile_VIS=OK, coop_spawns=OK, goal_after_door_opens=OK, goal_gated_by_door=OK, item_sample_1=OK, item_sample_2=OK, item_sample_3=OK, item_sample_4=OK, item_sample_5=OK, map_load=OK, no_leak=OK, objective=OK, portal_binding=OK, script_compile=OK, visual_axes=OK, visual_surfaces=OK
 
 ### sc_exp_5 — PASS
-all_areas=OK, changelevel=OK, compile_BSP=OK, compile_CSG=OK, compile_RAD=OK, compile_VIS=OK, coop_spawns=OK, goal_after_door_opens=OK, goal_gated_by_door=OK, item_sample_1=OK, item_sample_2=OK, item_sample_3=OK, item_sample_4=OK, item_sample_5=OK, map_load=OK, no_leak=OK, objective=OK, portal_binding=OK, script_compile=OK
+all_areas=OK, changelevel=OK, compile_BSP=OK, compile_CSG=OK, compile_RAD=OK, compile_VIS=OK, coop_spawns=OK, goal_after_door_opens=OK, goal_gated_by_door=OK, item_sample_1=OK, item_sample_2=OK, item_sample_3=OK, item_sample_4=OK, item_sample_5=OK, map_load=OK, no_leak=OK, objective=OK, portal_binding=OK, script_compile=OK, visual_axes=OK, visual_surfaces=OK
 
 ### sc_exp_6 — PASS
-all_areas=OK, changelevel=OK, compile_BSP=OK, compile_CSG=OK, compile_RAD=OK, compile_VIS=OK, coop_spawns=OK, goal_after_door_opens=OK, goal_gated_by_door=OK, item_sample_1=OK, item_sample_2=OK, item_sample_3=OK, item_sample_4=OK, item_sample_5=OK, map_load=OK, no_leak=OK, objective=OK, portal_binding=OK, script_compile=OK
+all_areas=OK, changelevel=OK, compile_BSP=OK, compile_CSG=OK, compile_RAD=OK, compile_VIS=OK, coop_spawns=OK, goal_after_door_opens=OK, goal_gated_by_door=OK, item_sample_1=OK, item_sample_2=OK, item_sample_3=OK, item_sample_4=OK, item_sample_5=OK, map_load=OK, no_leak=OK, objective=OK, portal_binding=OK, script_compile=OK, visual_axes=OK, visual_surfaces=OK
 
 ### sc_exp_7 — PASS
-all_areas=OK, button_gen_button_1=OK, button_gen_button_2=OK, changelevel=OK, compile_BSP=OK, compile_CSG=OK, compile_RAD=OK, compile_VIS=OK, coop_spawns=OK, goal_after_door_opens=OK, goal_gated_by_door=OK, map_load=OK, no_leak=OK, objective=OK, portal_binding=OK, script_compile=OK
+all_areas=OK, button_gen_button_1=OK, button_gen_button_2=OK, changelevel=OK, compile_BSP=OK, compile_CSG=OK, compile_RAD=OK, compile_VIS=OK, coop_spawns=OK, goal_after_door_opens=OK, goal_gated_by_door=OK, map_load=OK, no_leak=OK, objective=OK, portal_binding=OK, script_compile=OK, visual_axes=OK, visual_surfaces=OK
 
 ### sc_exp_8 — PASS
-all_areas=OK, boss_waves=OK, button_gen_button_1=OK, button_gen_button_2=OK, compile_BSP=OK, compile_CSG=OK, compile_RAD=OK, compile_VIS=OK, coop_spawns=OK, goal_after_door_opens=OK, goal_gated_by_door=OK, map_load=OK, no_changelevel=OK, no_leak=OK, objective=OK, portal_binding=OK, script_compile=OK
+all_areas=OK, boss_waves=OK, button_gen_button_1=OK, button_gen_button_2=OK, compile_BSP=OK, compile_CSG=OK, compile_RAD=OK, compile_VIS=OK, coop_spawns=OK, goal_after_door_opens=OK, goal_gated_by_door=OK, map_load=OK, no_changelevel=OK, no_leak=OK, objective=OK, portal_binding=OK, script_compile=OK, visual_axes=OK, visual_surfaces=OK
 
 Итого: 8/8

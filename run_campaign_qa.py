@@ -25,6 +25,7 @@ from svenmap.leak_repair import repair_leaks
 from svenmap.composition_metrics import summarize as summarize_composition
 from svenmap.pacing import evaluate as evaluate_pacing
 from svenmap.composition_validator import evaluate_composition
+from svenmap.visual_qa import evaluate_visual
 
 from generate_campaign import (
     CAMPAIGN_JSON, PROJECT_LOGS, PROJECT_MAPS,
@@ -88,6 +89,9 @@ def chapter_checks(chapter, m, level, campaign, index, blueprint=None):
         binding = validate_portal_binding(blueprint, portals, m)
         checks["portal_binding"] = binding["passed"]
 
+    visual = evaluate_visual(m)
+    checks["visual_axes"] = not visual["axis_errors"]
+    checks["visual_surfaces"] = not visual["surface_errors"]
     return checks
 
 
@@ -147,6 +151,7 @@ def main():
             )
             details["scenes"] = m.meta.get("scenes", {})
             details["atmosphere"] = m.meta.get("atmosphere", {})
+            details["visual"] = evaluate_visual(m)
             details["composition_validation"] = evaluate_composition(
                 blueprint, chapter.name, chapter.pacing
             )

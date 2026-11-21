@@ -5,11 +5,12 @@
 Коридоры для непрямых связей тоже строятся кодом.
 """
 
+import random
 from typing import Dict, Set, Tuple
 
 from ..geometry import Bounds
 from ..mapfile import MapFile
-from ..profiles import get_profile
+from ..profiles import get_profile, TRANSITION_PROFILE
 from ..scenes import scene_profile
 from ..textures import TextureRef
 
@@ -152,6 +153,56 @@ def _corridor_cells(a: Tuple[int, int], b: Tuple[int, int]) -> Set[Cell]:
     return cells
 
 
+def _accent_cells(cells, seed, room_id, fraction=0.08, min_gap=2):
+    """Детерминированные 5–10% клеток под акцент, вдали друг от друга."""
+    rng = random.Random("{}:accent:{}".format(seed, room_id))
+    count = max(1, round(len(cells) * fraction)) if len(cells) >= 4 else 0
+    pool = list(cells)
+    rng.shuffle(pool)
+    chosen = []
+    for cell in pool:
+        if len(chosen) >= count:
+            break
+        if all(max(abs(cell[0] - c[0]), abs(cell[1] - c[1])) >= min_gap
+               for c in chosen):
+            chosen.append(cell)
+    return set(chosen)
+
+
+def _trim_boxes(cx, cy, dx, dy, grid, wall_t, base, height, floor_t):
+    """Плинтус, карниз и вставку на открытом ребре клетки."""
+    z0, z1 = base + floor_t, base + height
+    span_lo = cy * grid if dx else cx * grid
+    span_hi = span_lo + grid
+    if dx == 1:
+        inner = (cx + 1) * grid - wall_t / 2
+        def box(depth, za, zb, a=None, b=None):
+            return Bounds(inner - depth, a if a is not None else span_lo, za,
+                          inner, b if b is not None else span_hi, zb)
+    elif dx == -1:
+        inner = cx * grid + wall_t / 2
+        def box(depth, za, zb, a=None, b=None):
+            return Bounds(inner, a if a is not None else span_lo, za,
+                          inner + depth, b if b is not None else span_hi, zb)
+    elif dy == 1:
+        inner = (cy + 1) * grid - wall_t / 2
+        def box(depth, za, zb, a=None, b=None):
+            return Bounds(a if a is not None else span_lo, inner - depth, za,
+                          b if b is not None else span_hi, inner, zb)
+    else:
+        inner = cy * grid + wall_t / 2
+        def box(depth, za, zb, a=None, b=None):
+            return Bounds(a if a is not None else span_lo, inner, za,
+                          b if b is not None else span_hi, inner + depth, zb)
+
+    mid = (span_lo + span_hi) / 2
+    return (
+        box(4.0, z0, z0 + 12),                      # плинтус
+        box(6.0, z1 - 16, z1),                      # карниз
+        box(2.0, z0 + 80, z0 + 144, mid - 48, mid + 48),  # вставка
+    )
+
+
 def build_blueprint_map(blueprint: dict, wads, game_dir, seed: int = 0) -> MapFile:
     """Собрать MapFile по Blueprint: стены по единой маске клеток."""
     graph = blueprint["graph"]
@@ -164,7 +215,9 @@ def build_blueprint_map(blueprint: dict, wads, game_dir, seed: int = 0) -> MapFi
     connections = spatial["connections"]
     scene_assignments = blueprint.get("scene_assignments", {})
 
-    def area_profile(node_id, area_type):
+    def area_profile(node_id, area_type, cell_key=None):
+        if cell_key is not None and cell_key in corridor_cells:
+            return TRANSITION_PROFILE
         scene_name = scene_assignments.get(node_id)
         if scene_name:
             return scene_profile(scene_name)
@@ -178,6 +231,7 @@ def build_blueprint_map(blueprint: dict, wads, game_dir, seed: int = 0) -> MapFi
 
     occupied = {}
     owner = {}
+    corridor_cells = set()
     for node_id, area in areas.items():
         floor = area.get("floor", 0)
         cells = occupied.setdefault(floor, set())
@@ -202,26 +256,45 @@ def build_blueprint_map(blueprint: dict, wads, game_dir, seed: int = 0) -> MapFi
         for cell in free:
             occupied[0].add(cell)
             owner[(0, cell)] = conn["a"]
+            corridor_cells.add((0, cell))
 
-    # Пол и потолок по реально занятым клеткам (не bounding box).
+    # Акценты: отдельные RNG для пола и потолка, геометрия не меняется.
+    floor_accents, ceil_accents = {}, {}
+    for node_id, area in areas.items():
+        cells = _world_cells(area)
+        floor_accents[node_id] = _accent_cells(
+            cells, seed, node_id + ":floor", 0.08
+        )
+        ceil_accents[node_id] = _accent_cells(
+            cells, seed, node_id + ":ceil", 0.12, 3
+        )
+
+    # Пол и потолок по реально занятым клеткам: разные текстуры, акцент точечно.
+    surface_report = {"floor": {}, "ceiling": {}}
     for floor, cells in occupied.items():
         base = _floor_base(floor, height, floor_t)
         for cx, cy in cells:
             node_id = owner.get((floor, (cx, cy)), "")
             area_type = graph_node_type(graph, node_id) if node_id else "corridor"
-            tex = TextureRef(
-                area_profile(node_id, area_type).floor, 1.0, 1.0
-            )
+            profile = area_profile(node_id, area_type, (floor, (cx, cy)))
+            floor_tex, ceil_tex = profile.floor, profile.ceiling
+            if profile.floor_accent and (cx, cy) in floor_accents.get(node_id, ()):
+                floor_tex = profile.floor_accent
+            if profile.ceiling_detail and (cx, cy) in ceil_accents.get(node_id, ()):
+                ceil_tex = profile.ceiling_detail
             x0, y0 = cx * grid, cy * grid
             m.add_box(
                 Bounds(x0, y0, base, x0 + grid, y0 + grid, base + floor_t),
-                tex,
+                TextureRef(floor_tex, 1.0, 1.0),
             )
             m.add_box(
                 Bounds(x0, y0, base + height, x0 + grid, y0 + grid,
                        base + height + floor_t),
-                tex,
+                TextureRef(ceil_tex, 1.0, 1.0),
             )
+            if node_id:
+                surface_report["floor"].setdefault(node_id, set()).add(floor_tex)
+                surface_report["ceiling"].setdefault(node_id, set()).add(ceil_tex)
 
     # Стены по exposed edges единой маски.
     for floor, cells in occupied.items():
@@ -248,9 +321,21 @@ def build_blueprint_map(blueprint: dict, wads, game_dir, seed: int = 0) -> MapFi
                                  cy * grid + wall_t / 2, base + height)
                 node_id = owner.get((floor, (cx, cy)), "")
                 area_type = graph_node_type(graph, node_id) if node_id else "corridor"
-                m.add_box(box, TextureRef(
-                    area_profile(node_id, area_type).wall, 1.0, 1.0
-                ))
+                profile = area_profile(node_id, area_type, (floor, (cx, cy)))
+                m.add_box(box, TextureRef(profile.wall, 1.0, 1.0))
+
+                # Отделка поверх стены: проёмов здесь нет (они — отсутствующие
+                # рёбра единой маски), поэтому плинтус и карниз идут по всему ребру.
+                base_b, cornice_b, insert_b = _trim_boxes(
+                    cx, cy, dx, dy, grid, wall_t, base, height, floor_t
+                )
+                if profile.trim:
+                    m.add_box(base_b, TextureRef(profile.trim, 1.0, 1.0))
+                    m.add_box(cornice_b, TextureRef(profile.trim, 1.0, 1.0))
+                if profile.insert:
+                    key = "{}:{}:{}:{}:insert".format(seed, node_id, cx, cy)
+                    if random.Random(key).random() < 0.4:
+                        m.add_box(insert_b, TextureRef(profile.insert, 1.0, 1.0))
 
     # Наружная оболочка.
     all_cells = set().union(*occupied.values()) if occupied else set()
@@ -270,6 +355,13 @@ def build_blueprint_map(blueprint: dict, wads, game_dir, seed: int = 0) -> MapFi
             m.add_box(bounds, shell)
 
     m.meta["openings"] = {}
+    surface_meta = {}
+    for room, floors in surface_report["floor"].items():
+        surface_meta[room] = {
+            "floor": sorted(floors),
+            "ceiling": sorted(surface_report["ceiling"].get(room, set())),
+        }
+    m.meta["surface"] = surface_meta
     m.meta["blueprint"] = graph["name"]
     return m
 
