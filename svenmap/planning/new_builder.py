@@ -258,16 +258,13 @@ def build_blueprint_map(blueprint: dict, wads, game_dir, seed: int = 0) -> MapFi
             owner[(0, cell)] = conn["a"]
             corridor_cells.add((0, cell))
 
-    # Акценты: отдельные RNG для пола и потолка, геометрия не меняется.
+    # Акцентные «заплатки» убраны: на скриншотах они читались как шум и
+    # случайные отличающиеся клетки пола/потолка. Оставляем только базовые
+    # текстуры роли — они различаются между комнатами и так.
     floor_accents, ceil_accents = {}, {}
-    for node_id, area in areas.items():
-        cells = _world_cells(area)
-        floor_accents[node_id] = _accent_cells(
-            cells, seed, node_id + ":floor", 0.08
-        )
-        ceil_accents[node_id] = _accent_cells(
-            cells, seed, node_id + ":ceil", 0.12, 3
-        )
+    for node_id in areas:
+        floor_accents[node_id] = set()
+        ceil_accents[node_id] = set()
 
     # Пол и потолок по реально занятым клеткам: разные текстуры, акцент точечно.
     surface_report = {"floor": {}, "ceiling": {}}
@@ -332,10 +329,8 @@ def build_blueprint_map(blueprint: dict, wads, game_dir, seed: int = 0) -> MapFi
                 if profile.trim:
                     m.add_box(base_b, TextureRef(profile.trim, 1.0, 1.0))
                     m.add_box(cornice_b, TextureRef(profile.trim, 1.0, 1.0))
-                if profile.insert:
-                    key = "{}:{}:{}:{}:insert".format(seed, node_id, cx, cy)
-                    if random.Random(key).random() < 0.4:
-                        m.add_box(insert_b, TextureRef(profile.insert, 1.0, 1.0))
+                # Вставки-«наклейки» убраны: висящие панели выглядели
+                # инородно. Остаются плинтус и карниз заподлицо со стеной.
 
     # Наружная оболочка.
     all_cells = set().union(*occupied.values()) if occupied else set()

@@ -69,7 +69,7 @@ def add_columns(m, rect, profile, rng, doors, spec, segments=()):
     size = 32.0
     cells = [
         c for c in _grid_candidates(rect)
-        if (_clear(c, doors, 160) and not _near_center(c, rect, 128)
+        if (_clear(c, doors, 256) and not _near_center(c, rect, 128)
                 and _clear_path(c, segments))
     ]
     rng.shuffle(cells)
@@ -97,7 +97,7 @@ def add_crates(m, rect, profile, rng, doors, spec, segments=()):
     z0 = spec.floor_thickness
     cells = [
         c for c in _grid_candidates(rect)
-        if (_clear(c, doors, 176) and not _near_center(c, rect, 128)
+        if (_clear(c, doors, 256) and not _near_center(c, rect, 128)
                 and _clear_path(c, segments))
     ]
     rng.shuffle(cells)

@@ -19,8 +19,7 @@
       "brightness": 220
     },
     "props": [
-      "columns",
-      "panels"
+      "columns"
     ],
     "description": "Светлый вестибюль с колоннами и панелями."
   },
@@ -45,7 +44,6 @@
       "brightness": 200
     },
     "props": [
-      "panels",
       "pipes"
     ],
     "description": "Узел безопасности: панели управления и кабели."
@@ -116,7 +114,6 @@
       "brightness": 170
     },
     "props": [
-      "panels",
       "pipes"
     ],
     "description": "Серверный зал: холодный свет, шкафы и кабельные лотки."
@@ -141,9 +138,7 @@
       "color": "200 235 255",
       "brightness": 210
     },
-    "props": [
-      "panels"
-    ],
+    "props": [],
     "description": "Лабораторный отсек с приборами."
   },
   "warehouse": {

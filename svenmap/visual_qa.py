@@ -7,7 +7,7 @@ warn-метрики: они показывают, что улучшить, но 
 
 from typing import List
 
-from .mapfile import TEXTURE_AXES
+from .mapfile import TEXTURE_AXES, compiler_codec
 
 
 def check_face_axes(m) -> List[str]:
@@ -70,9 +70,110 @@ def visual_metrics(m) -> dict:
     }
 
 
-def evaluate_visual(m) -> dict:
+MOJIBAKE_CHARS = "ÐÑÃâ€"
+
+
+def looks_mojibake(text: str) -> bool:
+    """Кракозябры вида «Ð Ñ Đâ» — признак двойного кодирования."""
+    if not any("\u0400" <= ch <= "\u04ff" for ch in text):
+        return sum(ch in MOJIBAKE_CHARS for ch in text) >= 2
+    return False
+
+
+def check_text_encoding(m) -> List[str]:
+    """Кругооборот строки через кодировку CSG должен быть без потерь."""
+    enc = compiler_codec()
+    issues = []
+    for entity in m.entities:
+        if entity.get("classname") != "game_text":
+            continue
+        message = entity.get("message", "")
+        try:
+            back = message.encode(enc).decode(enc)
+        except UnicodeEncodeError:
+            issues.append("game_text {!r}: символ нельзя записать в {}"
+                          .format(entity.get("targetname"), enc))
+            continue
+        if back != message:
+            issues.append("game_text {!r}: кругооборот через {} исказил текст"
+                          .format(entity.get("targetname"), enc))
+        if looks_mojibake(message):
+            issues.append("game_text {!r}: текст выглядит как кракозябры"
+                          .format(entity.get("targetname")))
+    return issues
+
+
+FORBIDDEN_TEXTURES = {"BCRATE09A"}  # decal-картинка на маленьком кубе
+
+
+def check_texture_roles(m) -> List[str]:
+    """Запрещённые текстуры наBrushах."""
+    issues = []
+    for brush in m.brushes:
+        for _face, texture in brush:
+            name = getattr(texture, "name", str(texture))
+            if name in FORBIDDEN_TEXTURES:
+                issues.append("запрещённая текстура {} на браше".format(name))
+    return issues[:8]
+
+
+def check_decor_clearance(m, blueprint=None) -> List[str]:
+    """Декор не должен стоять в проёме."""
+    if not blueprint:
+        return []
+    grid = 192
+    zones = []
+    for conn in blueprint["spatial"]["connections"]:
+        pa, pb = tuple(conn["portal_a"]), tuple(conn["portal_b"])
+        zones.append((
+            ((pa[0] + pb[0] + 1) / 2.0) * grid,
+            ((pa[1] + pb[1] + 1) / 2.0) * grid,
+            conn.get("id", "?"),
+        ))
+    issues = []
+    for item in m.meta.get("decor_brushes", []):
+        x0, y0, z0, x1, y1, z1 = item["bounds"]
+        if z1 < 16 or z0 > 120:
+            continue
+        for zx, zy, portal_id in zones:
+            if (x0 - 96 <= zx <= x1 + 96 and y0 - 96 <= zy <= y1 + 96):
+                issues.append(
+                    "декор {} ({}) на проёме {} ({:.0f} {:.0f})"
+                    .format(item["area"], "/".join(item["kinds"]),
+                            portal_id, zx, zy)
+                )
+                break
+    return issues[:8]
+
+
+def check_bsp_text(bsp_path: str, m) -> List[str]:
+    """Истина после компиляции: ожидаемые строки должны лежать в BSP."""
+    import struct
+
+    with open(bsp_path, "rb") as f:
+        data = f.read()
+    offset, length = struct.unpack_from("<ii", data, 4)
+    entities = data[offset:offset + length].rstrip(b"\0").decode(
+        "utf-8", errors="replace")
+    issues = []
+    for entity in m.entities:
+        if entity.get("classname") != "game_text":
+            continue
+        expected = entity.get("message", "")
+        if expected and expected not in entities:
+            issues.append(
+                "game_text {}: в BSP нет строки {!r}"
+                .format(entity.get("targetname"), expected)
+            )
+    return issues
+
+
+def evaluate_visual(m, blueprint=None) -> dict:
     axis_errors = check_face_axes(m)
     surface_errors = check_surfaces(m)
+    text_errors = check_text_encoding(m)
+    texture_errors = check_texture_roles(m)
+    decor_errors = check_decor_clearance(m, blueprint)
     metrics = visual_metrics(m)
     warnings = []
     if metrics["rooms"] and metrics["visible_lamps"] < metrics["rooms"]:
@@ -85,9 +186,14 @@ def evaluate_visual(m) -> dict:
         warnings.append("мало разных текстур: {}".format(
             metrics["distinct_textures"]))
     return {
-        "passed": not axis_errors and not surface_errors,
+        "passed": (not axis_errors and not surface_errors
+                   and not text_errors and not texture_errors
+                   and not decor_errors),
         "axis_errors": axis_errors,
         "surface_errors": surface_errors,
+        "text_errors": text_errors,
+        "texture_errors": texture_errors,
+        "decor_errors": decor_errors,
         "warnings": warnings,
         "metrics": metrics,
     }

@@ -17,16 +17,20 @@
       "portal_binding": true,
       "visual_axes": true,
       "visual_surfaces": true,
+      "visual_text": true,
+      "visual_textures": true,
+      "visual_decor": true,
       "compile_CSG": true,
       "compile_BSP": true,
       "compile_VIS": true,
       "compile_RAD": true,
       "no_leak": true,
+      "bsp_text": true,
       "map_load": true,
       "script_compile": true
     },
     "details": {
-      "brush": 882,
+      "brush": 804,
       "entities": 64,
       "secret_count": 0,
       "composition": {
@@ -103,9 +107,12 @@
         "passed": true,
         "axis_errors": [],
         "surface_errors": [],
+        "text_errors": [],
+        "texture_errors": [],
+        "decor_errors": [],
         "warnings": [],
         "metrics": {
-          "distinct_textures": 11,
+          "distinct_textures": 9,
           "rooms_same_floor_ceiling": 0,
           "visible_lamps": 10,
           "fill_lights": 10,
@@ -151,7 +158,8 @@
           }
         }
       },
-      "bsp_bytes": 1295312
+      "bsp_text_errors": [],
+      "bsp_bytes": 1174672
     }
   },
   {
@@ -172,16 +180,20 @@
       "portal_binding": true,
       "visual_axes": true,
       "visual_surfaces": true,
+      "visual_text": true,
+      "visual_textures": true,
+      "visual_decor": true,
       "compile_CSG": true,
       "compile_BSP": true,
       "compile_VIS": true,
       "compile_RAD": true,
       "no_leak": true,
+      "bsp_text": true,
       "map_load": true,
       "script_compile": true
     },
     "details": {
-      "brush": 1259,
+      "brush": 1146,
       "entities": 82,
       "secret_count": 0,
       "composition": {
@@ -270,9 +282,12 @@
         "passed": true,
         "axis_errors": [],
         "surface_errors": [],
+        "text_errors": [],
+        "texture_errors": [],
+        "decor_errors": [],
         "warnings": [],
         "metrics": {
-          "distinct_textures": 11,
+          "distinct_textures": 9,
           "rooms_same_floor_ceiling": 0,
           "visible_lamps": 16,
           "fill_lights": 16,
@@ -322,7 +337,8 @@
           }
         }
       },
-      "bsp_bytes": 1829336
+      "bsp_text_errors": [],
+      "bsp_bytes": 1664688
     }
   },
   {
@@ -340,16 +356,20 @@
       "portal_binding": true,
       "visual_axes": true,
       "visual_surfaces": true,
+      "visual_text": true,
+      "visual_textures": true,
+      "visual_decor": true,
       "compile_CSG": true,
       "compile_BSP": true,
       "compile_VIS": true,
       "compile_RAD": true,
       "no_leak": true,
+      "bsp_text": true,
       "map_load": true,
       "script_compile": true
     },
     "details": {
-      "brush": 795,
+      "brush": 747,
       "entities": 49,
       "secret_count": 0,
       "composition": {
@@ -421,9 +441,12 @@
         "passed": true,
         "axis_errors": [],
         "surface_errors": [],
+        "text_errors": [],
+        "texture_errors": [],
+        "decor_errors": [],
         "warnings": [],
         "metrics": {
-          "distinct_textures": 9,
+          "distinct_textures": 7,
           "rooms_same_floor_ceiling": 0,
           "visible_lamps": 9,
           "fill_lights": 9,
@@ -461,7 +484,8 @@
           }
         }
       },
-      "bsp_bytes": 1220912
+      "bsp_text_errors": [],
+      "bsp_bytes": 1150716
     }
   },
   {
@@ -482,16 +506,20 @@
       "portal_binding": true,
       "visual_axes": true,
       "visual_surfaces": true,
+      "visual_text": true,
+      "visual_textures": true,
+      "visual_decor": true,
       "compile_CSG": true,
       "compile_BSP": true,
       "compile_VIS": true,
       "compile_RAD": true,
       "no_leak": true,
+      "bsp_text": true,
       "map_load": true,
       "script_compile": true
     },
     "details": {
-      "brush": 1232,
+      "brush": 1139,
       "entities": 79,
       "secret_count": 0,
       "composition": {
@@ -578,9 +606,12 @@
         "passed": true,
         "axis_errors": [],
         "surface_errors": [],
+        "text_errors": [],
+        "texture_errors": [],
+        "decor_errors": [],
         "warnings": [],
         "metrics": {
-          "distinct_textures": 11,
+          "distinct_textures": 9,
           "rooms_same_floor_ceiling": 0,
           "visible_lamps": 15,
           "fill_lights": 15,
@@ -630,7 +661,8 @@
           }
         }
       },
-      "bsp_bytes": 1783896
+      "bsp_text_errors": [],
+      "bsp_bytes": 1666636
     }
   },
   {
@@ -651,16 +683,20 @@
       "portal_binding": true,
       "visual_axes": true,
       "visual_surfaces": true,
+      "visual_text": true,
+      "visual_textures": true,
+      "visual_decor": true,
       "compile_CSG": true,
       "compile_BSP": true,
       "compile_VIS": true,
       "compile_RAD": true,
       "no_leak": true,
+      "bsp_text": true,
       "map_load": true,
       "script_compile": true
     },
     "details": {
-      "brush": 820,
+      "brush": 744,
       "entities": 62,
       "secret_count": 0,
       "composition": {
@@ -734,9 +770,12 @@
         "passed": true,
         "axis_errors": [],
         "surface_errors": [],
+        "text_errors": [],
+        "texture_errors": [],
+        "decor_errors": [],
         "warnings": [],
         "metrics": {
-          "distinct_textures": 11,
+          "distinct_textures": 9,
           "rooms_same_floor_ceiling": 0,
           "visible_lamps": 9,
           "fill_lights": 9,
@@ -778,7 +817,8 @@
           }
         }
       },
-      "bsp_bytes": 1147388
+      "bsp_text_errors": [],
+      "bsp_bytes": 1021548
     }
   },
   {
@@ -799,16 +839,20 @@
       "portal_binding": true,
       "visual_axes": true,
       "visual_surfaces": true,
+      "visual_text": true,
+      "visual_textures": true,
+      "visual_decor": true,
       "compile_CSG": true,
       "compile_BSP": true,
       "compile_VIS": true,
       "compile_RAD": true,
       "no_leak": true,
+      "bsp_text": true,
       "map_load": true,
       "script_compile": true
     },
     "details": {
-      "brush": 1215,
+      "brush": 1121,
       "entities": 79,
       "secret_count": 0,
       "composition": {
@@ -895,9 +939,12 @@
         "passed": true,
         "axis_errors": [],
         "surface_errors": [],
+        "text_errors": [],
+        "texture_errors": [],
+        "decor_errors": [],
         "warnings": [],
         "metrics": {
-          "distinct_textures": 11,
+          "distinct_textures": 9,
           "rooms_same_floor_ceiling": 0,
           "visible_lamps": 15,
           "fill_lights": 15,
@@ -947,7 +994,8 @@
           }
         }
       },
-      "bsp_bytes": 1772660
+      "bsp_text_errors": [],
+      "bsp_bytes": 1643028
     }
   },
   {
@@ -965,16 +1013,20 @@
       "portal_binding": true,
       "visual_axes": true,
       "visual_surfaces": true,
+      "visual_text": true,
+      "visual_textures": true,
+      "visual_decor": true,
       "compile_CSG": true,
       "compile_BSP": true,
       "compile_VIS": true,
       "compile_RAD": true,
       "no_leak": true,
+      "bsp_text": true,
       "map_load": true,
       "script_compile": true
     },
     "details": {
-      "brush": 1028,
+      "brush": 938,
       "entities": 58,
       "secret_count": 0,
       "composition": {
@@ -1055,9 +1107,12 @@
         "passed": true,
         "axis_errors": [],
         "surface_errors": [],
+        "text_errors": [],
+        "texture_errors": [],
+        "decor_errors": [],
         "warnings": [],
         "metrics": {
-          "distinct_textures": 11,
+          "distinct_textures": 9,
           "rooms_same_floor_ceiling": 0,
           "visible_lamps": 12,
           "fill_lights": 12,
@@ -1103,7 +1158,8 @@
           }
         }
       },
-      "bsp_bytes": 1427772
+      "bsp_text_errors": [],
+      "bsp_bytes": 1290704
     }
   },
   {
@@ -1122,16 +1178,20 @@
       "portal_binding": true,
       "visual_axes": true,
       "visual_surfaces": true,
+      "visual_text": true,
+      "visual_textures": true,
+      "visual_decor": true,
       "compile_CSG": true,
       "compile_BSP": true,
       "compile_VIS": true,
       "compile_RAD": true,
       "no_leak": true,
+      "bsp_text": true,
       "map_load": true,
       "script_compile": true
     },
     "details": {
-      "brush": 717,
+      "brush": 658,
       "entities": 50,
       "secret_count": 0,
       "composition": {
@@ -1201,9 +1261,12 @@
         "passed": true,
         "axis_errors": [],
         "surface_errors": [],
+        "text_errors": [],
+        "texture_errors": [],
+        "decor_errors": [],
         "warnings": [],
         "metrics": {
-          "distinct_textures": 11,
+          "distinct_textures": 9,
           "rooms_same_floor_ceiling": 0,
           "visible_lamps": 8,
           "fill_lights": 8,
@@ -1236,7 +1299,8 @@
           }
         }
       },
-      "bsp_bytes": 1122328
+      "bsp_text_errors": [],
+      "bsp_bytes": 1022820
     }
   }
 ]

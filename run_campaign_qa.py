@@ -25,7 +25,7 @@ from svenmap.leak_repair import repair_leaks
 from svenmap.composition_metrics import summarize as summarize_composition
 from svenmap.pacing import evaluate as evaluate_pacing
 from svenmap.composition_validator import evaluate_composition
-from svenmap.visual_qa import evaluate_visual
+from svenmap.visual_qa import evaluate_visual, check_bsp_text
 
 from generate_campaign import (
     CAMPAIGN_JSON, PROJECT_LOGS, PROJECT_MAPS,
@@ -89,9 +89,12 @@ def chapter_checks(chapter, m, level, campaign, index, blueprint=None):
         binding = validate_portal_binding(blueprint, portals, m)
         checks["portal_binding"] = binding["passed"]
 
-    visual = evaluate_visual(m)
+    visual = evaluate_visual(m, blueprint)
     checks["visual_axes"] = not visual["axis_errors"]
     checks["visual_surfaces"] = not visual["surface_errors"]
+    checks["visual_text"] = not visual["text_errors"]
+    checks["visual_textures"] = not visual["texture_errors"]
+    checks["visual_decor"] = not visual["decor_errors"]
     return checks
 
 
@@ -151,7 +154,7 @@ def main():
             )
             details["scenes"] = m.meta.get("scenes", {})
             details["atmosphere"] = m.meta.get("atmosphere", {})
-            details["visual"] = evaluate_visual(m)
+            details["visual"] = evaluate_visual(m, blueprint)
             details["composition_validation"] = evaluate_composition(
                 blueprint, chapter.name, chapter.pacing
             )
@@ -179,6 +182,11 @@ def main():
                 checks["no_leak"] = not any(
                     p in log for p in ("LEAK", "Error:", "Illegal Brush")
                 )
+                bsp = os.path.join(addon_maps, chapter.name + ".bsp")
+                if os.path.isfile(bsp):
+                    text_issues = check_bsp_text(bsp, m)
+                    checks["bsp_text"] = not text_issues
+                    details["bsp_text_errors"] = text_issues
             except Exception as e:
                 checks["compile"] = False
                 details["compile_error"] = str(e)[:300]

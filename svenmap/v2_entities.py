@@ -92,7 +92,7 @@ def add_basic_entities(m, blueprint):
             "light", targetname="fill_light_" + area["node_id"],
             origin="{} {} {}".format(num(cx), num(cy), floor_base + 232),
             angles="0 0 0",
-            _light="{} 60".format(light_color),
+            _light="{} 90".format(light_color),
             _falloff="0",
             _fade="1.0",
             style="0",

@@ -5,8 +5,25 @@
 и масштабы.
 """
 
+import ctypes
+import sys
+
 from .geometry import box_faces
 from .textures import TextureRef
+
+
+class MapEncodingError(ValueError):
+    """Текст карты нельзя записать в кодировке, которую ждёт CSG."""
+
+
+def compiler_codec() -> str:
+    """Кодировка, которую CSG считает «родной» (ANSI системы)."""
+    if sys.platform == "win32":
+        try:
+            return "cp{}".format(ctypes.windll.kernel32.GetACP())
+        except Exception:
+            return "cp1251"
+    return "utf-8"
 
 # Текстурные оси для грани с заданной нормалью.
 # В формате 220 пишется: [ ux uy uz shift ] [ vx vy vz shift ] rot uscale vscale
@@ -136,6 +153,20 @@ class MapFile:
         return "\n".join(lines) + "\n"
 
     def write(self, path):
-        with open(path, "w", encoding="utf-8", newline="\n") as f:
-            f.write(self.to_text())
+        """Пишем в ANSI системы: CSG конвертирует ANSI -> UTF-8 для BSP.
+
+        Запись UTF-8 приводила к двойному кодированию и кракозябрам
+        в game_text («Ð Ñ Đâ» вместо русского текста).
+        """
+        enc = compiler_codec()
+        text = self.to_text()
+        try:
+            data = text.encode(enc)
+        except UnicodeEncodeError as exc:
+            raise MapEncodingError(
+                "символ {!r} нельзя записать в {}; замените текст"
+                .format(text[exc.start], enc)
+            )
+        with open(path, "wb") as f:
+            f.write(data)
         return path

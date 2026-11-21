@@ -16,7 +16,7 @@ class TestScenes(unittest.TestCase):
         self.assertEqual(set(scene_names()), set(scenes))
         for name, scene in scenes.items():
             self.assertTrue(scene["fits_roles"], name)
-            self.assertTrue(scene["props"], name)
+            self.assertIsInstance(scene["props"], list)
             self.assertEqual(len(scene["min_size"]), 2)
 
     def test_props_are_known_decor_kinds(self):
@@ -29,7 +29,7 @@ class TestScenes(unittest.TestCase):
         p = scene_profile("server_hall")
         self.assertEqual(p.light_color, "150 220 255")
         self.assertEqual(p.light_brightness, 170)
-        self.assertIn("panels", p.decor)
+        self.assertIn("pipes", p.decor)
 
     def test_assign_scenes_deterministic(self):
         from svenmap.planning import BlueprintConfig, generate_blueprint

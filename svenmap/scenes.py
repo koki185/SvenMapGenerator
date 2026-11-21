@@ -151,6 +151,16 @@ def add_scene_decor(m, blueprint: dict, spec, seed: int = 0) -> int:
     from .decor import decorate
 
     assignments = blueprint.get("scene_assignments", {})
+    grid = 192
+    # Проёмы в мировых юнитах: декор не должен в них попадать.
+    doors = []
+    for conn in blueprint["spatial"]["connections"]:
+        pa, pb = tuple(conn["portal_a"]), tuple(conn["portal_b"])
+        doors.append((
+            ((pa[0] + pb[0] + 1) / 2.0) * grid,
+            ((pa[1] + pb[1] + 1) / 2.0) * grid,
+        ))
+    decor_brushes = []
     made = 0
     for area in blueprint["spatial"]["areas"]:
         scene_name = assignments.get(area["node_id"])
@@ -167,7 +177,6 @@ def add_scene_decor(m, blueprint: dict, spec, seed: int = 0) -> int:
             ]
         if not world:
             continue
-        grid = 192
         x0 = min(c[0] for c in world) * grid
         y0 = min(c[1] for c in world) * grid
         x1 = (max(c[0] for c in world) + 1) * grid
@@ -175,10 +184,19 @@ def add_scene_decor(m, blueprint: dict, spec, seed: int = 0) -> int:
         profile = scene_profile(scene_name)
         if not profile.decor:
             continue
+        before = len(m.brushes)
         decorate(
             m, (x0, y0, x1, y1), profile,
             _rng(seed, "decor_" + area["node_id"]),
-            [], spec,
+            doors, spec,
         )
+        for bounds in m.solids[before:]:
+            decor_brushes.append({
+                "area": area["node_id"],
+                "kinds": list(profile.decor),
+                "bounds": (bounds.x0, bounds.y0, bounds.z0,
+                           bounds.x1, bounds.y1, bounds.z1),
+            })
         made += 1
+    m.meta["decor_brushes"] = decor_brushes
     return made
