@@ -154,7 +154,14 @@ def apply_shapes(graph: TopologyGraph, layout: SpatialLayout,
     for node_id, area in layout.areas.items():
         node = graph.nodes[node_id]
         portals = _portals_for(node_id, layout)
-        shapes = list(SHAPE_WEIGHTS.get(node.type, ("rect",)))
+        node_info_obj = graph.nodes.get(node_id)
+        node_info = {
+            "role": node_info_obj.role if node_info_obj else "",
+        }
+        if node.type == "spawn" or node_info.get("role") == "start":
+            shapes = ["rect"]
+        else:
+            shapes = list(SHAPE_WEIGHTS.get(node.type, ("rect",)))
         rng.shuffle(shapes)
         chosen = ("rect", make_rect(area.w, area.h))
 

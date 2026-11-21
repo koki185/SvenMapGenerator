@@ -235,17 +235,11 @@ def add_objective(m, spec, texture_lib=None, script_name=None,
                 origin="{} {} {}".format(num(x), num(y), num(z)),
                 angles="0 0 0",
                 model="models/w_security.mdl",
-            )
-            # Яркая подсветка образца: спрайт + локальный свет.
-            m.add_point_entity(
-                "env_sprite", targetname=name + "_glow",
-                origin="{} {} {}".format(num(x), num(y), num(z + 24)),
-                angles="0 0 0",
-                model="sprites/flare1.spr",
-                scale="0.6",
+                # Неоновый контур прямо по модели предмета.
+                renderfx="19",        # Glow Shell
+                rendermode="5",       # Additive
                 rendercolor="255 220 40",
                 renderamt="255",
-                framerate="10",
             )
             m.add_point_entity(
                 "light", targetname=name + "_light",

@@ -183,6 +183,7 @@ def _plan_once(config, attempt):
 
     root_size = _random_size(rng, types[main_ids[0]])
     rects[main_ids[0]] = (0, 0, root_size[0], root_size[1])
+    graph_start = main_ids[0]
 
     for node_id in order[1:]:
         parent_id = next(a for a, b in edges if b == node_id)

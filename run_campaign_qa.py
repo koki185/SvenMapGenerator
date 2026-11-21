@@ -20,6 +20,7 @@ from svenmap.textures import TextureLibrary
 from svenmap.validator import unreachable_areas
 from svenmap.validator_portals import validate_portal_binding
 from svenmap.planning import resolve_all_portals
+from svenmap.scripts import write_map_script
 from svenmap.leak_repair import repair_leaks
 
 from generate_campaign import (
@@ -125,6 +126,14 @@ def main():
         }
         addon_maps = os.path.join(game_dir, "svencoop_addon", "maps")
         game_map = os.path.join(addon_maps, chapter.name + ".map")
+        script_mode = "collect" if "collect" in chapter.puzzles else "buttons"
+        write_map_script(
+            game_dir, chapter.name,
+            5 if script_mode == "collect" else 2,
+            label="Samples" if script_mode == "collect" else "Generators",
+            chapter=index, final=chapter.final,
+            secret_total=secret_count,
+        )
         m.write(game_map)
         if blueprint is not None and not args.no_smoke:
             repair_leaks(m, level, blueprint, game_map, compilers_dir)

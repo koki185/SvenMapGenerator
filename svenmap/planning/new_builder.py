@@ -266,6 +266,26 @@ def build_blueprint_map(blueprint: dict, wads, game_dir, seed: int = 0) -> MapFi
                 b.get("floor", 0), height, floor_t, wall_t),
         }
 
+    # Внешняя оболочка карты: страхует от щелей в углах вырезов.
+    all_cells = set()
+    for cells in occupied.values():
+        all_cells |= cells
+    if all_cells:
+        wx0 = min(c[0] for c in all_cells) * grid - 64
+        wx1 = (max(c[0] for c in all_cells) + 1) * grid + 64
+        wy0 = min(c[1] for c in all_cells) * grid - 64
+        wy1 = (max(c[1] for c in all_cells) + 1) * grid + 64
+        top = (max(a.get("floor", 0) for a in areas.values()) + 1) * (
+            height + floor_t) + 32
+        shell = TextureRef("BASEWALL01A", 1.0, 1.0)
+        for bounds in (
+            Bounds(wx0, wy0 - 32, -32, wx1, wy0, top),
+            Bounds(wx0, wy1, -32, wx1, wy1 + 32, top),
+            Bounds(wx0 - 32, wy0, -32, wx0, wy1, top),
+            Bounds(wx1, wy0, -32, wx1 + 32, wy1, top),
+        ):
+            m.add_box(bounds, shell)
+
     m.meta["blueprint"] = graph["name"]
     return m
 

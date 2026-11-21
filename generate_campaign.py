@@ -237,6 +237,8 @@ def main():
     parser.add_argument("--smoke", action="store_true")
     parser.add_argument("--planner", choices=("legacy", "graph_v2"),
                         default="graph_v2")
+    parser.add_argument("--only", default="",
+                        help="собрать только одну главу по имени")
     args = parser.parse_args()
 
     _common, compilers_dir, game_dir = detect_roots()
@@ -252,9 +254,16 @@ def main():
 
     os.makedirs(PROJECT_MAPS, exist_ok=True)
     all_ok = True
-    for index, chapter in enumerate(campaign.chapters, start=1):
+    chapters = campaign.chapters
+    if args.only:
+        chapters = [c for c in chapters if c.name == args.only]
+        if not chapters:
+            print("нет главы с именем", args.only)
+            return 1
+
+    for index, chapter in enumerate(chapters, start=1):
         print("\n=== глава {}/{}: {} ===".format(
-            index, len(campaign.chapters), chapter.name))
+            index, len(chapters), chapter.name))
         if args.planner == "graph_v2":
             m, level, variant, secret_count, blueprint = build_chapter_v2(
                 chapter, tex_lib, wad_list, game_dir

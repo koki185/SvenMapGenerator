@@ -9,7 +9,7 @@ import os
 import re
 import subprocess
 
-from .v2_entities import area_center_world
+from .v2_entities import area_center_world, GRID
 
 ENTITY_RE = re.compile(
     r"Entity\s+(\w+)\s+@\s*\(\s*([-\d.]+)[, ]+\s*([-\d.]+)[, ]+\s*([-\d.]+)\s*\)"
@@ -17,6 +17,9 @@ ENTITY_RE = re.compile(
 
 
 def _compile_quick(game_map, compilers_dir):
+    log_path = os.path.splitext(game_map)[0] + ".log"
+    if os.path.isfile(log_path):
+        os.remove(log_path)
     results = []
     for tool in ("SC-CSG_x64.exe", "SC-BSP_x64.exe"):
         exe = os.path.join(compilers_dir, tool)
@@ -72,8 +75,30 @@ def repair_leaks(m, spec, blueprint, game_map, compilers_dir,
         if target is None:
             return False
 
-        if classname in ("item_security", "func_button"):
-            target["origin"] = "{} {} 24".format(int(safe[0]), int(safe[1]))
+        if classname in ("item_security", "func_button",
+                         "info_player_start", "info_player_deathmatch",
+                         "light", "env_sprite"):
+            spawn_area = areas[spec.start]
+            cells = spawn_area.get("cells") or [
+                [cx, cy]
+                for cx in range(spawn_area["w"])
+                for cy in range(spawn_area["h"])
+            ]
+            candidates = sorted(
+                (
+                    (spawn_area["x"] + c[0] + 0.5) * GRID,
+                    (spawn_area["y"] + c[1] + 0.5) * GRID,
+                )
+                for c in cells
+            )
+            candidates.sort(
+                key=lambda p: (p[0] - safe[0]) ** 2 + (p[1] - safe[1]) ** 2
+            )
+            nx, ny = candidates[(round_index + 1) % len(candidates)]
+            target["origin"] = "{} {} {}".format(
+                int(nx), int(ny),
+                24 if classname != "light" else 240,
+            )
         else:
             m.entities.remove(target)
     return False
