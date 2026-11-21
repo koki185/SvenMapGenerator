@@ -1,6 +1,6 @@
 # SvenMap Generator — QA кампании
 
-Кампания: sc_expedition; глав: 8; время 318.9 с.
+Кампания: sc_expedition; глав: 8; время 317.5 с.
 
 | Глава | Результат | Brush | Entity | Секретов | BSP, КБ |
 |---|---|---:|---:|---:|---:|
@@ -10,7 +10,7 @@
 | sc_exp_4 | PASS | 636 | 40 | 0 | 779 |
 | sc_exp_5 | PASS | 416 | 35 | 0 | 581 |
 | sc_exp_6 | PASS | 640 | 40 | 0 | 707 |
-| sc_exp_7 | PASS | 524 | 25 | 0 | 535 |
+| sc_exp_7 | PASS | 524 | 25 | 0 | 534 |
 | sc_exp_8 | PASS | 380 | 24 | 0 | 419 |
 
 ## Метрики композиции (P3.0)
@@ -27,6 +27,19 @@
 | sc_exp_8 | 0.650 | 0.930 | 1.00 | 0 | 0.38 | 1 |
 
 Превью планировок: `notes/previews/<имя>.svg`. Метрики — фильтр pass/warn, а не целевая функция: итоговое решение всегда за человеком, который проходит карту.
+
+## Ритм по профилям (P3.1)
+
+| Глава | профиль | боевых % | подряд | до передышки | ролей | предупреждения |
+|---|---|---:|---:|---:|---:|---|
+| sc_exp_1 | standard_8 | 20% | 1 | 4 | 0.60 | доля боевых комнат 20% ниже порога профиля standard_8 (25%–45%) |
+| sc_exp_2 | dense_10 | 12% | 1 | 4 | 0.44 | доля боевых комнат 12% ниже порога профиля dense_10 (35%–55%) |
+| sc_exp_3 | short_6 | 22% | 1 | 2 | 0.67 | — |
+| sc_exp_4 | standard_8 | 13% | 1 | 4 | 0.47 | доля боевых комнат 13% ниже порога профиля standard_8 (25%–45%) |
+| sc_exp_5 | standard_8 | 22% | 2 | 2 | 0.67 | доля боевых комнат 22% ниже порога профиля standard_8 (25%–45%) |
+| sc_exp_6 | dense_10 | 13% | 1 | 5 | 0.47 | доля боевых комнат 13% ниже порога профиля dense_10 (35%–55%); передышка только каждые 5 комнат — реже, чем нужно (4) |
+| sc_exp_7 | standard_8 | 17% | 1 | 4 | 0.58 | доля боевых комнат 17% ниже порога профиля standard_8 (25%–45%) |
+| sc_exp_8 | standard_8 | 25% | 2 | 3 | 0.75 | — |
 
 ### sc_exp_1 — PASS
 all_areas=OK, changelevel=OK, compile_BSP=OK, compile_CSG=OK, compile_RAD=OK, compile_VIS=OK, coop_spawns=OK, goal_after_door_opens=OK, goal_gated_by_door=OK, item_sample_1=OK, item_sample_2=OK, item_sample_3=OK, item_sample_4=OK, item_sample_5=OK, map_load=OK, no_leak=OK, objective=OK, portal_binding=OK, script_compile=OK

@@ -1,0 +1,23 @@
+{
+  "short_6": {
+    "description": "Короткая глава: быстрый вход, одна схватка, одна передышка, финал.",
+    "roles": ["intro", "corridor", "combat", "rest", "puzzle", "finale"],
+    "max_combat_in_row": 2,
+    "min_rest_every": 3,
+    "combat_share": [0.2, 0.4]
+  },
+  "standard_8": {
+    "description": "Стандартный ритм Secret City: напряжение чередуется с передышками.",
+    "roles": ["intro", "corridor", "combat", "rest", "puzzle", "combat", "reward", "finale"],
+    "max_combat_in_row": 2,
+    "min_rest_every": 4,
+    "combat_share": [0.25, 0.45]
+  },
+  "dense_10": {
+    "description": "Поздняя глава: больше схваток, но передышка не реже 4 комнат.",
+    "roles": ["intro", "corridor", "combat", "puzzle", "combat", "rest", "combat", "puzzle", "reward", "finale"],
+    "max_combat_in_row": 2,
+    "min_rest_every": 4,
+    "combat_share": [0.35, 0.55]
+  }
+}

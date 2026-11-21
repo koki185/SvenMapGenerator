@@ -27,6 +27,7 @@ from svenmap.v2_entities import (
 )
 from svenmap.leak_repair import repair_leaks
 from svenmap.composition_metrics import summarize as summarize_composition
+from svenmap.pacing import evaluate as evaluate_pacing
 from svenmap.preview_v2 import write_blueprint_preview
 from svenmap.progression import (
     add_boss_arena, add_changelevel, add_multi_spawn,
@@ -388,6 +389,17 @@ def main():
                   "shapes={}".format(
                       facts["topology_score"], facts["spatial_score"],
                       facts["route_stretch"], facts["shape_variety"]))
+            pacing = evaluate_pacing(blueprint, chapter.pacing)
+            m.meta["pacing"] = pacing
+            print("  ритм: {} | боевых {:.0%}, подряд {:.0f}, "
+                  "передышка {:.0f}{}".format(
+                      pacing["profile"],
+                      pacing["metrics"]["combat_share"],
+                      pacing["metrics"]["max_combat_run"],
+                      pacing["metrics"]["rest_gap"],
+                      " | WARN: " + "; ".join(pacing["warnings"])
+                      if pacing["warnings"] else "",
+                  ))
         print("  .map:", project_map)
         print("  скрипт:", script_path)
         print("  переход:", nxt.name if nxt else "финал (арена босса)")

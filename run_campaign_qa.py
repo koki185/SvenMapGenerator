@@ -23,6 +23,7 @@ from svenmap.planning import resolve_all_portals
 from svenmap.scripts import write_map_script
 from svenmap.leak_repair import repair_leaks
 from svenmap.composition_metrics import summarize as summarize_composition
+from svenmap.pacing import evaluate as evaluate_pacing
 
 from generate_campaign import (
     CAMPAIGN_JSON, PROJECT_LOGS, PROJECT_MAPS,
@@ -140,6 +141,9 @@ def main():
         }
         if blueprint is not None:
             details["composition"] = summarize_composition(blueprint)
+            details["pacing"] = evaluate_pacing(
+                blueprint, chapter.pacing
+            )
         addon_maps = os.path.join(game_dir, "svencoop_addon", "maps")
         game_map = os.path.join(addon_maps, chapter.name + ".map")
         script_mode = "collect" if "collect" in chapter.puzzles else "buttons"
@@ -244,6 +248,29 @@ def main():
             "всегда за человеком, который проходит карту.",
             "",
         ]
+
+    rhythmic = [r for r in results if "pacing" in r["details"]]
+    if rhythmic:
+        lines += [
+            "## Ритм по профилям (P3.1)",
+            "",
+            "| Глава | профиль | боевых % | подряд | до передышки | "
+            "ролей | предупреждения |",
+            "|---|---|---:|---:|---:|---:|---|",
+        ]
+        for r in rhythmic:
+            p = r["details"]["pacing"]
+            mt = p["metrics"]
+            lines.append(
+                "| {} | {} | {:.0%} | {:.0f} | {:.0f} | {:.2f} | {} |"
+                .format(
+                    r["chapter"], p["profile"], mt["combat_share"],
+                    mt["max_combat_run"], mt["rest_gap"],
+                    mt["role_variety"],
+                    "; ".join(p["warnings"]) or "—",
+                )
+            )
+        lines.append("")
 
     for r in results:
         lines.append("### {} — {}".format(

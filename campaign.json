@@ -8,7 +8,11 @@
       "rooms": 8,
       "branches": 1,
       "theme": "industrial",
-      "puzzles": ["collect", "enemies"]
+      "puzzles": [
+        "collect",
+        "enemies"
+      ],
+      "pacing": "standard_8"
     },
     {
       "name": "sc_exp_2",
@@ -16,7 +20,12 @@
       "rooms": 10,
       "branches": 2,
       "theme": "industrial",
-      "puzzles": ["collect", "secret", "enemies"]
+      "puzzles": [
+        "collect",
+        "secret",
+        "enemies"
+      ],
+      "pacing": "dense_10"
     },
     {
       "name": "sc_exp_3",
@@ -24,7 +33,11 @@
       "rooms": 7,
       "branches": 1,
       "theme": "industrial",
-      "puzzles": ["buttons", "enemies"]
+      "puzzles": [
+        "buttons",
+        "enemies"
+      ],
+      "pacing": "short_6"
     },
     {
       "name": "sc_exp_4",
@@ -32,7 +45,13 @@
       "rooms": 9,
       "branches": 2,
       "theme": "industrial",
-      "puzzles": ["collect", "secret", "super_secret", "enemies"]
+      "puzzles": [
+        "collect",
+        "secret",
+        "super_secret",
+        "enemies"
+      ],
+      "pacing": "standard_8"
     },
     {
       "name": "sc_exp_5",
@@ -40,7 +59,12 @@
       "rooms": 8,
       "branches": 1,
       "theme": "industrial",
-      "puzzles": ["collect", "enemies", "multi_floor"]
+      "puzzles": [
+        "collect",
+        "enemies",
+        "multi_floor"
+      ],
+      "pacing": "standard_8"
     },
     {
       "name": "sc_exp_6",
@@ -48,7 +72,12 @@
       "rooms": 10,
       "branches": 2,
       "theme": "industrial",
-      "puzzles": ["collect", "secret", "enemies"]
+      "puzzles": [
+        "collect",
+        "secret",
+        "enemies"
+      ],
+      "pacing": "dense_10"
     },
     {
       "name": "sc_exp_7",
@@ -56,7 +85,13 @@
       "rooms": 9,
       "branches": 1,
       "theme": "industrial",
-      "puzzles": ["buttons", "secret", "enemies", "multi_floor"]
+      "puzzles": [
+        "buttons",
+        "secret",
+        "enemies",
+        "multi_floor"
+      ],
+      "pacing": "standard_8"
     },
     {
       "name": "sc_exp_8",
@@ -65,7 +100,10 @@
       "branches": 0,
       "theme": "industrial",
       "final": true,
-      "puzzles": ["buttons"]
+      "puzzles": [
+        "buttons"
+      ],
+      "pacing": "standard_8"
     }
   ]
 }

@@ -22,6 +22,7 @@ class Chapter:
     theme: str = "industrial"
     final: bool = False
     puzzles: tuple = ()
+    pacing: str = ""
 
 
 @dataclass
@@ -61,6 +62,7 @@ def load_campaign(path):
             theme=raw.get("theme", "industrial"),
             final=bool(raw.get("final", False)),
             puzzles=tuple(raw.get("puzzles", ())),
+            pacing=raw.get("pacing", ""),
         ))
 
     spec = CampaignSpec(name=data["name"], chapters=chapters)

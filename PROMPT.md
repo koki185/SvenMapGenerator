@@ -16,6 +16,7 @@
 | `chapters[].theme` | `industrial` |
 | `chapters[].puzzles` | ровно одна цель: `collect` **или** `buttons`; плюс `secret`, `super_secret`, `enemies`, `multi_floor` |
 | `chapters[].final` | `true` — только у последней главы |
+| `chapters[].pacing` | `short_6`, `standard_8`, `dense_10` (можно не указывать — выберется по числу комнат) |
 
 Последняя глава — арена босса: `final: true`, без `enemies` и без `changelevel`.
 
@@ -27,7 +28,8 @@
   "chapters": [
     {
       "name": "sc_test_1", "seed": 201, "rooms": 7, "branches": 1,
-      "theme": "industrial", "puzzles": ["collect", "enemies"]
+      "theme": "industrial", "pacing": "short_6",
+      "puzzles": ["collect", "enemies"]
     },
     {
       "name": "sc_test_2", "seed": 202, "rooms": 8, "branches": 2,

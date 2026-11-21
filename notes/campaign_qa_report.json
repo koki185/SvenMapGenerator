@@ -48,7 +48,32 @@
         "shape_t": 3.0,
         "shape_u": 1.0
       },
-      "bsp_bytes": 708756
+      "pacing": {
+        "profile": "standard_8",
+        "roles": [
+          "intro",
+          "intro",
+          "combat",
+          "puzzle",
+          "finale",
+          "corridor",
+          "puzzle",
+          "rest",
+          "rest",
+          "puzzle"
+        ],
+        "metrics": {
+          "combat_share": 0.2,
+          "max_combat_run": 1.0,
+          "rest_gap": 4.0,
+          "role_variety": 0.6
+        },
+        "warnings": [
+          "доля боевых комнат 20% ниже порога профиля standard_8 (25%–45%)"
+        ],
+        "passed": false
+      },
+      "bsp_bytes": 708884
     }
   },
   {
@@ -100,7 +125,38 @@
         "shape_t": 2.0,
         "shape_u": 3.0
       },
-      "bsp_bytes": 838252
+      "pacing": {
+        "profile": "dense_10",
+        "roles": [
+          "intro",
+          "intro",
+          "corridor",
+          "corridor",
+          "corridor",
+          "finale",
+          "puzzle",
+          "rest",
+          "combat",
+          "puzzle",
+          "rest",
+          "puzzle",
+          "puzzle",
+          "corridor",
+          "secret",
+          "secret"
+        ],
+        "metrics": {
+          "combat_share": 0.125,
+          "max_combat_run": 1.0,
+          "rest_gap": 4.0,
+          "role_variety": 0.4375
+        },
+        "warnings": [
+          "доля боевых комнат 12% ниже порога профиля dense_10 (35%–55%)"
+        ],
+        "passed": false
+      },
+      "bsp_bytes": 838196
     }
   },
   {
@@ -148,7 +204,29 @@
         "shape_rect": 4.0,
         "shape_t": 1.0
       },
-      "bsp_bytes": 467652
+      "pacing": {
+        "profile": "short_6",
+        "roles": [
+          "intro",
+          "intro",
+          "corridor",
+          "finale",
+          "puzzle",
+          "rest",
+          "combat",
+          "rest",
+          "puzzle"
+        ],
+        "metrics": {
+          "combat_share": 0.2222,
+          "max_combat_run": 1.0,
+          "rest_gap": 2.0,
+          "role_variety": 0.6667
+        },
+        "warnings": [],
+        "passed": true
+      },
+      "bsp_bytes": 467144
     }
   },
   {
@@ -200,7 +278,37 @@
         "shape_t": 3.0,
         "shape_u": 3.0
       },
-      "bsp_bytes": 798652
+      "pacing": {
+        "profile": "standard_8",
+        "roles": [
+          "intro",
+          "puzzle",
+          "rest",
+          "combat",
+          "puzzle",
+          "finale",
+          "intro",
+          "corridor",
+          "corridor",
+          "rest",
+          "puzzle",
+          "puzzle",
+          "corridor",
+          "secret",
+          "secret"
+        ],
+        "metrics": {
+          "combat_share": 0.1333,
+          "max_combat_run": 1.0,
+          "rest_gap": 4.0,
+          "role_variety": 0.4667
+        },
+        "warnings": [
+          "доля боевых комнат 13% ниже порога профиля standard_8 (25%–45%)"
+        ],
+        "passed": false
+      },
+      "bsp_bytes": 798612
     }
   },
   {
@@ -251,7 +359,31 @@
         "shape_rect": 5.0,
         "shape_t": 2.0
       },
-      "bsp_bytes": 595172
+      "pacing": {
+        "profile": "standard_8",
+        "roles": [
+          "intro",
+          "intro",
+          "corridor",
+          "puzzle",
+          "rest",
+          "puzzle",
+          "finale",
+          "combat",
+          "rest"
+        ],
+        "metrics": {
+          "combat_share": 0.2222,
+          "max_combat_run": 2.0,
+          "rest_gap": 2.0,
+          "role_variety": 0.6667
+        },
+        "warnings": [
+          "доля боевых комнат 22% ниже порога профиля standard_8 (25%–45%)"
+        ],
+        "passed": false
+      },
+      "bsp_bytes": 595540
     }
   },
   {
@@ -302,7 +434,38 @@
         "shape_rect": 8.0,
         "shape_t": 2.0
       },
-      "bsp_bytes": 724664
+      "pacing": {
+        "profile": "dense_10",
+        "roles": [
+          "intro",
+          "puzzle",
+          "rest",
+          "puzzle",
+          "corridor",
+          "corridor",
+          "finale",
+          "intro",
+          "corridor",
+          "combat",
+          "rest",
+          "puzzle",
+          "puzzle",
+          "secret",
+          "secret"
+        ],
+        "metrics": {
+          "combat_share": 0.1333,
+          "max_combat_run": 1.0,
+          "rest_gap": 5.0,
+          "role_variety": 0.4667
+        },
+        "warnings": [
+          "доля боевых комнат 13% ниже порога профиля dense_10 (35%–55%)",
+          "передышка только каждые 5 комнат — реже, чем нужно (4)"
+        ],
+        "passed": false
+      },
+      "bsp_bytes": 724808
     }
   },
   {
@@ -351,7 +514,34 @@
         "shape_t": 1.0,
         "shape_u": 1.0
       },
-      "bsp_bytes": 548036
+      "pacing": {
+        "profile": "standard_8",
+        "roles": [
+          "intro",
+          "intro",
+          "corridor",
+          "puzzle",
+          "corridor",
+          "finale",
+          "puzzle",
+          "rest",
+          "combat",
+          "rest",
+          "secret",
+          "secret"
+        ],
+        "metrics": {
+          "combat_share": 0.1667,
+          "max_combat_run": 1.0,
+          "rest_gap": 4.0,
+          "role_variety": 0.5833
+        },
+        "warnings": [
+          "доля боевых комнат 17% ниже порога профиля standard_8 (25%–45%)"
+        ],
+        "passed": false
+      },
+      "bsp_bytes": 547732
     }
   },
   {
@@ -399,6 +589,27 @@
         "shape_l": 1.0,
         "shape_rect": 5.0,
         "shape_t": 2.0
+      },
+      "pacing": {
+        "profile": "standard_8",
+        "roles": [
+          "intro",
+          "intro",
+          "corridor",
+          "puzzle",
+          "combat",
+          "finale",
+          "rest",
+          "puzzle"
+        ],
+        "metrics": {
+          "combat_share": 0.25,
+          "max_combat_run": 2.0,
+          "rest_gap": 3.0,
+          "role_variety": 0.75
+        },
+        "warnings": [],
+        "passed": true
       },
       "bsp_bytes": 429860
     }

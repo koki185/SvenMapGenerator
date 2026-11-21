@@ -14,6 +14,7 @@
 from dataclasses import dataclass
 from typing import List
 
+from .pacing import profile_names
 from .profiles import PROFILES
 
 # Узкий словарь: чем меньше выбор, тем лучше его делает маленькая модель.
@@ -21,6 +22,7 @@ ALLOWED_THEMES = tuple(sorted(PROFILES))
 ALLOWED_PUZZLES = (
     "buttons", "collect", "enemies", "multi_floor", "secret", "super_secret",
 )
+ALLOWED_PACINGS = profile_names()
 ROOMS_RANGE = (4, 16)
 BRANCHES_RANGE = (0, 4)
 
@@ -124,6 +126,11 @@ def validate_data(data) -> List[ValidationIssue]:
             add(path + ".theme", 'тема {!r} не поддерживается. Доступно: {}'
                 .format(theme, _allowed(ALLOWED_THEMES)))
 
+        pacing = raw.get("pacing")
+        if pacing is not None and pacing not in ALLOWED_PACINGS:
+            add(path + ".pacing", 'профиль ритма {!r} не найден. Доступно: {}'
+                .format(pacing, _allowed(ALLOWED_PACINGS)))
+
         puzzles = raw.get("puzzles", [])
         if not isinstance(puzzles, list):
             add(path + ".puzzles", "ожидается список механик, например "
@@ -172,6 +179,7 @@ def spec_to_data(spec) -> dict:
                 "name": c.name, "seed": c.seed, "rooms": c.rooms,
                 "branches": c.branches, "theme": c.theme,
                 "final": c.final, "puzzles": list(c.puzzles),
+                "pacing": c.pacing or None,
             }
             for c in spec.chapters
         ],
