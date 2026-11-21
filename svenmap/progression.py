@@ -13,6 +13,9 @@ from .textures import TextureRef
 TRIGGER_TEXTURE = TextureRef("AAATRIGGER", 1.0, 1.0)
 # Видимая текстура выхода, чтобы игрок понимал, где changelevel.
 EXIT_TEXTURE = TextureRef("EXIT1", 1.0, 1.0)
+# Надпись LEVEL CHANGE — спрайт из hl_c02_a2 (а не текстура триггера:
+# движок не рендерит brushes с classname trigger_*).
+EXIT_SPRITE = "sprites/level_change.spr"
 
 
 def add_multi_spawn(m, spec, count=4):
@@ -46,6 +49,20 @@ def add_changelevel(m, spec, next_map):
         map=next_map,
         spawnflags="0",
         keep_inventory="1",
+    )
+    # Видимая надпись LEVEL CHANGE по образцу hl_c02_a2.
+    m.add_point_entity(
+        "env_sprite",
+        targetname="exit_sign",
+        origin="{} {} {}".format(int(cx), int(cy), int(z0 + 72)),
+        angles="0 0 0",
+        model=EXIT_SPRITE,
+        scale="0.25",
+        framerate="10.0",
+        rendermode="4",       # Solid — цвета спрайта без подсветки
+        renderamt="255",
+        rendercolor="0 0 0",
+        spawnflags="1",       # Start on
     )
     m.meta.setdefault("campaign", {})["changelevel"] = next_map
 

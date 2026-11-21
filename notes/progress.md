@@ -818,6 +818,27 @@ PASS, включая no_leak, portal_binding, map_load, script_compile.
 
 QA карты 1: 19/19 PASS; VIS=0; 27/27 unit-тестов OK.
 
+## Видимый выход как в hl_c02_a2 (21.11.2026, 07:00)
+Пользователь прислал скриншот лифта hl_c02_a2: светящаяся надпись
+LEVEL CHANGE. Выяснено: это **не текстура**, а entity `env_sprite` с
+`model = sprites/level_change.spr`. Наш previous подход с текстурой EXIT1
+не работал, потому что движок **не рендерит brush-ы с classname trigger_*** —
+какая бы текстура на них ни была, в игре её не видно.
+
+Из BSP hl_c02_a2 извлечён точный рецепт:
+```
+env_sprite: model sprites/level_change.spr, scale 0.25, framerate 10.0,
+            rendermode 4 (Solid), renderamt 255, rendercolor 0 0 0,
+            angles 0 0 0
+```
+Заголовок .spr: type=0 (VP_PARALLEL_UPRIGHT) — спрайт-билборд, всегда
+повёрнут к игроку, поэтому читается с любого направления.
+
+Добавлено в `add_changelevel()` (svenmap/progression.py): env_sprite
+`exit_sign` в центре целевой комнаты на высоте глаз (z = floor_thickness+72).
+Спрайт скопирован в `svencoop_addon/sprites/` (в базовой svencoop он есть).
+QA карты 1: 19/19 PASS; VIS=0. Координаты знака: 2304 2112 88.
+
 ### Что осталось за рамками
 - Реальные игровые тесты (нажатие кнопок, бой, прохождение игроком).
 - Волны врагов, боссы, секреты, вертикальные переходы, лифты.
