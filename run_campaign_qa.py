@@ -24,6 +24,7 @@ from svenmap.scripts import write_map_script
 from svenmap.leak_repair import repair_leaks
 from svenmap.composition_metrics import summarize as summarize_composition
 from svenmap.pacing import evaluate as evaluate_pacing
+from svenmap.composition_validator import evaluate_composition
 
 from generate_campaign import (
     CAMPAIGN_JSON, PROJECT_LOGS, PROJECT_MAPS,
@@ -145,6 +146,9 @@ def main():
                 blueprint, chapter.pacing
             )
             details["scenes"] = m.meta.get("scenes", {})
+            details["composition_validation"] = evaluate_composition(
+                blueprint, chapter.name, chapter.pacing
+            )
         addon_maps = os.path.join(game_dir, "svencoop_addon", "maps")
         game_map = os.path.join(addon_maps, chapter.name + ".map")
         script_mode = "collect" if "collect" in chapter.puzzles else "buttons"
@@ -290,6 +294,29 @@ def main():
                     "; ".join(s.get("warnings", [])) or "—",
                 )
             )
+        lines.append("")
+
+    validated = [r for r in results
+                 if "composition_validation" in r["details"]]
+    if validated:
+        lines += [
+            "## Валидатор композиции (P3.3)",
+            "",
+            "> Фильтр pass/warn, а не жёсткий QA: метрики показывают, "
+            "что улучшить, но не блокируют сборку.",
+            "",
+        ]
+        for r in validated:
+            v = r["details"]["composition_validation"]
+            lines.append("### {} — {}".format(
+                r["chapter"], "PASS" if v["passed"] else "WARN"))
+            if v["issues"]:
+                for issue in v["issues"]:
+                    lines.append("- **{}** — {}".format(
+                        issue["path"], issue["message"]))
+            else:
+                lines.append("- замечаний нет")
+            lines.append("")
         lines.append("")
 
     for r in results:
