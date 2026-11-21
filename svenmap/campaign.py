@@ -8,6 +8,10 @@
 import json
 from dataclasses import dataclass, field
 
+from .campaign_schema import (
+    CampaignValidationError, validate_data, validate_spec,
+)
+
 
 @dataclass
 class Chapter:
@@ -41,6 +45,12 @@ def load_campaign(path):
     with open(path, "r", encoding="utf-8") as f:
         data = json.load(f)
 
+    # Проверяем до создания Chapter: ошибки должны быть человекочитаемыми
+    # и указывать точный путь в JSON, а не падать traceback'ом позже.
+    issues = validate_data(data)
+    if issues:
+        raise CampaignValidationError(issues)
+
     chapters = []
     for raw in data.get("chapters", []):
         chapters.append(Chapter(
@@ -54,25 +64,12 @@ def load_campaign(path):
         ))
 
     spec = CampaignSpec(name=data["name"], chapters=chapters)
-    validate_campaign(spec)
+    spec._by_name = {c.name: c for c in spec.chapters}
     return spec
 
 
 def validate_campaign(spec):
-    if len(spec.chapters) < 2:
-        raise ValueError("кампания должна содержать минимум 2 карты")
-
-    names = [c.name for c in spec.chapters]
-    if len(names) != len(set(names)):
-        raise ValueError("имена карт в кампании не уникальны")
-
-    finals = [c for c in spec.chapters if c.final]
-    if len(finals) != 1 or not spec.chapters[-1].final:
-        raise ValueError("финальной должна быть ровно последняя карта")
-
-    seeds = [c.seed for c in spec.chapters]
-    if len(seeds) != len(set(seeds)):
-        raise ValueError("seed карт должны быть разными — иначе карты совпадут")
-
+    """Проверить CampaignSpec теми же правилами (совместимость)."""
+    validate_spec(spec)
     spec._by_name = {c.name: c for c in spec.chapters}
     return spec

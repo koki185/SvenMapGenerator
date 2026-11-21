@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/koki185/SvenMapGenerator/campaign.schema.json",
+  "title": "SvenMapGenerator campaign",
+  "description": "Цепочка карт Sven Co-op. Модель заполняет только поля из этого словаря.",
+  "type": "object",
+  "required": ["name", "chapters"],
+  "additionalProperties": false,
+  "properties": {
+    "_comment": { "type": "string" },
+    "name": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_]+$",
+      "description": "Имя кампании, например sc_expedition"
+    },
+    "chapters": {
+      "type": "array",
+      "minItems": 2,
+      "items": { "$ref": "#/$defs/chapter" }
+    }
+  },
+  "$defs": {
+    "chapter": {
+      "type": "object",
+      "required": ["name", "seed"],
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "pattern": "^[a-z0-9_]+$",
+          "description": "Имя .map/.cfg файла, например sc_exp_1"
+        },
+        "seed": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Детерминизм: одинаковый seed даёт одинаковую карту"
+        },
+        "rooms": {
+          "type": "integer",
+          "minimum": 4,
+          "maximum": 16,
+          "default": 6
+        },
+        "branches": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4,
+          "default": 1
+        },
+        "theme": {
+          "enum": ["industrial"],
+          "default": "industrial",
+          "description": "Закрытый словарь: доступные темы оформления"
+        },
+        "final": {
+          "type": "boolean",
+          "default": false,
+          "description": "true только у последней карты — там арена босса"
+        },
+        "puzzles": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "enum": ["buttons", "collect", "enemies", "multi_floor", "secret", "super_secret"]
+          },
+          "description": "Механи chapters: collect или buttons — тип цели"
+        }
+      }
+    }
+  }
+}

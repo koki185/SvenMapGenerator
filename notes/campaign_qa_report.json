@@ -48,7 +48,7 @@
         "shape_t": 3.0,
         "shape_u": 1.0
       },
-      "bsp_bytes": 703524
+      "bsp_bytes": 708756
     }
   },
   {
@@ -100,7 +100,7 @@
         "shape_t": 2.0,
         "shape_u": 3.0
       },
-      "bsp_bytes": 837048
+      "bsp_bytes": 838252
     }
   },
   {
@@ -148,7 +148,7 @@
         "shape_rect": 4.0,
         "shape_t": 1.0
       },
-      "bsp_bytes": 467324
+      "bsp_bytes": 467652
     }
   },
   {
@@ -200,7 +200,7 @@
         "shape_t": 3.0,
         "shape_u": 3.0
       },
-      "bsp_bytes": 797744
+      "bsp_bytes": 798652
     }
   },
   {
@@ -251,7 +251,7 @@
         "shape_rect": 5.0,
         "shape_t": 2.0
       },
-      "bsp_bytes": 595600
+      "bsp_bytes": 595172
     }
   },
   {
@@ -302,7 +302,7 @@
         "shape_rect": 8.0,
         "shape_t": 2.0
       },
-      "bsp_bytes": 726352
+      "bsp_bytes": 724664
     }
   },
   {
@@ -351,7 +351,7 @@
         "shape_t": 1.0,
         "shape_u": 1.0
       },
-      "bsp_bytes": 548396
+      "bsp_bytes": 548036
     }
   },
   {
@@ -400,7 +400,7 @@
         "shape_rect": 5.0,
         "shape_t": 2.0
       },
-      "bsp_bytes": 429848
+      "bsp_bytes": 429860
     }
   }
 ]
