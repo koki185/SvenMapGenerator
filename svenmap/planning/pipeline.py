@@ -6,6 +6,7 @@ from typing import Dict
 from .architecture import apply_shapes
 from .models import TopologyGraph, VerticalConnector
 from .spatial import SpatialConfig, place_spatial
+from .spatial_metrics import evaluate_spatial
 from .topology import TopologyConfig, generate_topology
 from .topology_metrics import evaluate as evaluate_topology
 from ..validator3d import validate_vertical_reachability
@@ -96,6 +97,7 @@ def generate_blueprint(config: BlueprintConfig) -> Dict:
         "spatial": layout.to_dict(),
         "shapes": shapes,
         "topology_metrics": evaluate_topology(graph),
+        "spatial_metrics": evaluate_spatial(graph, layout),
         "vertical_qa": validate_vertical_reachability(graph, layout),
         "unrealized_edges": missing,
         "indirect_edges": indirect,

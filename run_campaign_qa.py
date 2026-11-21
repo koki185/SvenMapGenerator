@@ -22,6 +22,7 @@ from svenmap.validator_portals import validate_portal_binding
 from svenmap.planning import resolve_all_portals
 from svenmap.scripts import write_map_script
 from svenmap.leak_repair import repair_leaks
+from svenmap.composition_metrics import summarize as summarize_composition
 
 from generate_campaign import (
     CAMPAIGN_JSON, PROJECT_LOGS, PROJECT_MAPS,
@@ -137,6 +138,8 @@ def main():
             "entities": len(m.entities),
             "secret_count": secret_count,
         }
+        if blueprint is not None:
+            details["composition"] = summarize_composition(blueprint)
         addon_maps = os.path.join(game_dir, "svencoop_addon", "maps")
         game_map = os.path.join(addon_maps, chapter.name + ".map")
         script_mode = "collect" if "collect" in chapter.puzzles else "buttons"
@@ -214,6 +217,34 @@ def main():
             d.get("secret_count", 0), d.get("bsp_bytes", 0) // 1024 or "—",
         ))
     lines.append("")
+
+    compositional = [r for r in results if "composition" in r["details"]]
+    if compositional:
+        lines += [
+            "## Метрики композиции (P3.0)",
+            "",
+            "| Глава | topo | spatial | stretch | глубина ветки | "
+            "разнообразие форм | этажей |",
+            "|---|---:|---:|---:|---:|---:|---:|",
+        ]
+        for r in compositional:
+            c = r["details"]["composition"]
+            lines.append(
+                "| {} | {:.3f} | {:.3f} | {:.2f} | {:.0f} | {:.2f} | {} |"
+                .format(
+                    r["chapter"], c["topology_score"], c["spatial_score"],
+                    c["route_stretch"], c["branch_depth"],
+                    c["shape_variety"], int(c["floors"]),
+                )
+            )
+        lines += [
+            "",
+            "Превью планировок: `notes/previews/<имя>.svg`. Метрики — "
+            "фильтр pass/warn, а не целевая функция: итоговое решение "
+            "всегда за человеком, который проходит карту.",
+            "",
+        ]
+
     for r in results:
         lines.append("### {} — {}".format(
             r["chapter"], "PASS" if r["passed"] else "FAIL"))

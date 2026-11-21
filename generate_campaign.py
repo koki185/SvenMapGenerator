@@ -26,6 +26,8 @@ from svenmap.v2_entities import (
     add_basic_entities, add_vertical_transition, area_center_world, GRID,
 )
 from svenmap.leak_repair import repair_leaks
+from svenmap.composition_metrics import summarize as summarize_composition
+from svenmap.preview_v2 import write_blueprint_preview
 from svenmap.progression import (
     add_boss_arena, add_changelevel, add_multi_spawn,
 )
@@ -40,6 +42,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 CAMPAIGN_JSON = os.path.join(HERE, "campaign.json")
 PROJECT_MAPS = os.path.join(HERE, "maps")
 PROJECT_LOGS = os.path.join(HERE, "logs")
+PROJECT_PREVIEWS = os.path.join(HERE, "notes", "previews")
 
 
 def wads(game_dir):
@@ -372,6 +375,19 @@ def main():
             print("  авто-ремонт LEAK:",
                   "OK" if repaired else "не устранён")
             shutil.copyfile(game_map, project_map)
+        if blueprint is not None:
+            os.makedirs(PROJECT_PREVIEWS, exist_ok=True)
+            preview_path = os.path.join(
+                PROJECT_PREVIEWS, chapter.name + ".svg"
+            )
+            write_blueprint_preview(blueprint, m, preview_path,
+                                    name=chapter.name)
+            facts = summarize_composition(blueprint)
+            print("  превью:", preview_path)
+            print("  метрики: topo={:.3f} spatial={:.3f} stretch={:.2f} "
+                  "shapes={}".format(
+                      facts["topology_score"], facts["spatial_score"],
+                      facts["route_stretch"], facts["shape_variety"]))
         print("  .map:", project_map)
         print("  скрипт:", script_path)
         print("  переход:", nxt.name if nxt else "финал (арена босса)")
