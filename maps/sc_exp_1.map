@@ -3820,7 +3820,7 @@
 "classname" "item_security"
 "targetname" "sample_3"
 "target" "collect_manager"
-"origin" "1248 672 24"
+"origin" "1248 864 24"
 "angles" "0 0 0"
 "model" "models/w_security.mdl"
 "renderfx" "19"
@@ -3831,7 +3831,7 @@
 {
 "classname" "light"
 "targetname" "sample_3_light"
-"origin" "1248 672 64"
+"origin" "1248 864 64"
 "_light" "255 220 80 90"
 "_falloff" "1"
 "_fade" "1.0"

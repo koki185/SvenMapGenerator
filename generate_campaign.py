@@ -23,7 +23,7 @@ from svenmap.planning import (
 )
 from svenmap.validator_portals import validate_portal_binding
 from svenmap.v2_entities import (
-    add_basic_entities, add_vertical_transition, area_center_world,
+    add_basic_entities, add_vertical_transition, area_center_world, GRID,
 )
 from svenmap.leak_repair import repair_leaks
 from svenmap.progression import (
@@ -102,6 +102,43 @@ def build_chapter(chapter, tex_lib, wad_list):
     return m, level, variant, secret_count
 
 
+def area_cell_points(area):
+    """Центры всех реально занятых клеток комнаты, от центра к краям.
+
+    Используется для расстановки нескольких предметов в одной комнате:
+    просто взятие центра приводило к тому, что образцы с порталами из
+    одной комнаты ставились в одну точку и накладывались друг на друга.
+    """
+    cells = area.get("cells")
+    if cells:
+        cell_set = {tuple(c) for c in cells}
+        tx, ty = area["w"] / 2.0, area["h"] / 2.0
+
+        def score(cell):
+            neighbours = sum(
+                (cell[0] + dx, cell[1] + dy) in cell_set
+                for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1))
+            )
+            return (
+                -neighbours,
+                (cell[0] - tx) ** 2 + (cell[1] - ty) ** 2,
+            )
+    else:
+        cell_set = [
+            (cx, cy)
+            for cx in range(area["w"])
+            for cy in range(area["h"])
+        ]
+        tx, ty = area["w"] / 2.0, area["h"] / 2.0
+        score = lambda cell: (cell[0] - tx) ** 2 + (cell[1] - ty) ** 2
+
+    return [
+        ((area["x"] + c[0] + 0.5) * GRID,
+         (area["y"] + c[1] + 0.5) * GRID)
+        for c in sorted(cell_set, key=score)
+    ]
+
+
 def build_chapter_v2(chapter, tex_lib, wad_list, game_dir):
     """Кампания через новый Blueprint pipeline."""
     floors = 2 if "multi_floor" in chapter.puzzles else 1
@@ -168,18 +205,32 @@ def build_chapter_v2(chapter, tex_lib, wad_list, game_dir):
     blueprint_areas = {
         a["node_id"]: a for a in blueprint["spatial"]["areas"]
     }
+    # Каждый образец/кнопка получает отдельную клетку, даже если у нескольких
+    # порталов одна и та же комната (иначе предметы накладываются друг на друга).
+    used_xy = set()
     item_points, button_points = [], []
-    for key in available[:5]:
-        area_id = portals[key].area_a
-        x, y = area_center_world(blueprint_areas[area_id])
-        z = spec.floor_thickness + 8
-        item_points.append((x, y, z, area_id))
-    for key in available[:2]:
-        area_id = portals[key].area_a
-        x, y = area_center_world(blueprint_areas[area_id])
-        button_points.append(
-            (x, y, spec.floor_thickness + 24, area_id)
-        )
+
+    def take_point(area_id, z_offset):
+        for x, y in area_cell_points(blueprint_areas[area_id]):
+            key_xy = (round(x, 3), round(y, 3))
+            if key_xy in used_xy:
+                continue
+            used_xy.add(key_xy)
+            return (x, y, spec.floor_thickness + z_offset, area_id)
+        return None
+
+    for key in available:
+        if len(item_points) >= 5:
+            break
+        point = take_point(portals[key].area_a, 8)
+        if point is not None:
+            item_points.append(point)
+    for key in available:
+        if len(button_points) >= 2:
+            break
+        point = take_point(portals[key].area_a, 24)
+        if point is not None:
+            button_points.append(point)
 
     add_objective(
         m, spec, tex_lib, script_name=chapter.name,
