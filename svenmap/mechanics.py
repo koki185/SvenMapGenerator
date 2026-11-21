@@ -293,6 +293,21 @@ def add_objective(m, spec, texture_lib=None, script_name=None,
                 "func_button", bounds, BUTTON_TEXTURE,
                 targetname=name, target=button_target,
                 spawnflags="1", wait="-1", sounds="3", angles="0 0 0",
+                # Неоновый контур, как у образцов в режиме collect.
+                renderfx="19",        # Glow Shell
+                rendermode="5",       # Additive
+                rendercolor="255 220 40",
+                renderamt="255",
+            )
+            lx = (bounds.x0 + bounds.x1) / 2
+            ly = (bounds.y0 + bounds.y1) / 2
+            m.add_point_entity(
+                "light", targetname=name + "_light",
+                origin="{} {} {}".format(num(lx), num(ly),
+                                         num(bounds.z1 + 24)),
+                _light="255 220 80 90",
+                _falloff="1",
+                _fade="1.0",
             )
             buttons.append({
                 "name": name, "area": area_id,
