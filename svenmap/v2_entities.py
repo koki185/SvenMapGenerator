@@ -13,11 +13,20 @@ def area_center_world(area):
     """Центр реально занятой клетки (не bounding box вырезанной формы)."""
     cells = area.get("cells")
     if cells:
+        cell_set = {tuple(c) for c in cells}
         tx, ty = area["w"] / 2.0, area["h"] / 2.0
-        cx, cy = min(
-            cells,
-            key=lambda c: (c[0] - tx) ** 2 + (c[1] - ty) ** 2,
-        )
+
+        def score(cell):
+            neighbours = sum(
+                (cell[0] + dx, cell[1] + dy) in cell_set
+                for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1))
+            )
+            return (
+                -neighbours,
+                (cell[0] - tx) ** 2 + (cell[1] - ty) ** 2,
+            )
+
+        cx, cy = min(cell_set, key=score)
         return (
             (area["x"] + cx + 0.5) * GRID,
             (area["y"] + cy + 0.5) * GRID,

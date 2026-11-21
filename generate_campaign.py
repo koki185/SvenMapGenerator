@@ -22,7 +22,10 @@ from svenmap.planning import (
     portal_to_legacy_door, resolve_all_portals,
 )
 from svenmap.validator_portals import validate_portal_binding
-from svenmap.v2_entities import add_basic_entities, add_vertical_transition
+from svenmap.v2_entities import (
+    add_basic_entities, add_vertical_transition, area_center_world,
+)
+from svenmap.leak_repair import repair_leaks
 from svenmap.progression import (
     add_boss_arena, add_changelevel, add_multi_spawn,
 )
@@ -162,13 +165,21 @@ def build_chapter_v2(chapter, tex_lib, wad_list, game_dir):
         )[0]
     ]
 
+    blueprint_areas = {
+        a["node_id"]: a for a in blueprint["spatial"]["areas"]
+    }
     item_points, button_points = [], []
     for key in available[:5]:
-        x, y, z = get_item_point(portals[key], side="a")
-        item_points.append((x, y, z, portals[key].area_a))
+        area_id = portals[key].area_a
+        x, y = area_center_world(blueprint_areas[area_id])
+        z = spec.floor_thickness + 8
+        item_points.append((x, y, z, area_id))
     for key in available[:2]:
-        x, y, z = get_interaction_point(portals[key], side="a")
-        button_points.append((x, y, z, portals[key].area_a))
+        area_id = portals[key].area_a
+        x, y = area_center_world(blueprint_areas[area_id])
+        button_points.append(
+            (x, y, spec.floor_thickness + 24, area_id)
+        )
 
     add_objective(
         m, spec, tex_lib, script_name=chapter.name,
@@ -294,6 +305,13 @@ def main():
         os.makedirs(addon_maps, exist_ok=True)
         game_map = os.path.join(addon_maps, chapter.name + ".map")
         shutil.copyfile(project_map, game_map)
+        if blueprint is not None and args.build:
+            repaired = repair_leaks(
+                m, level, blueprint, game_map, compilers_dir
+            )
+            print("  авто-ремонт LEAK:",
+                  "OK" if repaired else "не устранён")
+            shutil.copyfile(game_map, project_map)
         print("  .map:", project_map)
         print("  скрипт:", script_path)
         print("  переход:", nxt.name if nxt else "финал (арена босса)")

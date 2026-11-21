@@ -236,6 +236,24 @@ def add_objective(m, spec, texture_lib=None, script_name=None,
                 angles="0 0 0",
                 model="models/w_security.mdl",
             )
+            # Яркая подсветка образца: спрайт + локальный свет.
+            m.add_point_entity(
+                "env_sprite", targetname=name + "_glow",
+                origin="{} {} {}".format(num(x), num(y), num(z + 24)),
+                angles="0 0 0",
+                model="sprites/flare1.spr",
+                scale="0.6",
+                rendercolor="255 220 40",
+                renderamt="255",
+                framerate="10",
+            )
+            m.add_point_entity(
+                "light", targetname=name + "_light",
+                origin="{} {} {}".format(num(x), num(y), num(z + 40)),
+                _light="255 220 80 90",
+                _falloff="1",
+                _fade="1.0",
+            )
             items.append({
                 "name": name, "area": area_id,
                 "center": (x, y),

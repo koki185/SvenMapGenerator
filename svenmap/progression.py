@@ -11,6 +11,8 @@ from .geometry import Bounds
 from .textures import TextureRef
 
 TRIGGER_TEXTURE = TextureRef("AAATRIGGER", 1.0, 1.0)
+# Видимая текстура выхода, чтобы игрок понимал, где changelevel.
+EXIT_TEXTURE = TextureRef("EXIT1", 1.0, 1.0)
 
 
 def add_multi_spawn(m, spec, count=4):
@@ -39,7 +41,7 @@ def add_changelevel(m, spec, next_map):
     m.add_brush_entity(
         "trigger_changelevel",
         Bounds(cx - 32, cy - 32, z0, cx + 32, cy + 32, z0 + 80),
-        TRIGGER_TEXTURE,
+        EXIT_TEXTURE,
         targetname="chapter_exit",
         map=next_map,
         spawnflags="0",

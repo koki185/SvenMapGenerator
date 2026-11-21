@@ -20,6 +20,7 @@ from svenmap.textures import TextureLibrary
 from svenmap.validator import unreachable_areas
 from svenmap.validator_portals import validate_portal_binding
 from svenmap.planning import resolve_all_portals
+from svenmap.leak_repair import repair_leaks
 
 from generate_campaign import (
     CAMPAIGN_JSON, PROJECT_LOGS, PROJECT_MAPS,
@@ -125,6 +126,8 @@ def main():
         addon_maps = os.path.join(game_dir, "svencoop_addon", "maps")
         game_map = os.path.join(addon_maps, chapter.name + ".map")
         m.write(game_map)
+        if blueprint is not None and not args.no_smoke:
+            repair_leaks(m, level, blueprint, game_map, compilers_dir)
 
         if not args.no_smoke:
             try:

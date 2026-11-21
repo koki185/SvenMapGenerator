@@ -128,6 +128,10 @@ def write_map_script(game_dir, map_name, count,
 
     cfg_path = os.path.join(maps_dir, map_name + ".cfg")
     with open(cfg_path, "w", encoding="utf-8", newline="\n") as f:
-        f.write("map_script {}\n".format(map_name))
+        f.write(
+            "map_script {}\n"
+            "weapon_9mmhandgun\n"
+            "ammo_9mm 255\n".format(map_name)
+        )
 
     return script_path, cfg_path
