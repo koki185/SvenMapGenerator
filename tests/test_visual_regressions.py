@@ -17,6 +17,17 @@ class TestVisualRegressions(unittest.TestCase):
         self.assertTrue(looks_mojibake("Ð Ñ ĐâÐ¸"))  # скриншот пользователя
         self.assertFalse(looks_mojibake("КАНАЛ СВЯЗИ УСТАНОВЛЕН"))
 
+    def test_game_text_messages_are_ascii(self):
+        """Надписи по центру — только ASCII: никаких проблем с кодировкой."""
+        from svenmap.atmosphere import load_presets
+        for name, preset in load_presets().items():
+            for key in ("intro", "alarm"):
+                value = preset[key]
+                self.assertTrue(
+                    value.isascii(),
+                    "{}: {} содержит не-ASCII символы".format(name, key),
+                )
+
     def test_text_encoding_check_catches_bad_string(self):
         m = MapFile()
         m.add_point_entity("game_text", targetname="t", message="Ð Ñ Đâ")

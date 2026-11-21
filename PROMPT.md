@@ -18,7 +18,7 @@
 | `chapters[].final` | `true` — только у последней главы |
 | `chapters[].pacing` | `short_6`, `standard_8`, `dense_10` (можно не указывать — выберется по числу комнат) |
 | `chapters[].scenes` | список имён из `scenes.json`: `lobby`, `security_hub`, `service_corridor`, `ventilation`, `server_hall`, `lab_bay`, `warehouse`, `supply_cache`, `reactor_room`, `boss_arena` (можно не указывать — подберётся по роли комнаты) |
-| `chapters[].narrative` | `quiet_lab`, `ventilation`, `security`, `boss` (из `narrative.json`) — звук, музыка, тексты и тревога |
+| `chapters[].narrative` | `quiet_lab`, `ventilation`, `security`, `boss` (из `narrative.json`) — звук, музыка, тексты и тревога; **тексты на экране — только английские (ASCII)** |
 
 Последняя глава — арена босса: `final: true`, без `enemies` и без `changelevel`.
 

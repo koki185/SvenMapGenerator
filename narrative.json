@@ -3,8 +3,8 @@
     "description": "Тихая лаборатория: гул оборудования, спокойное вступление.",
     "ambient": "ambience/labdrone1.wav",
     "music": "",
-    "intro": "КАНАЛ СВЯЗИ УСТАНОВЛЕН. Соберите образцы и откройте шлюз.",
-    "alarm": "ВНИМАНИЕ: ОБНАРУЖЕНО ПРОНИКНОВЕНИЕ. ШЛЮЗ ОТКРЫТ.",
+    "intro": "COMMS LINK ESTABLISHED. Collect the samples and open the gate.",
+    "alarm": "WARNING: INTRUSION DETECTED. THE GATE IS OPEN.",
     "alarm_sound": "vox/alarm.wav",
     "emergency_color": "255 60 40",
     "emergency_brightness": 220
@@ -13,8 +13,8 @@
     "description": "Вентиляция и скрытые зоны: шипение воздуха, тревога.",
     "ambient": "ambience/ventilation.wav",
     "music": "",
-    "intro": "СИСТЕМА ВЕНТИЛЯЦИИ АКТИВНА. Проверьте скрытые отсеки.",
-    "alarm": "ТРЕВОГА: ДВЕРЬ СЕКРЕТА ОТКРЫТА.",
+    "intro": "VENTILATION SYSTEM ONLINE. Check the hidden compartments.",
+    "alarm": "ALERT: SECRET DOOR OPEN.",
     "alarm_sound": "vox/alert.wav",
     "emergency_color": "255 90 40",
     "emergency_brightness": 200
@@ -23,8 +23,8 @@
     "description": "Служба безопасности: электрический гул, тревожный сигнал.",
     "ambient": "ambience/electrical_hum1.wav",
     "music": "angel/invasion_music_ambiance_01.ogg",
-    "intro": "СЕКТОР БЕЗОПАСНОСТИ. Активируйте генераторы.",
-    "alarm": "СИГНАЛ ТРЕВОГИ: ПЕРИМЕТР НАРУШЕН.",
+    "intro": "SECURITY SECTOR. Activate the generators.",
+    "alarm": "RED ALERT: PERIMETER BREACHED.",
     "alarm_sound": "vox/alarm.wav",
     "emergency_color": "255 50 50",
     "emergency_brightness": 240
@@ -33,8 +33,8 @@
     "description": "Финальная арена: тяжёлая машина и тема сражения.",
     "ambient": "ambience/dronemachine1.wav",
     "music": "angel/theme_invasion.ogg",
-    "intro": "ФИНАЛЬНЫЙ СЕКТОР. Уничтожьте все волны противника.",
-    "alarm": "ВНИМАНИЕ: АКТИВИРОВАНА ФИНАЛЬНАЯ ЗАЩИТА.",
+    "intro": "FINAL SECTOR. Destroy all enemy waves.",
+    "alarm": "WARNING: FINAL DEFENSE ACTIVATED.",
     "alarm_sound": "vox/danger.wav",
     "emergency_color": "255 40 30",
     "emergency_brightness": 250
