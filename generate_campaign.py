@@ -30,7 +30,7 @@ from svenmap.scripts import write_map_script
 from svenmap.secrets import add_secrets, validate_secrets
 from svenmap.textures import TextureLibrary
 from svenmap.validator import (
-    build_grid, find_path, spawn_is_clear, unreachable_areas,
+    build_grid, find_path, spawn_is_clear, unreachable_areas, to_cell,
 )
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -133,7 +133,35 @@ def build_chapter_v2(chapter, tex_lib, wad_list, game_dir):
         ]
         secret_keys = (secret_candidates or [
             k for k in keys if k not in goal_ids        ])[:2]
-    available = [k for k in keys if k not in goal_ids and k not in secret_keys]
+    floor_of_area = {
+        a["node_id"]: a.get("floor", 0)
+        for a in blueprint["spatial"]["areas"]
+    }
+    available = [
+        k for k in keys
+        if k not in goal_ids and k not in secret_keys
+        and floor_of_area.get(portals[k].area_a, 0) == 0
+        and floor_of_area.get(portals[k].area_b, 0) == 0
+    ]
+    reachable_ids = set()
+    from svenmap.validator import reachable_areas_ids
+    reachable_ids = reachable_areas_ids(m.solids, spec)
+    available = [
+        k for k in available
+        if portals[k].area_a in reachable_ids
+        or portals[k].area_b in reachable_ids
+    ]
+    # Предметы должны быть доступны ДО открытия двери.
+    closed_grid = build_grid(m.solids + door_list, z=24)
+    level_start = spec.area_center(spec.start)
+    available = [
+        k for k in available
+        if find_path(
+            closed_grid, level_start,
+            tuple(portals[k].item_point[:2])
+        )[0]
+    ]
+
     item_points, button_points = [], []
     for key in available[:5]:
         x, y, z = get_item_point(portals[key], side="a")

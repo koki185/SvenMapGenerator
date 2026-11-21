@@ -723,6 +723,24 @@ Legacy-режим кампании (`--planner legacy`, по умолчанию)
 Проверка: `generate_campaign.py --planner graph_v2 --build --smoke`
 — 3/3 PASS, 27/27 тестов OK. Требует повторного теста пользователем.
 
+## Кампания 8 глав + QA graph_v2 (21.11.2026, 04:00)
+- `run_campaign_qa.py` переведён на graph_v2: проверяет `portal_binding`,
+  ignores upper-floor areas в 2D-проверке.
+- `campaign.json` расширен до 8 глав с разными seed/rooms/branches/puzzles
+  (включая multi_floor и super_secret); цепочка changelevel строится автоматически.
+- В `new_builder.py` коридоры и проёмы считаются до стен; добавлен
+  `skip_wall_cells`, чтобы убрать дублирующие стены в клетках коридора.
+- `add_basic_entities()` ставит свет/спавны в реально занятую клетку L/T/U.
+
+Результат:
+- `run_campaign_qa.py --no-smoke`: **8/8 глав PASS**.
+- `run_campaign_qa.py` (с компиляцией и загрузкой): 5/8 PASS.
+  Главы 1 и 2 — LEAK (сущности `item_security`/`light` оказываются вне
+  оболочки после выреза L/T/U); глава 5 — transientный script_compile.
+- 27/27 unit-тестов OK.
+
+То есть масштабирование сделано, но полный QA пока не зелёный.
+
 ### Что осталось за рамками
 - Реальные игровые тесты (нажатие кнопок, бой, прохождение игроком).
 - Волны врагов, боссы, секреты, вертикальные переходы, лифты.

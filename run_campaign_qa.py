@@ -18,16 +18,18 @@ from svenmap.progression import add_changelevel
 from svenmap.secrets import validate_secrets
 from svenmap.textures import TextureLibrary
 from svenmap.validator import unreachable_areas
+from svenmap.validator_portals import validate_portal_binding
+from svenmap.planning import resolve_all_portals
 
 from generate_campaign import (
     CAMPAIGN_JSON, PROJECT_LOGS, PROJECT_MAPS,
-    build_chapter, wads,
+    build_chapter, build_chapter_v2, wads,
 )
 
 NOTES = os.path.join(os.path.dirname(os.path.abspath(__file__)), "notes")
 
 
-def chapter_checks(chapter, m, level, campaign, index):
+def chapter_checks(chapter, m, level, campaign, index, blueprint=None):
     checks = {}
     nxt = campaign.next_chapter(chapter.name)
 
@@ -52,10 +54,21 @@ def chapter_checks(chapter, m, level, campaign, index):
     )
     checks["coop_spawns"] = spawns >= 4
 
-    checks["all_areas"] = (
-        not unreachable_areas(m.solids, level)
-        if not m.meta.get("secrets") else True
-    )
+    if blueprint is not None:
+        floors = {
+            a["node_id"]: a.get("floor", 0)
+            for a in blueprint["spatial"]["areas"]
+        }
+        bad = [
+            area_id for area_id in unreachable_areas(m.solids, level)
+            if floors.get(area_id, 0) == 0
+        ]
+        checks["all_areas"] = not bad
+    else:
+        checks["all_areas"] = (
+            not unreachable_areas(m.solids, level)
+            if not m.meta.get("secrets") else True
+        )
 
     objective = validate_objective(level, m)
     for key, value in objective.items():
@@ -65,12 +78,19 @@ def chapter_checks(chapter, m, level, campaign, index):
         for key, value in validate_secrets(level, m).items():
             checks[key] = value
 
+    if blueprint is not None:
+        portals = resolve_all_portals(blueprint)
+        binding = validate_portal_binding(blueprint, portals, m)
+        checks["portal_binding"] = binding["passed"]
+
     return checks
 
 
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--no-smoke", action="store_true")
+    parser.add_argument("--planner", choices=("legacy", "graph_v2"),
+                        default="graph_v2")
     args = parser.parse_args()
 
     _common, compilers_dir, game_dir = detect_roots()
@@ -83,13 +103,19 @@ def main():
     for index, chapter in enumerate(campaign.chapters, start=1):
         print("\n=== глава {}/{}: {} ===".format(
             index, len(campaign.chapters), chapter.name))
-        m, level, variant, secret_count = build_chapter(
-            chapter, tex_lib, wad_list
-        )
+        blueprint = None
+        if args.planner == "graph_v2":
+            m, level, variant, secret_count, blueprint = build_chapter_v2(
+                chapter, tex_lib, wad_list, game_dir
+            )
+        else:
+            m, level, variant, secret_count = build_chapter(
+                chapter, tex_lib, wad_list
+            )
         if not chapter.final:
             nxt = campaign.next_chapter(chapter.name)
             add_changelevel(m, level, nxt.name)
-        checks = chapter_checks(chapter, m, level, campaign, index)
+        checks = chapter_checks(chapter, m, level, campaign, index, blueprint)
 
         details = {
             "brush": len(m.brushes),

@@ -9,6 +9,25 @@ HEIGHT = 256
 FLOOR_T = 16
 
 
+def area_center_world(area):
+    """Центр реально занятой клетки (не bounding box вырезанной формы)."""
+    cells = area.get("cells")
+    if cells:
+        tx, ty = area["w"] / 2.0, area["h"] / 2.0
+        cx, cy = min(
+            cells,
+            key=lambda c: (c[0] - tx) ** 2 + (c[1] - ty) ** 2,
+        )
+        return (
+            (area["x"] + cx + 0.5) * GRID,
+            (area["y"] + cy + 0.5) * GRID,
+        )
+    return (
+        (area["x"] + area["w"] / 2) * GRID,
+        (area["y"] + area["h"] / 2) * GRID,
+    )
+
+
 def add_basic_entities(m, blueprint):
     graph = blueprint["graph"]
     spatial = blueprint["spatial"]
@@ -16,8 +35,7 @@ def add_basic_entities(m, blueprint):
 
     spawn = areas.get(graph["start"])
     if spawn:
-        cx = (spawn["x"] + spawn["w"] / 2) * GRID
-        cy = (spawn["y"] + spawn["h"] / 2) * GRID
+        cx, cy = area_center_world(spawn)
         base = spawn.get("floor", 0) * (HEIGHT + FLOOR_T)
         m.add_point_entity(
             "info_player_start",
@@ -32,8 +50,7 @@ def add_basic_entities(m, blueprint):
             )
 
     for area in areas.values():
-        cx = (area["x"] + area["w"] / 2) * GRID
-        cy = (area["y"] + area["h"] / 2) * GRID
+        cx, cy = area_center_world(area)
         floor_base = area.get("floor", 0) * (HEIGHT + FLOOR_T)
         m.add_point_entity(
             "light",

@@ -31,6 +31,20 @@ def unreachable_areas(solids, spec, z=24):
     return bad
 
 
+def reachable_areas_ids(solids, spec, z=24):
+    """Множество id площадей, центры которых достижимы из старта."""
+    grid = build_grid(solids, z=z)
+    start = spec.area_center(spec.start)
+    result = set()
+    for area in spec.areas:
+        ok, _steps, _path, _reason = find_path(
+            grid, start, spec.area_center(area.id)
+        )
+        if ok:
+            result.add(area.id)
+    return result
+
+
 def spawn_is_clear(solids, origin, z=28, radius=16, height=72):
     """Проверить, что hull игрока в точке спавна не пересекает стену/пол."""
     x, y = origin[0], origin[1]

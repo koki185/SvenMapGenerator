@@ -56,7 +56,8 @@ def _edge_box(cell: Cell, direction: str, grid: int, floor: int,
 def _add_region(m: MapFile, cells: Set[Cell], grid: int, floor: int,
                 height: int, floor_t: int, wall_t: int,
                 texture_name: str, openings: Set[Tuple[Cell, str]],
-                door_height: int, external: Set[Cell] = None):
+                door_height: int, external: Set[Cell] = None,
+                skip_wall_cells: Set[Cell] = None):
     """Пол, потолок и стены произвольной области из клеток."""
     base = _floor_base(floor, height, floor_t)
     profile_ref = TextureRef(texture_name, 1.0, 1.0)
@@ -85,6 +86,8 @@ def _add_region(m: MapFile, cells: Set[Cell], grid: int, floor: int,
         for y in range(min_y, max_y)
     }
     for cx, cy in solid:
+        if skip_wall_cells and (cx, cy) in skip_wall_cells:
+            continue
         for dx, dy in DIRECTIONS:
             if (cx + dx, cy + dy) in solid:
                 continue
@@ -192,31 +195,47 @@ def build_blueprint_map(blueprint: dict, wads, game_dir, seed: int = 0) -> MapFi
         anchors[index] = (near_a, near_b)
         corridors[index] = _corridor_cells(near_a, near_b)
 
+    free_by_index = {
+        index: corridor - occupied.get(0, set())
+        for index, corridor in corridors.items()
+    }
+    corridor_cells = set()
+    for free in free_by_index.values():
+        corridor_cells |= free
+
     # 2. Проёмы — только те рёбра bounding box, которые реально
     #    примыкают к клетке коридора. Это не режет лишние стены.
     openings: Dict[str, Set[Tuple[Cell, str]]] = {
         node_id: set() for node_id in areas
     }
+    area_by_cell = {}
+    for node_id, area in areas.items():
+        for cell in rect_cells(area):
+            area_by_cell[cell] = node_id
+
     for index, conn in enumerate(connections):
         corridor = corridors.get(index)
         if not corridor:
             continue
-        for side in ("a", "b"):
-            node_id = conn[side]
-            for cell in rect_cells(areas[node_id]):
-                for dx, dy in DIRECTIONS:
-                    neighbour = (cell[0] + dx, cell[1] + dy)
-                    if neighbour in corridor:
-                        direction = "E" if dx == 1 else "W" if dx == -1 \
-                            else "N" if dy == 1 else "S"
-                        openings[node_id].add((cell, direction))
+        # Со стороны клетки коридора открываем и саму комнату, и соседний
+        # brush другой комнаты: без этого остаётся сплошная стена...
+        for cell in corridor:
+            for dx, dy in DIRECTIONS:
+                neighbour = (cell[0] + dx, cell[1] + dy)
+                node_id = area_by_cell.get(neighbour)
+                if not node_id:
+                    continue
+                direction = "W" if dx == 1 else "E" if dx == -1 \
+                    else "S" if dy == 1 else "N"
+                openings[node_id].add((neighbour, direction))
 
     # 3. Комнаты.
     for node_id, area in areas.items():
         floor = area.get("floor", 0)
         texture = get_profile("industrial", graph_node_type(graph, node_id)).wall
         _add_region(m, _world_cells(area), grid, floor, height, floor_t,
-                    wall_t, texture, openings[node_id], door_h)
+                    wall_t, texture, openings[node_id], door_h,
+                    skip_wall_cells=corridor_cells if floor == 0 else None)
 
     # 4. Коридоры.
     for index, conn in enumerate(connections):
@@ -225,7 +244,7 @@ def build_blueprint_map(blueprint: dict, wads, game_dir, seed: int = 0) -> MapFi
             continue
         a = areas[conn["a"]]
         floor = a.get("floor", 0)
-        free = corridor - occupied.get(floor, set())
+        free = free_by_index.get(index)
         if not free:
             continue
         _add_region(m, free, grid, floor, height, floor_t, wall_t,

@@ -80,9 +80,9 @@ def resolve_portal(blueprint: dict, portal_id: str) -> ResolvedPortal:
     # узкая дверь оставляла обход по краю коридора.
     base = floor * (HEIGHT + FLOOR_T)
     bounds = Bounds(
-        (pa[0] - 1) * GRID, (pa[1] - 1) * GRID,
+        (pa[0] - 1) * GRID, (pa[1] - 2) * GRID,
         base + FLOOR_T,
-        (pa[0] + 2) * GRID, (pa[1] + 2) * GRID,
+        (pa[0] + 2) * GRID, (pa[1] + 3) * GRID,
         base + HEIGHT,
     )
     cx = int((bounds.x0 + bounds.x1) / 2)
