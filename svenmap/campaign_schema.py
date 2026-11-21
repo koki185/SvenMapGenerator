@@ -16,6 +16,7 @@ from typing import List
 
 from .pacing import profile_names
 from .profiles import PROFILES
+from .scenes import validate_scene_names
 
 # Узкий словарь: чем меньше выбор, тем лучше его делает маленькая модель.
 ALLOWED_THEMES = tuple(sorted(PROFILES))
@@ -131,6 +132,15 @@ def validate_data(data) -> List[ValidationIssue]:
             add(path + ".pacing", 'профиль ритма {!r} не найден. Доступно: {}'
                 .format(pacing, _allowed(ALLOWED_PACINGS)))
 
+        scenes = raw.get("scenes")
+        if scenes is not None:
+            if not isinstance(scenes, list):
+                add(path + ".scenes", "ожидается список имён сцен")
+            else:
+                for j, bad in enumerate(validate_scene_names(scenes)):
+                    add("{}.scenes[{}]".format(path, j),
+                        'сцена {!r} не найдена. Проверьте scenes.json'.format(bad))
+
         puzzles = raw.get("puzzles", [])
         if not isinstance(puzzles, list):
             add(path + ".puzzles", "ожидается список механик, например "
@@ -180,6 +190,7 @@ def spec_to_data(spec) -> dict:
                 "branches": c.branches, "theme": c.theme,
                 "final": c.final, "puzzles": list(c.puzzles),
                 "pacing": c.pacing or None,
+                "scenes": list(c.scenes),
             }
             for c in spec.chapters
         ],

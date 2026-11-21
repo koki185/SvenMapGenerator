@@ -22,6 +22,7 @@
 <rect x="908.6" y="426.3" width="31.4" height="31.4" fill="#4dff88" fill-opacity="0.13" stroke="#4dff88" stroke-opacity="0.28" stroke-width="0.5"/>
 <text x="861.4" y="500.9" fill="#4dff88" font-family="sans-serif" font-size="11" font-weight="bold" text-anchor="middle">spawn</text>
 <text x="861.4" y="513.9" fill="#7e8c99" font-family="sans-serif" font-size="9" text-anchor="middle">spawn/rect</text>
+<text x="861.4" y="525.9" fill="#c9a24d" font-family="sans-serif" font-size="9" text-anchor="middle">lobby</text>
 <rect x="657.1" y="552.0" width="31.4" height="31.4" fill="#7fd1c1" fill-opacity="0.13" stroke="#7fd1c1" stroke-opacity="0.28" stroke-width="0.5"/>
 <rect x="657.1" y="520.6" width="31.4" height="31.4" fill="#7fd1c1" fill-opacity="0.13" stroke="#7fd1c1" stroke-opacity="0.28" stroke-width="0.5"/>
 <rect x="657.1" y="489.1" width="31.4" height="31.4" fill="#7fd1c1" fill-opacity="0.13" stroke="#7fd1c1" stroke-opacity="0.28" stroke-width="0.5"/>
@@ -40,6 +41,7 @@
 <rect x="751.4" y="457.7" width="31.4" height="31.4" fill="#7fd1c1" fill-opacity="0.13" stroke="#7fd1c1" stroke-opacity="0.28" stroke-width="0.5"/>
 <text x="704.3" y="532.3" fill="#7fd1c1" font-family="sans-serif" font-size="11" font-weight="bold" text-anchor="middle">n1</text>
 <text x="704.3" y="545.3" fill="#7e8c99" font-family="sans-serif" font-size="9" text-anchor="middle">hub/rect</text>
+<text x="704.3" y="557.3" fill="#c9a24d" font-family="sans-serif" font-size="9" text-anchor="middle">security_hub</text>
 <rect x="531.4" y="552.0" width="31.4" height="31.4" fill="#8fa3b0" fill-opacity="0.13" stroke="#8fa3b0" stroke-opacity="0.28" stroke-width="0.5"/>
 <rect x="531.4" y="520.6" width="31.4" height="31.4" fill="#8fa3b0" fill-opacity="0.13" stroke="#8fa3b0" stroke-opacity="0.28" stroke-width="0.5"/>
 <rect x="531.4" y="489.1" width="31.4" height="31.4" fill="#8fa3b0" fill-opacity="0.13" stroke="#8fa3b0" stroke-opacity="0.28" stroke-width="0.5"/>
@@ -50,6 +52,7 @@
 <rect x="594.3" y="520.6" width="31.4" height="31.4" fill="#8fa3b0" fill-opacity="0.13" stroke="#8fa3b0" stroke-opacity="0.28" stroke-width="0.5"/>
 <text x="558.9" y="551.9" fill="#8fa3b0" font-family="sans-serif" font-size="11" font-weight="bold" text-anchor="middle">n2</text>
 <text x="558.9" y="564.9" fill="#7e8c99" font-family="sans-serif" font-size="9" text-anchor="middle">corridor/l</text>
+<text x="558.9" y="576.9" fill="#c9a24d" font-family="sans-serif" font-size="9" text-anchor="middle">ventilation</text>
 <rect x="688.6" y="394.9" width="31.4" height="31.4" fill="#c77dff" fill-opacity="0.13" stroke="#c77dff" stroke-opacity="0.28" stroke-width="0.5"/>
 <rect x="688.6" y="363.4" width="31.4" height="31.4" fill="#c77dff" fill-opacity="0.13" stroke="#c77dff" stroke-opacity="0.28" stroke-width="0.5"/>
 <rect x="688.6" y="332.0" width="31.4" height="31.4" fill="#c77dff" fill-opacity="0.13" stroke="#c77dff" stroke-opacity="0.28" stroke-width="0.5"/>
@@ -61,6 +64,7 @@
 <rect x="751.4" y="332.0" width="31.4" height="31.4" fill="#c77dff" fill-opacity="0.13" stroke="#c77dff" stroke-opacity="0.28" stroke-width="0.5"/>
 <text x="720.0" y="390.9" fill="#c77dff" font-family="sans-serif" font-size="11" font-weight="bold" text-anchor="middle">secret_1</text>
 <text x="720.0" y="403.9" fill="#7e8c99" font-family="sans-serif" font-size="9" text-anchor="middle">secret/rect</text>
+<text x="720.0" y="415.9" fill="#c9a24d" font-family="sans-serif" font-size="9" text-anchor="middle">supply_cache</text>
 <rect x="531.4" y="426.3" width="31.4" height="31.4" fill="#5aa9ff" fill-opacity="0.13" stroke="#5aa9ff" stroke-opacity="0.28" stroke-width="0.5"/>
 <rect x="531.4" y="394.9" width="31.4" height="31.4" fill="#5aa9ff" fill-opacity="0.13" stroke="#5aa9ff" stroke-opacity="0.28" stroke-width="0.5"/>
 <rect x="531.4" y="363.4" width="31.4" height="31.4" fill="#5aa9ff" fill-opacity="0.13" stroke="#5aa9ff" stroke-opacity="0.28" stroke-width="0.5"/>
@@ -71,6 +75,7 @@
 <rect x="594.3" y="394.9" width="31.4" height="31.4" fill="#5aa9ff" fill-opacity="0.13" stroke="#5aa9ff" stroke-opacity="0.28" stroke-width="0.5"/>
 <text x="558.9" y="426.2" fill="#5aa9ff" font-family="sans-serif" font-size="11" font-weight="bold" text-anchor="middle">n3</text>
 <text x="558.9" y="439.2" fill="#7e8c99" font-family="sans-serif" font-size="9" text-anchor="middle">lab/l</text>
+<text x="558.9" y="451.2" fill="#c9a24d" font-family="sans-serif" font-size="9" text-anchor="middle">server_hall</text>
 <rect x="374.3" y="552.0" width="31.4" height="31.4" fill="#5aa9ff" fill-opacity="0.13" stroke="#5aa9ff" stroke-opacity="0.28" stroke-width="0.5"/>
 <rect x="374.3" y="520.6" width="31.4" height="31.4" fill="#5aa9ff" fill-opacity="0.13" stroke="#5aa9ff" stroke-opacity="0.28" stroke-width="0.5"/>
 <rect x="374.3" y="489.1" width="31.4" height="31.4" fill="#5aa9ff" fill-opacity="0.13" stroke="#5aa9ff" stroke-opacity="0.28" stroke-width="0.5"/>
@@ -93,6 +98,7 @@
 <rect x="468.6" y="426.3" width="31.4" height="31.4" fill="#5aa9ff" fill-opacity="0.13" stroke="#5aa9ff" stroke-opacity="0.28" stroke-width="0.5"/>
 <text x="421.4" y="516.6" fill="#5aa9ff" font-family="sans-serif" font-size="11" font-weight="bold" text-anchor="middle">n6</text>
 <text x="421.4" y="529.6" fill="#7e8c99" font-family="sans-serif" font-size="9" text-anchor="middle">lab/rect</text>
+<text x="421.4" y="541.6" fill="#c9a24d" font-family="sans-serif" font-size="9" text-anchor="middle">reactor_room</text>
 <rect x="405.7" y="363.4" width="31.4" height="31.4" fill="#c8a24d" fill-opacity="0.13" stroke="#c8a24d" stroke-opacity="0.28" stroke-width="0.5"/>
 <rect x="405.7" y="332.0" width="31.4" height="31.4" fill="#c8a24d" fill-opacity="0.13" stroke="#c8a24d" stroke-opacity="0.28" stroke-width="0.5"/>
 <rect x="405.7" y="300.6" width="31.4" height="31.4" fill="#c8a24d" fill-opacity="0.13" stroke="#c8a24d" stroke-opacity="0.28" stroke-width="0.5"/>
@@ -103,6 +109,7 @@
 <rect x="468.6" y="300.6" width="31.4" height="31.4" fill="#c8a24d" fill-opacity="0.13" stroke="#c8a24d" stroke-opacity="0.28" stroke-width="0.5"/>
 <text x="437.1" y="363.4" fill="#c8a24d" font-family="sans-serif" font-size="11" font-weight="bold" text-anchor="middle">n4</text>
 <text x="437.1" y="376.4" fill="#7e8c99" font-family="sans-serif" font-size="9" text-anchor="middle">storage/u</text>
+<text x="437.1" y="388.4" fill="#c9a24d" font-family="sans-serif" font-size="9" text-anchor="middle">lab_bay</text>
 <rect x="751.4" y="174.9" width="31.4" height="31.4" fill="#c77dff" fill-opacity="0.13" stroke="#c77dff" stroke-opacity="0.28" stroke-width="0.5"/>
 <rect x="751.4" y="143.4" width="31.4" height="31.4" fill="#c77dff" fill-opacity="0.13" stroke="#c77dff" stroke-opacity="0.28" stroke-width="0.5"/>
 <rect x="751.4" y="112.0" width="31.4" height="31.4" fill="#c77dff" fill-opacity="0.13" stroke="#c77dff" stroke-opacity="0.28" stroke-width="0.5"/>
@@ -113,6 +120,7 @@
 <rect x="814.3" y="143.4" width="31.4" height="31.4" fill="#c77dff" fill-opacity="0.13" stroke="#c77dff" stroke-opacity="0.28" stroke-width="0.5"/>
 <text x="778.9" y="174.8" fill="#c77dff" font-family="sans-serif" font-size="11" font-weight="bold" text-anchor="middle">secret_2</text>
 <text x="778.9" y="187.8" fill="#7e8c99" font-family="sans-serif" font-size="9" text-anchor="middle">secret/l</text>
+<text x="778.9" y="199.8" fill="#c9a24d" font-family="sans-serif" font-size="9" text-anchor="middle">ventilation</text>
 <rect x="280.0" y="363.4" width="31.4" height="31.4" fill="#ff9f43" fill-opacity="0.13" stroke="#ff9f43" stroke-opacity="0.28" stroke-width="0.5"/>
 <rect x="280.0" y="332.0" width="31.4" height="31.4" fill="#ff9f43" fill-opacity="0.13" stroke="#ff9f43" stroke-opacity="0.28" stroke-width="0.5"/>
 <rect x="280.0" y="300.6" width="31.4" height="31.4" fill="#ff9f43" fill-opacity="0.13" stroke="#ff9f43" stroke-opacity="0.28" stroke-width="0.5"/>
@@ -123,6 +131,7 @@
 <rect x="342.9" y="332.0" width="31.4" height="31.4" fill="#ff9f43" fill-opacity="0.13" stroke="#ff9f43" stroke-opacity="0.28" stroke-width="0.5"/>
 <text x="307.5" y="363.4" fill="#ff9f43" font-family="sans-serif" font-size="11" font-weight="bold" text-anchor="middle">n5</text>
 <text x="307.5" y="376.4" fill="#7e8c99" font-family="sans-serif" font-size="9" text-anchor="middle">combat/l</text>
+<text x="307.5" y="388.4" fill="#c9a24d" font-family="sans-serif" font-size="9" text-anchor="middle">warehouse</text>
 <rect x="248.6" y="489.1" width="31.4" height="31.4" fill="#8fa3b0" fill-opacity="0.13" stroke="#8fa3b0" stroke-opacity="0.28" stroke-width="0.5"/>
 <rect x="248.6" y="457.7" width="31.4" height="31.4" fill="#8fa3b0" fill-opacity="0.13" stroke="#8fa3b0" stroke-opacity="0.28" stroke-width="0.5"/>
 <rect x="248.6" y="426.3" width="31.4" height="31.4" fill="#8fa3b0" fill-opacity="0.13" stroke="#8fa3b0" stroke-opacity="0.28" stroke-width="0.5"/>
@@ -134,6 +143,7 @@
 <rect x="311.4" y="426.3" width="31.4" height="31.4" fill="#8fa3b0" fill-opacity="0.13" stroke="#8fa3b0" stroke-opacity="0.28" stroke-width="0.5"/>
 <text x="280.0" y="485.1" fill="#8fa3b0" font-family="sans-serif" font-size="11" font-weight="bold" text-anchor="middle">n7</text>
 <text x="280.0" y="498.1" fill="#7e8c99" font-family="sans-serif" font-size="9" text-anchor="middle">corridor/rect</text>
+<text x="280.0" y="510.1" fill="#c9a24d" font-family="sans-serif" font-size="9" text-anchor="middle">ventilation</text>
 <rect x="60.0" y="426.3" width="31.4" height="31.4" fill="#ff6b6b" fill-opacity="0.13" stroke="#ff6b6b" stroke-opacity="0.28" stroke-width="0.5"/>
 <rect x="60.0" y="394.9" width="31.4" height="31.4" fill="#ff6b6b" fill-opacity="0.13" stroke="#ff6b6b" stroke-opacity="0.28" stroke-width="0.5"/>
 <rect x="91.4" y="426.3" width="31.4" height="31.4" fill="#ff6b6b" fill-opacity="0.13" stroke="#ff6b6b" stroke-opacity="0.28" stroke-width="0.5"/>
@@ -152,6 +162,7 @@
 <rect x="185.7" y="394.9" width="31.4" height="31.4" fill="#ff6b6b" fill-opacity="0.13" stroke="#ff6b6b" stroke-opacity="0.28" stroke-width="0.5"/>
 <text x="117.0" y="408.5" fill="#ff6b6b" font-family="sans-serif" font-size="11" font-weight="bold" text-anchor="middle">goal</text>
 <text x="117.0" y="421.5" fill="#7e8c99" font-family="sans-serif" font-size="9" text-anchor="middle">arena/t</text>
+<text x="117.0" y="433.5" fill="#c9a24d" font-family="sans-serif" font-size="9" text-anchor="middle">boss_arena</text>
 <line x1="861.4" y1="504.9" x2="704.3" y2="536.3" stroke="#6fcf97" stroke-width="2.4" stroke-opacity="0.75"/>
 <circle cx="798.6" cy="504.9" r="4" fill="#6fcf97" stroke="#0b0e12" stroke-width="1"/>
 <line x1="704.3" y1="536.3" x2="558.9" y2="555.9" stroke="#6fcf97" stroke-width="2.4" stroke-opacity="0.75"/>
@@ -200,6 +211,7 @@
 <rect x="260.0" y="673.0" width="100.0" height="100.0" fill="#c8a24d" fill-opacity="0.13" stroke="#c8a24d" stroke-opacity="0.28" stroke-width="0.5"/>
 <text x="160.0" y="919.0" fill="#c8a24d" font-family="sans-serif" font-size="11" font-weight="bold" text-anchor="middle">b1_0</text>
 <text x="160.0" y="932.0" fill="#7e8c99" font-family="sans-serif" font-size="9" text-anchor="middle">storage/rect</text>
+<text x="160.0" y="944.0" fill="#c9a24d" font-family="sans-serif" font-size="9" text-anchor="middle">lab_bay</text>
 <text x="166.0" y="911.0" fill="#ffb56b" font-family="sans-serif" font-size="11" font-weight="bold">↕ stairs → этаж 0</text>
 <text x="24" y="1123" fill="#8895a3" font-family="sans-serif" font-size="11">жёлтое — цели, красное — дверь, розовое — знак выхода, пунктир — коридор/переход; цвет комнат — тип узла</text>
 </svg>

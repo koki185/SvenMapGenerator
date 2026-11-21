@@ -10,6 +10,7 @@ from typing import Dict, Set, Tuple
 from ..geometry import Bounds
 from ..mapfile import MapFile
 from ..profiles import get_profile
+from ..scenes import scene_profile
 from ..textures import TextureRef
 
 Cell = Tuple[int, int]
@@ -161,6 +162,13 @@ def build_blueprint_map(blueprint: dict, wads, game_dir, seed: int = 0) -> MapFi
 
     m = MapFile(wads=wads, skyname="DESERT")
     connections = spatial["connections"]
+    scene_assignments = blueprint.get("scene_assignments", {})
+
+    def area_profile(node_id, area_type):
+        scene_name = scene_assignments.get(node_id)
+        if scene_name:
+            return scene_profile(scene_name)
+        return get_profile("industrial", area_type)
 
     def nearest(cells, target):
         return min(
@@ -202,7 +210,7 @@ def build_blueprint_map(blueprint: dict, wads, game_dir, seed: int = 0) -> MapFi
             node_id = owner.get((floor, (cx, cy)), "")
             area_type = graph_node_type(graph, node_id) if node_id else "corridor"
             tex = TextureRef(
-                get_profile("industrial", area_type).floor, 1.0, 1.0
+                area_profile(node_id, area_type).floor, 1.0, 1.0
             )
             x0, y0 = cx * grid, cy * grid
             m.add_box(
@@ -241,7 +249,7 @@ def build_blueprint_map(blueprint: dict, wads, game_dir, seed: int = 0) -> MapFi
                 node_id = owner.get((floor, (cx, cy)), "")
                 area_type = graph_node_type(graph, node_id) if node_id else "corridor"
                 m.add_box(box, TextureRef(
-                    get_profile("industrial", area_type).wall, 1.0, 1.0
+                    area_profile(node_id, area_type).wall, 1.0, 1.0
                 ))
 
     # Наружная оболочка.

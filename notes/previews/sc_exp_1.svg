@@ -22,6 +22,7 @@
 <rect x="198.9" y="806.7" width="46.3" height="46.3" fill="#4dff88" fill-opacity="0.13" stroke="#4dff88" stroke-opacity="0.28" stroke-width="0.5"/>
 <text x="129.5" y="918.5" fill="#4dff88" font-family="sans-serif" font-size="11" font-weight="bold" text-anchor="middle">spawn</text>
 <text x="129.5" y="931.5" fill="#7e8c99" font-family="sans-serif" font-size="9" text-anchor="middle">spawn/rect</text>
+<text x="129.5" y="943.5" fill="#c9a24d" font-family="sans-serif" font-size="9" text-anchor="middle">lobby</text>
 <rect x="291.6" y="853.1" width="46.3" height="46.3" fill="#7fd1c1" fill-opacity="0.13" stroke="#7fd1c1" stroke-opacity="0.28" stroke-width="0.5"/>
 <rect x="291.6" y="806.7" width="46.3" height="46.3" fill="#7fd1c1" fill-opacity="0.13" stroke="#7fd1c1" stroke-opacity="0.28" stroke-width="0.5"/>
 <rect x="291.6" y="760.4" width="46.3" height="46.3" fill="#7fd1c1" fill-opacity="0.13" stroke="#7fd1c1" stroke-opacity="0.28" stroke-width="0.5"/>
@@ -34,6 +35,7 @@
 <rect x="384.2" y="806.7" width="46.3" height="46.3" fill="#7fd1c1" fill-opacity="0.13" stroke="#7fd1c1" stroke-opacity="0.28" stroke-width="0.5"/>
 <text x="328.6" y="835.2" fill="#7fd1c1" font-family="sans-serif" font-size="11" font-weight="bold" text-anchor="middle">n1</text>
 <text x="328.6" y="848.2" fill="#7e8c99" font-family="sans-serif" font-size="9" text-anchor="middle">hub/t</text>
+<text x="328.6" y="860.2" fill="#c9a24d" font-family="sans-serif" font-size="9" text-anchor="middle">lobby</text>
 <rect x="106.3" y="714.1" width="46.3" height="46.3" fill="#8fa3b0" fill-opacity="0.13" stroke="#8fa3b0" stroke-opacity="0.28" stroke-width="0.5"/>
 <rect x="106.3" y="667.8" width="46.3" height="46.3" fill="#8fa3b0" fill-opacity="0.13" stroke="#8fa3b0" stroke-opacity="0.28" stroke-width="0.5"/>
 <rect x="106.3" y="621.5" width="46.3" height="46.3" fill="#8fa3b0" fill-opacity="0.13" stroke="#8fa3b0" stroke-opacity="0.28" stroke-width="0.5"/>
@@ -45,6 +47,7 @@
 <rect x="198.9" y="621.5" width="46.3" height="46.3" fill="#8fa3b0" fill-opacity="0.13" stroke="#8fa3b0" stroke-opacity="0.28" stroke-width="0.5"/>
 <text x="152.6" y="710.1" fill="#8fa3b0" font-family="sans-serif" font-size="11" font-weight="bold" text-anchor="middle">n2</text>
 <text x="152.6" y="723.1" fill="#7e8c99" font-family="sans-serif" font-size="9" text-anchor="middle">corridor/rect</text>
+<text x="152.6" y="735.1" fill="#c9a24d" font-family="sans-serif" font-size="9" text-anchor="middle">ventilation</text>
 <rect x="291.6" y="621.5" width="46.3" height="46.3" fill="#ff9f43" fill-opacity="0.13" stroke="#ff9f43" stroke-opacity="0.28" stroke-width="0.5"/>
 <rect x="291.6" y="575.2" width="46.3" height="46.3" fill="#ff9f43" fill-opacity="0.13" stroke="#ff9f43" stroke-opacity="0.28" stroke-width="0.5"/>
 <rect x="291.6" y="528.8" width="46.3" height="46.3" fill="#ff9f43" fill-opacity="0.13" stroke="#ff9f43" stroke-opacity="0.28" stroke-width="0.5"/>
@@ -55,6 +58,7 @@
 <rect x="384.2" y="575.2" width="46.3" height="46.3" fill="#ff9f43" fill-opacity="0.13" stroke="#ff9f43" stroke-opacity="0.28" stroke-width="0.5"/>
 <text x="332.1" y="623.3" fill="#ff9f43" font-family="sans-serif" font-size="11" font-weight="bold" text-anchor="middle">n5</text>
 <text x="332.1" y="636.3" fill="#7e8c99" font-family="sans-serif" font-size="9" text-anchor="middle">combat/l</text>
+<text x="332.1" y="648.3" fill="#c9a24d" font-family="sans-serif" font-size="9" text-anchor="middle">warehouse</text>
 <rect x="60.0" y="436.2" width="46.3" height="46.3" fill="#5aa9ff" fill-opacity="0.13" stroke="#5aa9ff" stroke-opacity="0.28" stroke-width="0.5"/>
 <rect x="106.3" y="528.8" width="46.3" height="46.3" fill="#5aa9ff" fill-opacity="0.13" stroke="#5aa9ff" stroke-opacity="0.28" stroke-width="0.5"/>
 <rect x="106.3" y="482.5" width="46.3" height="46.3" fill="#5aa9ff" fill-opacity="0.13" stroke="#5aa9ff" stroke-opacity="0.28" stroke-width="0.5"/>
@@ -65,6 +69,7 @@
 <rect x="198.9" y="436.2" width="46.3" height="46.3" fill="#5aa9ff" fill-opacity="0.13" stroke="#5aa9ff" stroke-opacity="0.28" stroke-width="0.5"/>
 <text x="129.5" y="513.3" fill="#5aa9ff" font-family="sans-serif" font-size="11" font-weight="bold" text-anchor="middle">n3</text>
 <text x="129.5" y="526.3" fill="#7e8c99" font-family="sans-serif" font-size="9" text-anchor="middle">lab/t</text>
+<text x="129.5" y="538.3" fill="#c9a24d" font-family="sans-serif" font-size="9" text-anchor="middle">reactor_room</text>
 <rect x="291.6" y="436.2" width="46.3" height="46.3" fill="#c8a24d" fill-opacity="0.13" stroke="#c8a24d" stroke-opacity="0.28" stroke-width="0.5"/>
 <rect x="291.6" y="389.9" width="46.3" height="46.3" fill="#c8a24d" fill-opacity="0.13" stroke="#c8a24d" stroke-opacity="0.28" stroke-width="0.5"/>
 <rect x="291.6" y="343.6" width="46.3" height="46.3" fill="#c8a24d" fill-opacity="0.13" stroke="#c8a24d" stroke-opacity="0.28" stroke-width="0.5"/>
@@ -77,6 +82,7 @@
 <rect x="430.5" y="343.6" width="46.3" height="46.3" fill="#c8a24d" fill-opacity="0.13" stroke="#c8a24d" stroke-opacity="0.28" stroke-width="0.5"/>
 <text x="361.1" y="441.5" fill="#c8a24d" font-family="sans-serif" font-size="11" font-weight="bold" text-anchor="middle">n4</text>
 <text x="361.1" y="454.5" fill="#7e8c99" font-family="sans-serif" font-size="9" text-anchor="middle">storage/u</text>
+<text x="361.1" y="466.5" fill="#c9a24d" font-family="sans-serif" font-size="9" text-anchor="middle">warehouse</text>
 <rect x="476.8" y="714.1" width="46.3" height="46.3" fill="#5aa9ff" fill-opacity="0.13" stroke="#5aa9ff" stroke-opacity="0.28" stroke-width="0.5"/>
 <rect x="476.8" y="667.8" width="46.3" height="46.3" fill="#5aa9ff" fill-opacity="0.13" stroke="#5aa9ff" stroke-opacity="0.28" stroke-width="0.5"/>
 <rect x="523.2" y="714.1" width="46.3" height="46.3" fill="#5aa9ff" fill-opacity="0.13" stroke="#5aa9ff" stroke-opacity="0.28" stroke-width="0.5"/>
@@ -93,6 +99,7 @@
 <rect x="615.8" y="575.2" width="46.3" height="46.3" fill="#5aa9ff" fill-opacity="0.13" stroke="#5aa9ff" stroke-opacity="0.28" stroke-width="0.5"/>
 <text x="566.2" y="716.7" fill="#5aa9ff" font-family="sans-serif" font-size="11" font-weight="bold" text-anchor="middle">n6</text>
 <text x="566.2" y="729.7" fill="#7e8c99" font-family="sans-serif" font-size="9" text-anchor="middle">lab/t</text>
+<text x="566.2" y="741.7" fill="#c9a24d" font-family="sans-serif" font-size="9" text-anchor="middle">reactor_room</text>
 <rect x="60.0" y="343.6" width="46.3" height="46.3" fill="#c8a24d" fill-opacity="0.13" stroke="#c8a24d" stroke-opacity="0.28" stroke-width="0.5"/>
 <rect x="60.0" y="297.3" width="46.3" height="46.3" fill="#c8a24d" fill-opacity="0.13" stroke="#c8a24d" stroke-opacity="0.28" stroke-width="0.5"/>
 <rect x="60.0" y="250.9" width="46.3" height="46.3" fill="#c8a24d" fill-opacity="0.13" stroke="#c8a24d" stroke-opacity="0.28" stroke-width="0.5"/>
@@ -111,6 +118,7 @@
 <rect x="198.9" y="204.6" width="46.3" height="46.3" fill="#c8a24d" fill-opacity="0.13" stroke="#c8a24d" stroke-opacity="0.28" stroke-width="0.5"/>
 <text x="129.5" y="316.4" fill="#c8a24d" font-family="sans-serif" font-size="11" font-weight="bold" text-anchor="middle">b1_0</text>
 <text x="129.5" y="329.4" fill="#7e8c99" font-family="sans-serif" font-size="9" text-anchor="middle">storage/rect</text>
+<text x="129.5" y="341.4" fill="#c9a24d" font-family="sans-serif" font-size="9" text-anchor="middle">lab_bay</text>
 <rect x="523.2" y="528.8" width="46.3" height="46.3" fill="#ff6b6b" fill-opacity="0.13" stroke="#ff6b6b" stroke-opacity="0.28" stroke-width="0.5"/>
 <rect x="523.2" y="482.5" width="46.3" height="46.3" fill="#ff6b6b" fill-opacity="0.13" stroke="#ff6b6b" stroke-opacity="0.28" stroke-width="0.5"/>
 <rect x="523.2" y="436.2" width="46.3" height="46.3" fill="#ff6b6b" fill-opacity="0.13" stroke="#ff6b6b" stroke-opacity="0.28" stroke-width="0.5"/>
@@ -129,6 +137,7 @@
 <rect x="662.1" y="389.9" width="46.3" height="46.3" fill="#ff6b6b" fill-opacity="0.13" stroke="#ff6b6b" stroke-opacity="0.28" stroke-width="0.5"/>
 <text x="592.6" y="501.7" fill="#ff6b6b" font-family="sans-serif" font-size="11" font-weight="bold" text-anchor="middle">goal</text>
 <text x="592.6" y="514.7" fill="#7e8c99" font-family="sans-serif" font-size="9" text-anchor="middle">arena/rect</text>
+<text x="592.6" y="526.7" fill="#c9a24d" font-family="sans-serif" font-size="9" text-anchor="middle">boss_arena</text>
 <rect x="291.6" y="250.9" width="46.3" height="46.3" fill="#5aa9ff" fill-opacity="0.13" stroke="#5aa9ff" stroke-opacity="0.28" stroke-width="0.5"/>
 <rect x="291.6" y="204.6" width="46.3" height="46.3" fill="#5aa9ff" fill-opacity="0.13" stroke="#5aa9ff" stroke-opacity="0.28" stroke-width="0.5"/>
 <rect x="291.6" y="158.3" width="46.3" height="46.3" fill="#5aa9ff" fill-opacity="0.13" stroke="#5aa9ff" stroke-opacity="0.28" stroke-width="0.5"/>
@@ -150,6 +159,7 @@
 <rect x="476.8" y="158.3" width="46.3" height="46.3" fill="#5aa9ff" fill-opacity="0.13" stroke="#5aa9ff" stroke-opacity="0.28" stroke-width="0.5"/>
 <text x="379.3" y="227.4" fill="#5aa9ff" font-family="sans-serif" font-size="11" font-weight="bold" text-anchor="middle">b1_1</text>
 <text x="379.3" y="240.4" fill="#7e8c99" font-family="sans-serif" font-size="9" text-anchor="middle">lab/l</text>
+<text x="379.3" y="252.4" fill="#c9a24d" font-family="sans-serif" font-size="9" text-anchor="middle">reactor_room</text>
 <line x1="129.5" y1="922.5" x2="328.6" y2="839.2" stroke="#6fcf97" stroke-width="2.4" stroke-opacity="0.75"/>
 <circle cx="268.4" cy="829.9" r="4" fill="#6fcf97" stroke="#0b0e12" stroke-width="1"/>
 <line x1="328.6" y1="839.2" x2="152.6" y2="714.1" stroke="#6fcf97" stroke-width="2.4" stroke-opacity="0.75"/>

@@ -173,6 +173,16 @@ def write_blueprint_preview(blueprint: dict, m, out_path: str,
                     lx, ly + 9, node.get("type", "?"),
                     area.get("shape", "rect"))
             )
+            scene = blueprint.get("scene_assignments", {}).get(
+                area["node_id"]
+            )
+            if scene:
+                lines.append(
+                    '<text x="{:.1f}" y="{:.1f}" fill="#c9a24d" '
+                    'font-family="sans-serif" font-size="9" '
+                    'text-anchor="middle">{}</text>'.format(
+                        lx, ly + 21, scene)
+                )
 
         # Связи: линия между центрами комнат + точка общего портала.
         # У прямых соединений portal_a == portal_b (общая клетка), поэтому

@@ -2,6 +2,7 @@
 
 from .geometry import Bounds
 from .mapfile import num
+from .scenes import scene_profile
 from .textures import TextureRef
 
 GRID = 192
@@ -58,14 +59,19 @@ def add_basic_entities(m, blueprint):
                 angles="0 0 0",
             )
 
+    scene_assignments = blueprint.get("scene_assignments", {})
     for area in areas.values():
         cx, cy = area_center_world(area)
         floor_base = area.get("floor", 0) * (HEIGHT + FLOOR_T)
+        scene_name = scene_assignments.get(area["node_id"])
+        profile = scene_profile(scene_name) if scene_name else None
+        light_color = profile.light_color if profile else "255 255 255"
+        brightness = profile.light_brightness if profile else 200
         m.add_point_entity(
             "light",
             origin="{} {} {}".format(num(cx), num(cy), floor_base + 240),
             angles="0 0 0",
-            _light="255 255 255 200",
+            _light="{} {}".format(light_color, brightness),
             _falloff="0",
             _fade="1.0",
             style="0",

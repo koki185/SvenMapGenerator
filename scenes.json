@@ -1,0 +1,249 @@
+{
+  "lobby": {
+    "fits_roles": [
+      "intro"
+    ],
+    "min_size": [
+      3,
+      3
+    ],
+    "shapes": [
+      "rect",
+      "L",
+      "T",
+      "U"
+    ],
+    "profile": "spawn",
+    "light": {
+      "color": "240 245 255",
+      "brightness": 220
+    },
+    "props": [
+      "columns",
+      "panels"
+    ],
+    "description": "Светлый вестибюль с колоннами и панелями."
+  },
+  "security_hub": {
+    "fits_roles": [
+      "intro",
+      "rest"
+    ],
+    "min_size": [
+      3,
+      3
+    ],
+    "shapes": [
+      "rect",
+      "L",
+      "T",
+      "U"
+    ],
+    "profile": "corridor",
+    "light": {
+      "color": "255 255 255",
+      "brightness": 200
+    },
+    "props": [
+      "panels",
+      "pipes"
+    ],
+    "description": "Узел безопасности: панели управления и кабели."
+  },
+  "service_corridor": {
+    "fits_roles": [
+      "corridor"
+    ],
+    "min_size": [
+      2,
+      3
+    ],
+    "shapes": [
+      "rect",
+      "L"
+    ],
+    "profile": "corridor",
+    "light": {
+      "color": "190 220 255",
+      "brightness": 150
+    },
+    "props": [
+      "pipes"
+    ],
+    "description": "Технический коридор с трубами под потолком."
+  },
+  "ventilation": {
+    "fits_roles": [
+      "corridor",
+      "secret"
+    ],
+    "min_size": [
+      2,
+      2
+    ],
+    "shapes": [
+      "rect",
+      "L"
+    ],
+    "profile": "corridor",
+    "light": {
+      "color": "150 190 210",
+      "brightness": 110
+    },
+    "props": [
+      "pipes"
+    ],
+    "description": "Тёмная вентиляционная шахта."
+  },
+  "server_hall": {
+    "fits_roles": [
+      "combat",
+      "puzzle"
+    ],
+    "min_size": [
+      3,
+      3
+    ],
+    "shapes": [
+      "rect",
+      "L",
+      "T",
+      "U"
+    ],
+    "profile": "lab",
+    "light": {
+      "color": "150 220 255",
+      "brightness": 170
+    },
+    "props": [
+      "panels",
+      "pipes"
+    ],
+    "description": "Серверный зал: холодный свет, шкафы и кабельные лотки."
+  },
+  "lab_bay": {
+    "fits_roles": [
+      "puzzle",
+      "rest"
+    ],
+    "min_size": [
+      3,
+      3
+    ],
+    "shapes": [
+      "rect",
+      "L",
+      "T",
+      "U"
+    ],
+    "profile": "lab",
+    "light": {
+      "color": "200 235 255",
+      "brightness": 210
+    },
+    "props": [
+      "panels"
+    ],
+    "description": "Лабораторный отсек с приборами."
+  },
+  "warehouse": {
+    "fits_roles": [
+      "rest",
+      "combat"
+    ],
+    "min_size": [
+      3,
+      3
+    ],
+    "shapes": [
+      "rect",
+      "L",
+      "T",
+      "U"
+    ],
+    "profile": "storage",
+    "light": {
+      "color": "255 210 160",
+      "brightness": 150
+    },
+    "props": [
+      "crates",
+      "columns"
+    ],
+    "description": "Склад с ящиками и колоннами."
+  },
+  "supply_cache": {
+    "fits_roles": [
+      "reward",
+      "rest",
+      "secret"
+    ],
+    "min_size": [
+      2,
+      2
+    ],
+    "shapes": [
+      "rect"
+    ],
+    "profile": "storage",
+    "light": {
+      "color": "255 210 150",
+      "brightness": 130
+    },
+    "props": [
+      "crates"
+    ],
+    "description": "Небольшой склад боеприпасов."
+  },
+  "reactor_room": {
+    "fits_roles": [
+      "combat",
+      "puzzle"
+    ],
+    "min_size": [
+      3,
+      3
+    ],
+    "shapes": [
+      "rect",
+      "L",
+      "T",
+      "U"
+    ],
+    "profile": "arena",
+    "light": {
+      "color": "255 150 110",
+      "brightness": 230
+    },
+    "props": [
+      "columns",
+      "platform"
+    ],
+    "description": "Зал реактора: тревожный свет и возвышение."
+  },
+  "boss_arena": {
+    "fits_roles": [
+      "finale"
+    ],
+    "min_size": [
+      3,
+      3
+    ],
+    "shapes": [
+      "rect",
+      "L",
+      "T",
+      "U"
+    ],
+    "profile": "arena",
+    "light": {
+      "color": "255 120 90",
+      "brightness": 240
+    },
+    "props": [
+      "columns",
+      "platform"
+    ],
+    "description": "Финальная арена с возвышением и колоннами."
+  }
+}

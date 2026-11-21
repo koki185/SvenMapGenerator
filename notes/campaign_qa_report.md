@@ -1,17 +1,17 @@
 # SvenMap Generator — QA кампании
 
-Кампания: sc_expedition; глав: 8; время 317.5 с.
+Кампания: sc_expedition; глав: 8; время 348.9 с.
 
 | Глава | Результат | Brush | Entity | Секретов | BSP, КБ |
 |---|---|---:|---:|---:|---:|
-| sc_exp_1 | PASS | 444 | 35 | 0 | 692 |
-| sc_exp_2 | PASS | 650 | 41 | 0 | 818 |
-| sc_exp_3 | PASS | 418 | 21 | 0 | 456 |
-| sc_exp_4 | PASS | 636 | 40 | 0 | 779 |
-| sc_exp_5 | PASS | 416 | 35 | 0 | 581 |
-| sc_exp_6 | PASS | 640 | 40 | 0 | 707 |
-| sc_exp_7 | PASS | 524 | 25 | 0 | 534 |
-| sc_exp_8 | PASS | 380 | 24 | 0 | 419 |
+| sc_exp_1 | PASS | 484 | 35 | 0 | 768 |
+| sc_exp_2 | PASS | 702 | 41 | 0 | 940 |
+| sc_exp_3 | PASS | 454 | 21 | 0 | 516 |
+| sc_exp_4 | PASS | 682 | 40 | 0 | 869 |
+| sc_exp_5 | PASS | 452 | 35 | 0 | 635 |
+| sc_exp_6 | PASS | 688 | 40 | 0 | 820 |
+| sc_exp_7 | PASS | 564 | 25 | 0 | 615 |
+| sc_exp_8 | PASS | 408 | 24 | 0 | 467 |
 
 ## Метрики композиции (P3.0)
 
@@ -40,6 +40,19 @@
 | sc_exp_6 | dense_10 | 13% | 1 | 5 | 0.47 | доля боевых комнат 13% ниже порога профиля dense_10 (35%–55%); передышка только каждые 5 комнат — реже, чем нужно (4) |
 | sc_exp_7 | standard_8 | 17% | 1 | 4 | 0.58 | доля боевых комнат 17% ниже порога профиля standard_8 (25%–45%) |
 | sc_exp_8 | standard_8 | 25% | 2 | 3 | 0.75 | — |
+
+## Сцены (P3.2)
+
+| Глава | сцен | разнообразие | предупреждения |
+|---|---:|---:|---|
+| sc_exp_1 | 10 | 0.60 | — |
+| sc_exp_2 | 16 | 0.50 | — |
+| sc_exp_3 | 9 | 0.78 | — |
+| sc_exp_4 | 15 | 0.47 | — |
+| sc_exp_5 | 9 | 0.78 | — |
+| sc_exp_6 | 15 | 0.53 | — |
+| sc_exp_7 | 12 | 0.75 | — |
+| sc_exp_8 | 8 | 0.88 | — |
 
 ### sc_exp_1 — PASS
 all_areas=OK, changelevel=OK, compile_BSP=OK, compile_CSG=OK, compile_RAD=OK, compile_VIS=OK, coop_spawns=OK, goal_after_door_opens=OK, goal_gated_by_door=OK, item_sample_1=OK, item_sample_2=OK, item_sample_3=OK, item_sample_4=OK, item_sample_5=OK, map_load=OK, no_leak=OK, objective=OK, portal_binding=OK, script_compile=OK

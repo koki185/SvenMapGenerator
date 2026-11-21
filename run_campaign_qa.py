@@ -144,6 +144,7 @@ def main():
             details["pacing"] = evaluate_pacing(
                 blueprint, chapter.pacing
             )
+            details["scenes"] = m.meta.get("scenes", {})
         addon_maps = os.path.join(game_dir, "svencoop_addon", "maps")
         game_map = os.path.join(addon_maps, chapter.name + ".map")
         script_mode = "collect" if "collect" in chapter.puzzles else "buttons"
@@ -268,6 +269,25 @@ def main():
                     mt["max_combat_run"], mt["rest_gap"],
                     mt["role_variety"],
                     "; ".join(p["warnings"]) or "—",
+                )
+            )
+        lines.append("")
+
+    scened = [r for r in results if r["details"].get("scenes")]
+    if scened:
+        lines += [
+            "## Сцены (P3.2)",
+            "",
+            "| Глава | сцен | разнообразие | предупреждения |",
+            "|---|---:|---:|---|",
+        ]
+        for r in scened:
+            s = r["details"]["scenes"]
+            lines.append(
+                "| {} | {} | {:.2f} | {} |".format(
+                    r["chapter"], len(s.get("assignments", {})),
+                    s.get("variety", 0.0),
+                    "; ".join(s.get("warnings", [])) or "—",
                 )
             )
         lines.append("")

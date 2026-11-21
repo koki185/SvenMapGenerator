@@ -92,14 +92,20 @@ def _backbone(graph: dict) -> List[str]:
     return list(reversed(path))
 
 
+def role_by_node(graph: dict) -> Dict[str, str]:
+    """Роль пейсинга для каждого узла (нужна сценам и валидатору)."""
+    return {
+        n["id"]: ROLE_BY_TYPE.get(n.get("type", ""), "rest")
+        for n in graph["nodes"]
+    }
+
+
 def ordered_roles(graph: dict) -> List[str]:
     """Роли комнат в порядке прохождения: backbone, затем ветки/секреты."""
     backbone = _backbone(graph)
     rest = [n["id"] for n in graph["nodes"] if n["id"] not in backbone]
-    order = backbone + rest
-    by_id = {n["id"]: n for n in graph["nodes"]}
-    return [ROLE_BY_TYPE.get(by_id[i].get("type", ""), "rest") for i in order
-            if i in by_id]
+    roles = role_by_node(graph)
+    return [roles[i] for i in backbone + rest if i in roles]
 
 
 def rhythm_metrics(roles: List[str]) -> Dict[str, float]:

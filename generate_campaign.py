@@ -28,6 +28,9 @@ from svenmap.v2_entities import (
 from svenmap.leak_repair import repair_leaks
 from svenmap.composition_metrics import summarize as summarize_composition
 from svenmap.pacing import evaluate as evaluate_pacing
+from svenmap.scenes import (
+    assign_scenes, add_scene_decor, scene_variety, scene_warnings,
+)
 from svenmap.preview_v2 import write_blueprint_preview
 from svenmap.progression import (
     add_boss_arena, add_changelevel, add_multi_spawn,
@@ -154,9 +157,20 @@ def build_chapter_v2(chapter, tex_lib, wad_list, game_dir):
         floors=floors,
     ))
     spec = blueprint_to_aligned_spec(blueprint)
+    blueprint["scene_assignments"] = assign_scenes(
+        blueprint, chapter.scenes, seed=chapter.seed
+    )
     m = build_blueprint_map(blueprint, wad_list, game_dir, seed=chapter.seed)
     add_basic_entities(m, blueprint)
     add_vertical_transition(m, blueprint)
+    decorated = add_scene_decor(m, blueprint, spec, seed=chapter.seed)
+    assignments = blueprint.get("scene_assignments", {})
+    m.meta["scene_decor_rooms"] = decorated
+    m.meta["scenes"] = {
+        "assignments": assignments,
+        "variety": scene_variety(assignments),
+        "warnings": scene_warnings(blueprint, assignments),
+    }
 
     portals = resolve_all_portals(blueprint)
     keys = sorted(portals)
@@ -391,6 +405,13 @@ def main():
                       facts["route_stretch"], facts["shape_variety"]))
             pacing = evaluate_pacing(blueprint, chapter.pacing)
             m.meta["pacing"] = pacing
+            scene_data = m.meta["scenes"]
+            print("  сцены: {} шт., разнообразие {:.2f}, декор {} комнат{}"
+                  .format(len(scene_data["assignments"]),
+                          scene_data["variety"],
+                          m.meta.get("scene_decor_rooms", 0),
+                          " | WARN: " + "; ".join(scene_data["warnings"])
+                          if scene_data["warnings"] else ""))
             print("  ритм: {} | боевых {:.0%}, подряд {:.0f}, "
                   "передышка {:.0f}{}".format(
                       pacing["profile"],

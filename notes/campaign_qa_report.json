@@ -24,7 +24,7 @@
       "script_compile": true
     },
     "details": {
-      "brush": 444,
+      "brush": 484,
       "entities": 35,
       "secret_count": 0,
       "composition": {
@@ -73,7 +73,23 @@
         ],
         "passed": false
       },
-      "bsp_bytes": 708884
+      "scenes": {
+        "assignments": {
+          "spawn": "lobby",
+          "n1": "lobby",
+          "n2": "ventilation",
+          "n5": "warehouse",
+          "n3": "reactor_room",
+          "n4": "warehouse",
+          "n6": "reactor_room",
+          "b1_0": "lab_bay",
+          "goal": "boss_arena",
+          "b1_1": "reactor_room"
+        },
+        "variety": 0.6,
+        "warnings": []
+      },
+      "bsp_bytes": 786548
     }
   },
   {
@@ -101,7 +117,7 @@
       "script_compile": true
     },
     "details": {
-      "brush": 650,
+      "brush": 702,
       "entities": 41,
       "secret_count": 0,
       "composition": {
@@ -156,7 +172,29 @@
         ],
         "passed": false
       },
-      "bsp_bytes": 838196
+      "scenes": {
+        "assignments": {
+          "spawn": "lobby",
+          "n1": "lobby",
+          "n2": "ventilation",
+          "n3": "server_hall",
+          "n7": "ventilation",
+          "secret_2": "supply_cache",
+          "n4": "lab_bay",
+          "b1_0": "security_hub",
+          "n6": "lab_bay",
+          "n8": "ventilation",
+          "n5": "warehouse",
+          "secret_1": "ventilation",
+          "b1_1": "server_hall",
+          "b2_0": "server_hall",
+          "goal": "boss_arena",
+          "b2_1": "ventilation"
+        },
+        "variety": 0.5,
+        "warnings": []
+      },
+      "bsp_bytes": 962912
     }
   },
   {
@@ -181,7 +219,7 @@
       "script_compile": true
     },
     "details": {
-      "brush": 418,
+      "brush": 454,
       "entities": 21,
       "secret_count": 0,
       "composition": {
@@ -226,7 +264,22 @@
         "warnings": [],
         "passed": true
       },
-      "bsp_bytes": 467144
+      "scenes": {
+        "assignments": {
+          "spawn": "lobby",
+          "n1": "security_hub",
+          "n2": "ventilation",
+          "n3": "reactor_room",
+          "goal": "boss_arena",
+          "n4": "supply_cache",
+          "n5": "reactor_room",
+          "b1_0": "warehouse",
+          "b1_1": "reactor_room"
+        },
+        "variety": 0.7778,
+        "warnings": []
+      },
+      "bsp_bytes": 528852
     }
   },
   {
@@ -254,7 +307,7 @@
       "script_compile": true
     },
     "details": {
-      "brush": 636,
+      "brush": 682,
       "entities": 40,
       "secret_count": 0,
       "composition": {
@@ -308,7 +361,28 @@
         ],
         "passed": false
       },
-      "bsp_bytes": 798612
+      "scenes": {
+        "assignments": {
+          "spawn": "lobby",
+          "n1": "lobby",
+          "n3": "server_hall",
+          "n2": "ventilation",
+          "b2_0": "reactor_room",
+          "secret_1": "ventilation",
+          "n4": "warehouse",
+          "b1_0": "lab_bay",
+          "b2_1": "ventilation",
+          "n5": "server_hall",
+          "b1_1": "lab_bay",
+          "n6": "lab_bay",
+          "n7": "ventilation",
+          "goal": "boss_arena",
+          "secret_2": "ventilation"
+        },
+        "variety": 0.4667,
+        "warnings": []
+      },
+      "bsp_bytes": 890272
     }
   },
   {
@@ -336,7 +410,7 @@
       "script_compile": true
     },
     "details": {
-      "brush": 416,
+      "brush": 452,
       "entities": 35,
       "secret_count": 0,
       "composition": {
@@ -383,7 +457,22 @@
         ],
         "passed": false
       },
-      "bsp_bytes": 595540
+      "scenes": {
+        "assignments": {
+          "spawn": "security_hub",
+          "n1": "lobby",
+          "n2": "ventilation",
+          "n3": "lab_bay",
+          "b1_0": "warehouse",
+          "n4": "security_hub",
+          "n5": "warehouse",
+          "n6": "reactor_room",
+          "goal": "boss_arena"
+        },
+        "variety": 0.7778,
+        "warnings": []
+      },
+      "bsp_bytes": 651132
     }
   },
   {
@@ -411,7 +500,7 @@
       "script_compile": true
     },
     "details": {
-      "brush": 640,
+      "brush": 688,
       "entities": 40,
       "secret_count": 0,
       "composition": {
@@ -465,7 +554,28 @@
         ],
         "passed": false
       },
-      "bsp_bytes": 724808
+      "scenes": {
+        "assignments": {
+          "spawn": "lobby",
+          "n1": "lobby",
+          "n3": "server_hall",
+          "n2": "ventilation",
+          "b2_0": "server_hall",
+          "n4": "supply_cache",
+          "secret_1": "ventilation",
+          "secret_2": "supply_cache",
+          "n5": "reactor_room",
+          "n6": "lab_bay",
+          "n7": "ventilation",
+          "b1_0": "lab_bay",
+          "n8": "service_corridor",
+          "b1_1": "server_hall",
+          "goal": "boss_arena"
+        },
+        "variety": 0.5333,
+        "warnings": []
+      },
+      "bsp_bytes": 839708
     }
   },
   {
@@ -490,7 +600,7 @@
       "script_compile": true
     },
     "details": {
-      "brush": 524,
+      "brush": 564,
       "entities": 25,
       "secret_count": 0,
       "composition": {
@@ -541,7 +651,25 @@
         ],
         "passed": false
       },
-      "bsp_bytes": 547732
+      "scenes": {
+        "assignments": {
+          "spawn": "lobby",
+          "n1": "security_hub",
+          "n2": "ventilation",
+          "secret_1": "supply_cache",
+          "n3": "server_hall",
+          "n6": "reactor_room",
+          "n4": "lab_bay",
+          "b1_0": "lab_bay",
+          "secret_2": "ventilation",
+          "n5": "warehouse",
+          "n7": "ventilation",
+          "goal": "boss_arena"
+        },
+        "variety": 0.75,
+        "warnings": []
+      },
+      "bsp_bytes": 629948
     }
   },
   {
@@ -567,7 +695,7 @@
       "script_compile": true
     },
     "details": {
-      "brush": 380,
+      "brush": 408,
       "entities": 24,
       "secret_count": 0,
       "composition": {
@@ -611,7 +739,21 @@
         "warnings": [],
         "passed": true
       },
-      "bsp_bytes": 429860
+      "scenes": {
+        "assignments": {
+          "spawn": "lobby",
+          "n1": "security_hub",
+          "n2": "service_corridor",
+          "n3": "lab_bay",
+          "n4": "warehouse",
+          "n5": "server_hall",
+          "n6": "lab_bay",
+          "goal": "boss_arena"
+        },
+        "variety": 0.875,
+        "warnings": []
+      },
+      "bsp_bytes": 478560
     }
   }
 ]
