@@ -93,18 +93,26 @@ def main():
     parser.add_argument("--no-smoke", action="store_true")
     parser.add_argument("--planner", choices=("legacy", "graph_v2"),
                         default="graph_v2")
+    parser.add_argument("--only", default="",
+                        help="проверить только одну главу по имени")
     args = parser.parse_args()
 
     _common, compilers_dir, game_dir = detect_roots()
     campaign = load_campaign(CAMPAIGN_JSON)
+    chapters = campaign.chapters
+    if args.only:
+        chapters = [c for c in chapters if c.name == args.only]
+        if not chapters:
+            print("нет главы с именем", args.only)
+            return 1
     tex_lib = TextureLibrary(game_dir)
     wad_list = wads(game_dir)
 
     started = time.time()
     results = []
-    for index, chapter in enumerate(campaign.chapters, start=1):
+    for index, chapter in enumerate(chapters, start=1):
         print("\n=== глава {}/{}: {} ===".format(
-            index, len(campaign.chapters), chapter.name))
+            index, len(chapters), chapter.name))
         blueprint = None
         if args.planner == "graph_v2":
             m, level, variant, secret_count, blueprint = build_chapter_v2(
@@ -117,7 +125,12 @@ def main():
         if not chapter.final:
             nxt = campaign.next_chapter(chapter.name)
             add_changelevel(m, level, nxt.name)
-        checks = chapter_checks(chapter, m, level, campaign, index, blueprint)
+        real_index = next(
+            i for i, c in enumerate(campaign.chapters, start=1)
+            if c.name == chapter.name
+        )
+        checks = chapter_checks(chapter, m, level, campaign, real_index,
+                                blueprint)
 
         details = {
             "brush": len(m.brushes),
@@ -131,7 +144,7 @@ def main():
             game_dir, chapter.name,
             5 if script_mode == "collect" else 2,
             label="Samples" if script_mode == "collect" else "Generators",
-            chapter=index, final=chapter.final,
+            chapter=real_index, final=chapter.final,
             secret_total=secret_count,
         )
         m.write(game_map)

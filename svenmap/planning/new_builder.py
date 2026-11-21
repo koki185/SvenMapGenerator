@@ -152,7 +152,7 @@ def _corridor_cells(a: Tuple[int, int], b: Tuple[int, int]) -> Set[Cell]:
 
 
 def build_blueprint_map(blueprint: dict, wads, game_dir, seed: int = 0) -> MapFile:
-    """Собрать MapFile по Blueprint."""
+    """Собрать MapFile по Blueprint: стены по единой маске клеток."""
     graph = blueprint["graph"]
     spatial = blueprint["spatial"]
     areas = {a["node_id"]: a for a in spatial["areas"]}
@@ -162,27 +162,23 @@ def build_blueprint_map(blueprint: dict, wads, game_dir, seed: int = 0) -> MapFi
     m = MapFile(wads=wads, skyname="DESERT")
     connections = spatial["connections"]
 
-    def rect_cells(area):
-        return {
-            (x, y)
-            for x in range(area["x"], area["x"] + area["w"])
-            for y in range(area["y"], area["y"] + area["h"])
-        }
-
     def nearest(cells, target):
         return min(
             cells,
             key=lambda c: abs(c[0] - target[0]) + abs(c[1] - target[1]),
         )
 
-    occupied: Dict[int, Set[Cell]] = {}
-    for area in areas.values():
+    occupied = {}
+    owner = {}
+    for node_id, area in areas.items():
         floor = area.get("floor", 0)
-        occupied.setdefault(floor, set()).update(rect_cells(area))
+        cells = occupied.setdefault(floor, set())
+        for cell in _world_cells(area):
+            cells.add(cell)
+            owner[(floor, cell)] = node_id
 
-    # 1. Якоря connections и коридоры считаем ДО стен.
+    # Коридоры объединяются с комнатами ДО вычисления стен.
     anchors = {}
-    corridors = {}
     for index, conn in enumerate(connections):
         a, b = areas.get(conn["a"]), areas.get(conn["b"])
         if not a or not b:
@@ -190,93 +186,72 @@ def build_blueprint_map(blueprint: dict, wads, game_dir, seed: int = 0) -> MapFi
         if a.get("floor", 0) != 0 or b.get("floor", 0) != 0:
             continue
         pa, pb = tuple(conn["portal_a"]), tuple(conn["portal_b"])
-        near_a = nearest(rect_cells(a), pa)
-        near_b = nearest(rect_cells(b), pb)
+        near_a = nearest(_world_cells(a), pa)
+        near_b = nearest(_world_cells(b), pb)
         anchors[index] = (near_a, near_b)
-        corridors[index] = _corridor_cells(near_a, near_b)
+        corridor = _corridor_cells(near_a, near_b)
+        free = corridor - occupied.get(0, set())
+        for cell in free:
+            occupied[0].add(cell)
+            owner[(0, cell)] = conn["a"]
 
-    free_by_index = {
-        index: corridor - occupied.get(0, set())
-        for index, corridor in corridors.items()
-    }
-    corridor_cells = set()
-    for free in free_by_index.values():
-        corridor_cells |= free
+    # Пол и потолок по реально занятым клеткам (не bounding box).
+    for floor, cells in occupied.items():
+        base = _floor_base(floor, height, floor_t)
+        for cx, cy in cells:
+            node_id = owner.get((floor, (cx, cy)), "")
+            area_type = graph_node_type(graph, node_id) if node_id else "corridor"
+            tex = TextureRef(
+                get_profile("industrial", area_type).floor, 1.0, 1.0
+            )
+            x0, y0 = cx * grid, cy * grid
+            m.add_box(
+                Bounds(x0, y0, base, x0 + grid, y0 + grid, base + floor_t),
+                tex,
+            )
+            m.add_box(
+                Bounds(x0, y0, base + height, x0 + grid, y0 + grid,
+                       base + height + floor_t),
+                tex,
+            )
 
-    # 2. Проёмы — только те рёбра bounding box, которые реально
-    #    примыкают к клетке коридора. Это не режет лишние стены.
-    openings: Dict[str, Set[Tuple[Cell, str]]] = {
-        node_id: set() for node_id in areas
-    }
-    area_by_cell = {}
-    for node_id, area in areas.items():
-        for cell in rect_cells(area):
-            area_by_cell[cell] = node_id
-
-    for index, conn in enumerate(connections):
-        corridor = corridors.get(index)
-        if not corridor:
-            continue
-        # Со стороны клетки коридора открываем и саму комнату, и соседний
-        # brush другой комнаты: без этого остаётся сплошная стена...
-        for cell in corridor:
+    # Стены по exposed edges единой маски.
+    for floor, cells in occupied.items():
+        base = _floor_base(floor, height, floor_t)
+        for cx, cy in cells:
             for dx, dy in DIRECTIONS:
-                neighbour = (cell[0] + dx, cell[1] + dy)
-                node_id = area_by_cell.get(neighbour)
-                if not node_id:
+                if (cx + dx, cy + dy) in cells:
                     continue
-                direction = "W" if dx == 1 else "E" if dx == -1 \
-                    else "S" if dy == 1 else "N"
-                openings[node_id].add((neighbour, direction))
+                if dx == 1:
+                    box = Bounds((cx + 1) * grid - wall_t / 2, cy * grid,
+                                 base + floor_t, (cx + 1) * grid + wall_t / 2,
+                                 (cy + 1) * grid, base + height)
+                elif dx == -1:
+                    box = Bounds(cx * grid - wall_t / 2, cy * grid,
+                                 base + floor_t, cx * grid + wall_t / 2,
+                                 (cy + 1) * grid, base + height)
+                elif dy == 1:
+                    box = Bounds(cx * grid, (cy + 1) * grid - wall_t / 2,
+                                 base + floor_t, (cx + 1) * grid,
+                                 (cy + 1) * grid + wall_t / 2, base + height)
+                else:
+                    box = Bounds(cx * grid, cy * grid - wall_t / 2,
+                                 base + floor_t, (cx + 1) * grid,
+                                 cy * grid + wall_t / 2, base + height)
+                node_id = owner.get((floor, (cx, cy)), "")
+                area_type = graph_node_type(graph, node_id) if node_id else "corridor"
+                m.add_box(box, TextureRef(
+                    get_profile("industrial", area_type).wall, 1.0, 1.0
+                ))
 
-    # 3. Комнаты.
-    for node_id, area in areas.items():
-        floor = area.get("floor", 0)
-        texture = get_profile("industrial", graph_node_type(graph, node_id)).wall
-        _add_region(m, _world_cells(area), grid, floor, height, floor_t,
-                    wall_t, texture, openings[node_id], door_h,
-                    skip_wall_cells=corridor_cells if floor == 0 else None)
-
-    # 4. Коридоры.
-    for index, conn in enumerate(connections):
-        corridor = corridors.get(index)
-        if not corridor:
-            continue
-        a = areas[conn["a"]]
-        floor = a.get("floor", 0)
-        free = free_by_index.get(index)
-        if not free:
-            continue
-        _add_region(m, free, grid, floor, height, floor_t, wall_t,
-                    "METAL_WALL01B", set(), door_h,
-                    external=occupied.get(floor, set()))
-        occupied.setdefault(floor, set()).update(free)
-
-    # Точные координаты проёмов для Portal Registry.
-    m.meta["openings"] = {}
-    for index, (near_a, near_b) in anchors.items():
-        conn = connections[index]
-        a, b = areas[conn["a"]], areas[conn["b"]]
-        m.meta["openings"][index] = {
-            "a": _edge_box(near_a, _direction_towards(
-                near_a, tuple(conn["portal_a"])), grid,
-                a.get("floor", 0), height, floor_t, wall_t),
-            "b": _edge_box(near_b, _direction_towards(
-                near_b, tuple(conn["portal_b"])), grid,
-                b.get("floor", 0), height, floor_t, wall_t),
-        }
-
-    # Внешняя оболочка карты: страхует от щелей в углах вырезов.
-    all_cells = set()
-    for cells in occupied.values():
-        all_cells |= cells
+    # Наружная оболочка.
+    all_cells = set().union(*occupied.values()) if occupied else set()
     if all_cells:
         wx0 = min(c[0] for c in all_cells) * grid - 64
         wx1 = (max(c[0] for c in all_cells) + 1) * grid + 64
         wy0 = min(c[1] for c in all_cells) * grid - 64
         wy1 = (max(c[1] for c in all_cells) + 1) * grid + 64
-        top = (max(a.get("floor", 0) for a in areas.values()) + 1) * (
-            height + floor_t) + 32
+        top = (max(occupied) + 1) * (height + floor_t) + 32
         shell = TextureRef("BASEWALL01A", 1.0, 1.0)
         for bounds in (
             Bounds(wx0, wy0 - 32, -32, wx1, wy0, top),
@@ -286,6 +261,7 @@ def build_blueprint_map(blueprint: dict, wads, game_dir, seed: int = 0) -> MapFi
         ):
             m.add_box(bounds, shell)
 
+    m.meta["openings"] = {}
     m.meta["blueprint"] = graph["name"]
     return m
 
