@@ -1,2 +1,31 @@
+# Python
 __pycache__/
-*.pyc
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+
+# Сгенерированные артефакты (восстанавливаются командой generate_campaign.py)
+maps/*.map
+maps/*.json
+maps/*_preview.svg
+*.bsp
+*.log
+logs/
+topology/
+blueprints/
+notes/previews/
+
+# Архивы и локальные файлы
+*.zip
+*.bak
+DesktopSort.ps1
+SortDesktop.ps1
+analyze_desktop.py
+blender_test_script.py
+run_blender.py
+
+# Редакторы / ОС
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db

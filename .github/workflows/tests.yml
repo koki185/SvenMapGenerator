@@ -1,0 +1,46 @@
+name: tests
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Validate campaign schema
+        run: python -m svenmap.campaign_schema campaign.json
+
+      - name: Unit tests
+        run: python -m unittest discover -s tests
+
+      - name: Generate blueprints for several seeds (no compilation)
+        run: |
+          python - <<'PY'
+          from svenmap.campaign import load_campaign
+          from svenmap.planning import BlueprintConfig, generate_blueprint
+          from svenmap.scenes import assign_scenes
+          from svenmap.composition_validator import evaluate_composition
+
+          campaign = load_campaign("campaign.json")
+          for chapter in campaign.chapters:
+              floors = 2 if "multi_floor" in chapter.puzzles else 1
+              seed = chapter.seed
+              bp = generate_blueprint(BlueprintConfig(
+                  seed=seed,
+                  node_count=chapter.rooms,
+                  branch_count=chapter.branches,
+                  secret_count=2 if "secret" in chapter.puzzles else 0,
+                  floors=floors,
+              ))
+              bp["scene_assignments"] = assign_scenes(bp, chapter.scenes, seed=seed)
+              verdict = evaluate_composition(bp, chapter.name, chapter.pacing)
+              print(chapter.name, "PASS" if verdict["passed"] else "WARN",
+                    len(verdict["issues"]), "issues")
+          print("blueprints OK")
+          PY
